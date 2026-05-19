@@ -1,0 +1,16 @@
+{
+  "name": "solcoin-v7",
+  "version": "7.0.0",
+  "description": "SOLCOIN V7 — Globo Neural 3D con Sistema Biológico Completo",
+  "private": true,
+  "scripts": {
+    "start": "npx serve . -p 3000",
+    "dev": "npx serve . -p 3000 --open"
+  },
+  "keywords": ["solcoin", "three.js", "game", "blockchain", "territory"],
+  "author": "SOLCOIN Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}
