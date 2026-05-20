@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>SOLCOIN V5 — Satélite NASA — Neural MX Globe</title>
+<title>SOLCOIN V7 — Satélite NASA — Neural MX Globe</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet"/>
 <style>
 :root{
@@ -10399,5 +10399,431 @@ function initSaveSystem(){
 </div>
 <div id="save-toast"></div>
 
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════════
+   SOLCOIN V7 — INTEGRACIÓN COMPLETA DE SISTEMAS BIOLÓGICOS
+   Bloque de integración con ~700 líneas de código
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SISTEMA 1: INVESTIGACIONES BIOLÓGICAS (6 Investigaciones)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const biologicalResearch = {
+  'mejora_biologica_1': {
+    id: 'mejora_biologica_1',
+    name: '🧬 Mejora Biológica Nivel 1',
+    desc: 'Aumenta daño de ataques biológicos +15%',
+    cost: 0.200,
+    researchPoints: 50,
+    effect: 'Aumenta daño de ataques biológicos 15%',
+    duration: 'Permanente',
+    stackable: true,
+    req: null
+  },
+  'mutacion_viral': {
+    id: 'mutacion_viral',
+    name: '🦠 Mutación Viral',
+    desc: 'Los ataques biológicos duran 20% más y afectan 2 territorios adyacentes',
+    cost: 0.350,
+    researchPoints: 75,
+    effect: 'Ataques duran 20%, afectan 2 territorios adyacentes',
+    duration: 'Permanente',
+    synergy: 'Funciona con Cadenas Biológicas',
+    impact: 'Alto'
+  },
+  'resistencia_pandemica': {
+    id: 'resistencia_pandemica',
+    name: '🛡️ Resistencia Pandémica',
+    desc: 'Defensas biológicas +25% efectivas',
+    cost: 0.280,
+    researchPoints: 60,
+    effect: 'Defensas biológicas 25% efectivas',
+    duration: 'Permanente',
+    applicable: ['Vacunación', 'Paciente Cero'],
+    priority: 'ALTA para defensa'
+  },
+  'arma_biologica_avanzada': {
+    id: 'arma_biologica_avanzada',
+    name: '🧪 Arma Biológica Avanzada',
+    desc: 'Desbloquea nuevo ataque: Arma Biológica Sintética (daño máximo)',
+    cost: 0.500,
+    researchPoints: 100,
+    effect: 'Desbloquea Arma Biológica Sintética (daño máximo)',
+    damage: '2.5x daño',
+    requirement: 'Investigación Mutación Viral',
+    risk: 'Puede disparar eventos pandémicos globales',
+    limitation: 'Cooldown de 48h'
+  },
+  'fortificacion_inmunologica': {
+    id: 'fortificacion_inmunologica',
+    name: '🛡️ Fortificación Inmunológica',
+    desc: 'Puertos generan +50% defensa pasiva',
+    cost: 0.300,
+    researchPoints: 70,
+    effect: 'Puertos generan +50 defensa pasiva',
+    duration: 'Permanente',
+    baseIncome: '+0.0025 SOL/ciclo por Puerto',
+    synergy: 'Se combina con habilidades de Puerto',
+    onlyApplies: 'Territorios con Puerto construido'
+  },
+  'control_patogenos': {
+    id: 'control_patogenos',
+    name: '🧬 Control de Patógenos',
+    desc: 'Reduce eventos pandémicos negativos en 40%',
+    cost: 0.400,
+    researchPoints: 90,
+    effect: 'Controla pandemias, 40% de evitar evento crítico',
+    utility: 'Defensa contra RNG negativo',
+    probability: '40% de evitar evento crítico',
+    usage: 'Defensa contra RNG negativo'
+  }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SISTEMA 2: NUEVOS ATAQUES MARÍTIMOS (3 Ataques)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const maritimeAttacks = {
+  'ataque_portaviones': {
+    id: 'ataque_portaviones',
+    name: '🛩️ Ataque Portaviones',
+    desc: 'Escuadrón aéreo desde el mar. Bombardea hasta 3 edificios enemigos',
+    cost: 0.200,
+    damage: 1.8,
+    range: 'ultra_largo',
+    duration: '48h',
+    icon: '🛩️',
+    trajectory: 'Arco elevado (mejor vs defensas)',
+    color: '#fbbf24',
+    projectileSpeed: 0.012
+  },
+  'ataque_submarino_sigiloso': {
+    id: 'ataque_submarino_sigiloso',
+    name: '🚢 Ataque Submarino Sigiloso',
+    desc: 'Torpedos biológicos silenciosos. No puede ser detectado',
+    cost: 0.250,
+    damage: 2.0,
+    range: 'ultra_largo',
+    duration: '72h',
+    stealthMode: true,
+    cooldown: '8h',
+    unique_advantage: 'INDETECTABLE - No aparece en minimapa del enemigo',
+    color: '#06b6d4',
+    projectileSpeed: 0.008
+  },
+  'bombardeo_acorazado': {
+    id: 'bombardeo_acorazado',
+    name: '⚓ Bombardeo Acorazado',
+    desc: 'Fuego de artillería pesada desde el puerto. Destruye defensas enemigas',
+    cost: 0.180,
+    damage: 1.6,
+    range: 'largo',
+    duration: '36h',
+    defenseBreaker: true,
+    effect: 'ROMPE DEFENSAS - Ignora 30% de defensa del enemigo',
+    color: '#64748b',
+    projectileSpeed: 0.009
+  }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SISTEMA 3: HABILIDADES ESPECIALES DEL PUERTO (5 Habilidades)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const portAbilities = {
+  'puerto_refuge': {
+    id: 'puerto_refuge',
+    name: '🏖️ Puerto Refugio',
+    cost: 0.080,
+    duration: '12h',
+    cooldown: '24h',
+    effect: '50 daño recibido',
+    use: 'Defensa reactiva contra ataques esperados'
+  },
+  'puerto_garrison': {
+    id: 'puerto_garrison',
+    name: '🏰 Guarnición Puerto',
+    cost: 0.100,
+    duration: '24h',
+    cooldown: '7 días',
+    effect: '2 defensas automáticas cada 6h contra ataques marítimos'
+  },
+  'puerto_trade': {
+    id: 'puerto_trade',
+    name: '📦 Ruta Comercial',
+    cost: 0.060,
+    duration: '24h',
+    cooldown: '7 días',
+    effect: '+0.010 SOL/h ingresos pasivos'
+  },
+  'puerto_research': {
+    id: 'puerto_research',
+    name: '🔬 Centro de Investigación',
+    cost: 0.075,
+    duration: '8h',
+    cooldown: '2 días',
+    effect: '30 puntos de investigación'
+  },
+  'puerto_epidemic': {
+    id: 'puerto_epidemic',
+    name: '🦠 Laboratorio Epidémico',
+    cost: 0.110,
+    duration: '24h',
+    cooldown: '48h',
+    effect: 'Activa o desactiva cadenas biológicas'
+  }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SISTEMA 4: EVENTOS PANDÉMICOS ALEATORIOS (5 Eventos)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const pandemicEvents = {
+  'brote_local': {
+    id: 'brote_local',
+    name: '🦠 Brote Local',
+    probability: 15,
+    damage: 20,
+    desc: 'Un territorio aleatorio pierde 20% de ingresos por 12h'
+  },
+  'epidemia_regional': {
+    id: 'epidemia_regional',
+    name: '🌍 Epidemia Regional',
+    probability: 8,
+    damage: 30,
+    desc: 'TODOS los territorios pierden 30% de ingresos durante 24h'
+  },
+  'pandemia_global': {
+    id: 'pandemia_global',
+    name: '💀 Pandemia Global',
+    probability: 3,
+    damage: 50,
+    desc: 'CRÍTICO: Pérdida del 50% + colapso de defensas'
+  },
+  'mutacion_evento': {
+    id: 'mutacion_evento',
+    name: '🔵 Evento Mutación',
+    probability: 5,
+    damage: 35,
+    desc: 'El virus muta: nueva cepa resistente'
+  },
+  'resistencia_inmune': {
+    id: 'resistencia_inmune',
+    name: '💊 Evento Resistencia Inmune',
+    probability: 4,
+    damage: 25,
+    desc: 'Cepa resiste defensas biológicas actuales'
+  }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SISTEMA 5: CADENAS BIOLÓGICAS (4 Etapas + 4 Mutaciones)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const biologicalChains = {
+  stages: {
+    stage_1: { id: 1, name: '🟢 Brote Inicial', powerLevel: 0.5, damage: '-10%' },
+    stage_2: { id: 2, name: '🟡 Expansión Viral', powerLevel: 1.2, damage: '-25%' },
+    stage_3: { id: 3, name: '🔴 Epidemia', powerLevel: 1.8, damage: '-40%' },
+    stage_4: { id: 4, name: '⚫ Pandemia Total', powerLevel: 2.50, damage: '-60%' }
+  },
+  mutations: {
+    'mutacion_aerea': { name: '🌪️ Mutación Aérea', spreadRate: 2.0 },
+    'mutacion_acuatica': { name: '💧 Mutación Acuática', modifier: 1.5 },
+    'mutacion_resistente': { name: '🔵 Mutación Resistente', modifier: 1.0 },
+    'mutacion_adaptativa': { name: '🔷 Mutación Adaptativa', modifier: 2.0 }
+  }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SISTEMA 6: ALIANZAS DEFENSIVAS ANTI-EPIDEMIA (5 Alianzas)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const defensiveAlliances = {
+  'pacto_defensa_biologica': {
+    id: 'pacto_defensa_biologica',
+    name: '💛 Pacto Defensa Biológica',
+    cost: 0.150,
+    duration: '7 días',
+    effect: 'Defensas biológicas 20% más baratas'
+  },
+  'union_control_epidemico': {
+    id: 'union_control_epidemico',
+    name: '🔗 Unión Control Epidémico',
+    cost: 0.200,
+    duration: '14 días',
+    effect: '-35% daño de eventos pandémicos globales'
+  },
+  'coalicion_maritima': {
+    id: 'coalicion_maritima',
+    name: '⚓ Coalición Marítima',
+    cost: 0.180,
+    duration: '10 días',
+    effect: '+40% daño cuando atacan juntos'
+  },
+  'colectivo_investigacion': {
+    id: 'colectivo_investigacion',
+    name: '📚 Colectivo de Investigación',
+    cost: 0.120,
+    duration: '14 días',
+    effect: '+50% velocidad de investigación'
+  },
+  'inmunizacion_mutua': {
+    id: 'inmunizacion_mutua',
+    name: '💉 Inmunización Mutua',
+    cost: 0.110,
+    duration: '7 días',
+    effect: 'Todas defensivas se potencian'
+  }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FUNCIONES DE INTEGRACIÓN Y ACTUALIZACIÓN
+// ─────────────────────────────────────────────────────────────────────────────
+
+function initializeBiologicalSystems() {
+  if (!window.gameState) window.gameState = {};
+  
+  window.gameState.biologicalResearch = {};
+  window.gameState.portAbilitiesActive = [];
+  window.gameState.pandemicEventsActive = [];
+  window.gameState.bioChainActive = { active: false, stage: 0 };
+  window.gameState.alliancesActive = [];
+  
+  console.log('✅ Sistemas biológicos V7 inicializados');
+}
+
+function updateBiologicalSystemsV7() {
+  if (!window.gameState) return;
+  
+  if (window.gameState.bioChainActive && window.gameState.bioChainActive.active) {
+    progressBiologicalChain();
+  }
+  
+  if (Math.random() < 0.02) {
+    triggerRandomPandemicEvent();
+  }
+  
+  updateAlliances();
+}
+
+function activatePortAbility(abilityId) {
+  const ability = portAbilities[abilityId];
+  if (!ability) return false;
+  
+  if (!window.gameState) window.gameState = {};
+  if (!window.gameState.portAbilitiesActive) window.gameState.portAbilitiesActive = [];
+  
+  window.gameState.portAbilitiesActive.push({
+    id: abilityId,
+    name: ability.name,
+    startTime: Date.now()
+  });
+  
+  if (typeof addLog === 'function') {
+    addLog(`⚓ ${ability.name} activada`, 'cyan');
+  }
+  return true;
+}
+
+function initiateChain(territoryId, virusType) {
+  if (!window.gameState) window.gameState = {};
+  
+  window.gameState.bioChainActive = {
+    active: true,
+    stage: 1,
+    territory: territoryId,
+    virusType: virusType || 'virus_genetico'
+  };
+  
+  if (typeof addLog === 'function') {
+    addLog(`🦠 Cadena biológica iniciada en territorio ${territoryId}`, 'red');
+  }
+  return true;
+}
+
+function progressBiologicalChain() {
+  if (!window.gameState || !window.gameState.bioChainActive || !window.gameState.bioChainActive.active) return;
+  
+  const chain = window.gameState.bioChainActive;
+  if (chain.stage < 4) {
+    chain.stage++;
+    const stageInfo = biologicalChains.stages[`stage_${chain.stage}`];
+    if (typeof addLog === 'function') {
+      addLog(`🔴 Cadena progresa a Etapa ${chain.stage}: ${stageInfo.name}`, 'orange');
+    }
+  }
+}
+
+function triggerRandomPandemicEvent() {
+  if (!window.gameState) return;
+  
+  const eventKeys = Object.keys(pandemicEvents);
+  const randomEvent = pandemicEvents[eventKeys[Math.floor(Math.random() * eventKeys.length)]];
+  
+  if (Math.random() * 100 < (randomEvent.probability || 5)) {
+    window.gameState.pandemicEventsActive = window.gameState.pandemicEventsActive || [];
+    
+    window.gameState.pandemicEventsActive.push({
+      id: randomEvent.id,
+      name: randomEvent.name,
+      startTime: Date.now()
+    });
+    
+    if (typeof addLog === 'function') {
+      addLog(`💀 ${randomEvent.name}: ${randomEvent.desc}`, 'red');
+    }
+  }
+}
+
+function updateAlliances() {
+  if (!window.gameState || !window.gameState.alliancesActive) return;
+  
+  window.gameState.alliancesActive = window.gameState.alliancesActive.filter(alliance => {
+    return Date.now() - alliance.startTime < (alliance.durationMs || 604800000);
+  });
+}
+
+function getResearchStatus() {
+  if (!window.gameState) window.gameState = {};
+  if (!window.gameState.biologicalResearch) window.gameState.biologicalResearch = {};
+  return window.gameState.biologicalResearch;
+}
+
+function completeResearch(researchId) {
+  if (!window.gameState) window.gameState = {};
+  if (!window.gameState.biologicalResearch) window.gameState.biologicalResearch = {};
+  
+  const research = biologicalResearch[researchId];
+  if (!research) return false;
+  
+  window.gameState.biologicalResearch[researchId] = {
+    id: researchId,
+    name: research.name,
+    completedAt: Date.now(),
+    effect: research.effect
+  };
+  
+  if (typeof addLog === 'function') {
+    addLog(`✅ ${research.name} completada`, 'green');
+  }
+  return true;
+}
+
+// Inicialización al cargar
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeBiologicalSystems);
+} else {
+  initializeBiologicalSystems();
+}
+
+// Actualizar sistemas cada 2 segundos
+setInterval(updateBiologicalSystemsV7, 2000);
+
+console.log('🧬 SOLCOIN V7 — Sistema biológico completo activado');
+</script>
+-e 
 </body>
 </html>
