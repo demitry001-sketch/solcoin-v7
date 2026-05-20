@@ -266,8 +266,8 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
 /* ══ RIGHT SIDEBAR ══ */
 .sidebar{background:var(--bg1);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
 .stabs{display:flex;border-bottom:1px solid var(--border);}
-.stab{flex:1;padding:8px 2px;font-family:'Rajdhani',sans-serif;font-size:9px;font-weight:600;
-  letter-spacing:1px;text-align:center;color:var(--muted);cursor:pointer;
+.stab{flex:1;padding:6px 1px;font-family:'Rajdhani',sans-serif;font-size:8px;font-weight:600;
+  letter-spacing:.5px;text-align:center;color:var(--muted);cursor:pointer;
   border-bottom:2px solid transparent;transition:.2s;text-transform:uppercase;
   background:none;border-top:none;border-left:none;border-right:none;}
 .stab.active{color:var(--cyan);border-bottom-color:var(--cyan);}
@@ -1348,7 +1348,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
 }
 .hud-block.collapsed .hud-block-body{max-height:0!important;opacity:0;pointer-events:none;}
 .mob-backdrop{
-  display:none;position:fixed;inset:0;top:52px;z-index:499;
+  display:none;position:fixed;inset:0;top:60px;z-index:399;
   background:rgba(0,0,0,0.65);backdrop-filter:blur(3px);
 }
 .mob-backdrop.show{display:block;}
@@ -1369,137 +1369,44 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
   .mob-menu-btn{display:flex;}
   .mob-sidebar-pill{display:flex;align-items:center;gap:6px;}
 
-  /* ── APP LAYOUT ── */
-  #app{
-    grid-template-rows:52px 1fr 44px;
-    display:flex;flex-direction:column;height:100dvh;overflow:hidden;
-  }
-  .main-grid{
-    flex:1;overflow:hidden;position:relative;
-    display:flex!important;flex-direction:column!important;
-    grid-template-columns:unset!important;
-  }
+  #app{grid-template-rows:56px 1fr 46px;}
+  .main-grid{grid-template-columns:1fr!important;position:relative;}
 
-  /* ── PANEL IZQUIERDO: slide desde arriba como drawer ── */
   .panel-left{
-    position:fixed;
-    top:52px;left:0;right:0;
-    height:calc(100dvh - 52px - 44px);
-    z-index:500;
-    transform:translateY(-105%);
-    transition:transform .32s cubic-bezier(.4,0,.2,1);
-    background:rgba(3,3,14,0.98);
-    backdrop-filter:blur(18px);
-    border-bottom:1px solid rgba(0,245,255,0.2);
-    box-shadow:0 12px 40px rgba(0,0,0,0.7);
-    overflow-y:auto;
-    padding:10px 12px 20px;
-    -webkit-overflow-scrolling:touch;
+    position:fixed;top:56px;left:0;bottom:46px;
+    width:270px;z-index:400;
+    transform:translateX(-100%);
+    transition:transform .3s cubic-bezier(.4,0,.2,1);
+    background:rgba(3,3,14,0.97);
+    backdrop-filter:blur(14px);
+    border-right:1px solid var(--border);
+    box-shadow:6px 0 40px rgba(0,245,255,0.08);
+    overflow-y:auto;padding:10px 8px;
   }
-  .panel-left.mob-open{
-    transform:translateY(0);
-  }
+  .panel-left.mob-open{transform:translateX(0);}
 
-  /* ── BOTÓN HAMBURGUESA: más grande y visible ── */
-  .mob-menu-btn{
-    display:flex!important;
-    width:42px;height:42px;
-    font-size:20px;
-    background:rgba(0,245,255,0.12)!important;
-    border:1px solid rgba(0,245,255,0.35)!important;
-    border-radius:8px!important;
-    align-items:center;justify-content:center;
-    box-shadow:0 0 12px rgba(0,245,255,0.15);
-  }
-
-  /* ── GLOBO: ocupa todo cuando panel cerrado ── */
   .globe-center{
-    position:absolute!important;
-    top:0;left:0;right:0;bottom:0;
-    width:100%!important;height:100%!important;
+    position:fixed!important;top:56px;left:0;right:0;bottom:46px;
   }
-
-  /* ── SIDEBAR INFO: slide desde abajo ── */
   .sidebar{
-    position:fixed!important;bottom:44px;left:0;right:0;
-    height:auto;max-height:48vh;z-index:300;
+    position:fixed!important;bottom:46px;left:0;right:0;
+    height:auto;max-height:52vh;z-index:300;
     border-left:none!important;border-top:1px solid var(--border);
     background:rgba(3,3,14,0.97);backdrop-filter:blur(12px);
     transform:translateY(100%);
     transition:transform .3s cubic-bezier(.4,0,.2,1);
-    overflow-y:auto;-webkit-overflow-scrolling:touch;
   }
   .sidebar.mob-open{transform:translateY(0);}
 
-  /* ── STABS: tabs más grandes para tocar ── */
-  .stabs{
-    overflow-x:auto;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-    white-space:nowrap;
-    display:flex;
-    border-bottom:1px solid var(--border);
-  }
-  .stabs::-webkit-scrollbar{display:none;}
-  .stab{
-    flex-shrink:0;
-    padding:10px 14px!important;
-    font-size:10px!important;
-    min-width:60px;
-    text-align:center;
-  }
-
-  /* ── TAB CONTENT: scroll táctil ── */
-  .tab-c{
-    overflow-y:auto;
-    -webkit-overflow-scrolling:touch;
-    flex:1;
-  }
-
-  /* ── BIO PANEL en móvil ── */
-  .bio-panel{
-    max-height:none!important;
-    padding-bottom:20px;
-  }
-  .bio-card{padding:10px 12px;}
-  .bio-card-name{font-size:12px;}
-  .bio-btn{padding:5px 12px;font-size:10px;}
-
-  /* ── HEADER ── */
-  .hdr{padding:0 8px;gap:6px;height:52px;}
-  .hdr-brand{font-size:14px;letter-spacing:2px;}
+  .hdr{padding:0 8px;gap:5px;}
+  .hdr-brand{font-size:13px;letter-spacing:2px;}
   .hdr-sub{display:none;}
-  .wallet-sol{padding:4px 8px;}
-  .ws-value{font-size:13px!important;}
+  .wallet-sol{padding:4px 7px;}
+  .ws-value{font-size:12px!important;}
   .ws-mxn{display:none;}
   .sys-status{display:none;}
-  .btn-ciudades{font-size:9px;padding:5px 9px;}
-  .btn-casino{display:none;}
-  .pozo-bar{left:0!important;height:44px;}
-
-  /* ── FAB: botón flotante para abrir panel ── */
-  #mob-panel-fab{
-    display:flex!important;
-  }
-}
-
-/* ── FAB FLOTANTE (visible solo móvil) ── */
-#mob-panel-fab{
-  display:none;
-  position:fixed;bottom:54px;right:14px;z-index:450;
-  width:52px;height:52px;border-radius:50%;
-  background:linear-gradient(135deg,rgba(0,212,255,0.9),rgba(0,255,136,0.7));
-  border:none;cursor:pointer;
-  align-items:center;justify-content:center;
-  font-size:22px;
-  box-shadow:0 4px 20px rgba(0,212,255,0.45),0 0 0 3px rgba(0,212,255,0.15);
-  transition:.2s;
-  animation:fabPulse 3s ease-in-out infinite;
-}
-#mob-panel-fab:active{transform:scale(0.92);}
-@keyframes fabPulse{
-  0%,100%{box-shadow:0 4px 20px rgba(0,212,255,0.45),0 0 0 3px rgba(0,212,255,0.15);}
-  50%{box-shadow:0 4px 28px rgba(0,212,255,0.7),0 0 0 6px rgba(0,212,255,0.08);}
+  .btn-ciudades,.btn-casino{font-size:8px;padding:4px 7px;}
+  .pozo-bar{left:0!important;}
 }
 
 /* === CIUDADES 3D SCREEN === */
@@ -1588,44 +1495,239 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
   100%{opacity:0;transform:translate(-50%,-110%) scale(.9);}
 }
 
-/* ═══════════════════════════════════════════
-   🧬 BIO PANEL — Pestaña Sistema Biológico
-   ═══════════════════════════════════════════ */
-.bio-panel{padding:8px;display:flex;flex-direction:column;gap:6px;overflow-y:auto;max-height:calc(100vh - 140px);}
-.bio-section-title{font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;
-  color:rgba(0,212,255,0.6);letter-spacing:2px;text-transform:uppercase;
-  padding:4px 0 2px;border-bottom:1px solid rgba(0,212,255,0.15);margin-bottom:4px;}
-.bio-card{background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);
-  border-radius:5px;padding:7px 9px;cursor:pointer;transition:.2s;}
-.bio-card:hover{background:rgba(0,212,255,0.10);border-color:rgba(0,212,255,0.3);}
-.bio-card.unlocked{border-color:rgba(0,255,136,0.3);background:rgba(0,255,136,0.04);}
-.bio-card.bio-green{border-color:rgba(0,204,136,0.3);}
-.bio-card.bio-purple{border-color:rgba(153,69,255,0.3);background:rgba(153,69,255,0.04);}
-.bio-card.bio-yellow{border-color:rgba(245,158,11,0.3);background:rgba(245,158,11,0.04);}
-.bio-card-name{font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;
-  color:#e2e8f0;margin-bottom:2px;}
-.bio-card-desc{font-size:9px;color:rgba(255,255,255,0.4);line-height:1.4;margin-bottom:4px;}
-.bio-card-meta{display:flex;gap:8px;align-items:center;}
-.bio-cost{font-family:'Share Tech Mono',monospace;font-size:9px;color:#f59e0b;}
-.bio-effect{font-size:8px;color:rgba(0,255,136,0.7);flex:1;}
-.bio-btn{background:rgba(0,212,255,0.12);border:1px solid rgba(0,212,255,0.3);
-  border-radius:3px;padding:2px 8px;font-size:9px;color:#00d4ff;cursor:pointer;
-  font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:1px;
-  white-space:nowrap;transition:.15s;}
-.bio-btn:hover{background:rgba(0,212,255,0.25);}
-.bio-btn.green{border-color:rgba(0,255,136,0.4);color:#00ff88;}
-.bio-btn.purple{border-color:rgba(153,69,255,0.4);color:#9945ff;}
-.bio-btn.gold{border-color:rgba(245,158,11,0.4);color:#f59e0b;}
-.pandemic-ticker{background:rgba(255,68,68,0.08);border:1px solid rgba(255,68,68,0.25);
-  border-radius:4px;padding:5px 8px;font-size:9px;color:#ff6666;
-  font-family:'Share Tech Mono',monospace;letter-spacing:1px;
-  animation:pandemicPulse 2s ease-in-out infinite;}
-@keyframes pandemicPulse{0%,100%{opacity:1;}50%{opacity:0.6;}}
-.biochain-status{background:rgba(0,204,136,0.06);border:1px solid rgba(0,204,136,0.2);
-  border-radius:4px;padding:5px 8px;font-size:9px;font-family:'Share Tech Mono',monospace;}
-.research-bar{height:3px;background:rgba(255,255,255,0.08);border-radius:2px;margin-top:4px;}
-.research-bar-fill{height:100%;background:linear-gradient(90deg,#9945ff,#00f5ff);
-  border-radius:2px;transition:width .5s;}
+/* ══════════════════════════════════════════
+   TUTORIAL ONBOARDING — Solo usuarios nuevos
+   ══════════════════════════════════════════ */
+#sc-tutorial-overlay{
+  position:fixed;inset:0;z-index:9000;
+  background:rgba(2,2,8,0.82);
+  backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;
+  padding:16px;
+  animation:fadeIn .35s ease;
+}
+#sc-tutorial-overlay.sc-tut-hidden{display:none;}
+.sc-tut-card{
+  width:100%;max-width:440px;
+  background:linear-gradient(145deg,rgba(7,7,24,.98),rgba(13,13,34,.98));
+  border:1px solid rgba(0,245,255,0.25);border-radius:12px;overflow:hidden;
+  box-shadow:0 0 60px rgba(0,245,255,0.12),0 0 120px rgba(245,158,11,0.06);
+  position:relative;animation:popIn .4s cubic-bezier(.34,1.56,.64,1);
+}
+.sc-tut-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink),var(--gold));
+}
+.sc-tut-hdr{padding:16px 18px 0;display:flex;align-items:center;justify-content:space-between;}
+.sc-tut-step-badge{
+  font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:2px;
+  color:rgba(0,245,255,0.5);background:rgba(0,245,255,0.06);
+  border:1px solid rgba(0,245,255,0.15);border-radius:20px;padding:3px 10px;
+}
+.sc-tut-skip{
+  background:none;border:none;color:rgba(100,116,139,.7);
+  font-family:'Rajdhani',sans-serif;font-size:11px;cursor:pointer;
+  padding:3px 6px;transition:color .15s;letter-spacing:1px;
+}
+.sc-tut-skip:hover{color:var(--pink);}
+.sc-tut-body{padding:14px 18px 6px;}
+.sc-tut-icon{font-size:44px;text-align:center;margin-bottom:8px;animation:float 4s ease-in-out infinite;}
+.sc-tut-title{
+  font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;
+  background:linear-gradient(135deg,var(--gold3),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  text-align:center;margin-bottom:8px;letter-spacing:1px;
+}
+.sc-tut-desc{
+  font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:500;
+  color:rgba(226,232,240,.8);line-height:1.6;text-align:center;min-height:68px;
+}
+.sc-tut-desc strong{color:var(--cyan);font-weight:700;}
+.sc-tut-desc em{color:var(--gold2);font-style:normal;font-weight:700;}
+.sc-tut-tip{
+  margin:10px 18px 0;
+  background:rgba(0,245,255,0.04);border:1px solid rgba(0,245,255,0.12);
+  border-left:3px solid var(--cyan);border-radius:6px;padding:8px 12px;
+  font-size:10px;color:rgba(0,245,255,0.7);
+  font-family:'Share Tech Mono',monospace;letter-spacing:.5px;line-height:1.5;min-height:34px;
+}
+.sc-tut-dots{display:flex;align-items:center;justify-content:center;gap:7px;padding:14px 18px 6px;}
+.sc-tut-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:rgba(0,245,255,0.15);border:1px solid rgba(0,245,255,0.2);
+  transition:all .25s;cursor:pointer;
+}
+.sc-tut-dot.active{
+  width:22px;border-radius:4px;
+  background:linear-gradient(90deg,var(--cyan),var(--purple));
+  border-color:transparent;box-shadow:0 0 8px rgba(0,245,255,0.5);
+}
+.sc-tut-dot.done{background:rgba(0,245,255,0.35);border-color:rgba(0,245,255,0.4);}
+.sc-tut-footer{display:flex;align-items:center;gap:8px;padding:10px 18px 16px;}
+.sc-tut-btn-back{
+  background:none;border:1px solid rgba(0,245,255,0.2);border-radius:6px;
+  padding:9px 16px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;
+  color:rgba(0,245,255,0.5);cursor:pointer;transition:.2s;letter-spacing:1px;flex-shrink:0;
+}
+.sc-tut-btn-back:hover{border-color:var(--cyan);color:var(--cyan);}
+.sc-tut-btn-next{
+  flex:1;background:linear-gradient(135deg,var(--gold),var(--pink));
+  border:none;border-radius:6px;padding:10px 18px;
+  font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;
+  color:#fff;cursor:pointer;transition:all .2s;letter-spacing:1px;
+  box-shadow:0 4px 18px rgba(245,158,11,.25);
+}
+.sc-tut-btn-next:hover{filter:brightness(1.1);transform:translateY(-1px);}
+
+/* ══════════════════════════════════════════════════════
+   💾 SISTEMA DE PERSISTENCIA — SOLCOIN SAVE SYSTEM
+   ══════════════════════════════════════════════════════ */
+
+/* Header save button */
+#save-hdr-btn{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(0,255,136,0.07);border:1px solid rgba(0,255,136,0.22);
+  border-radius:6px;padding:5px 10px;cursor:pointer;transition:all .2s;
+  font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:700;
+  color:rgba(0,255,136,0.75);letter-spacing:.8px;white-space:nowrap;
+}
+#save-hdr-btn:hover{background:rgba(0,255,136,0.14);border-color:rgba(0,255,136,0.45);color:#00ff88;box-shadow:0 0 12px rgba(0,255,136,0.18);}
+#save-hdr-btn.saving{animation:save-pulse .6s ease infinite;}
+@keyframes save-pulse{0%,100%{border-color:rgba(0,255,136,0.22);}50%{border-color:#00ff88;box-shadow:0 0 16px rgba(0,255,136,.35);}}
+#save-hdr-ico{font-size:13px;line-height:1;}
+#save-hdr-time{font-size:8px;color:rgba(0,255,136,0.45);font-family:'Share Tech Mono',monospace;}
+
+/* Save panel overlay */
+#save-panel-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1800;
+  display:none;align-items:center;justify-content:center;
+  animation:fadeIn .2s ease;
+}
+#save-panel-overlay.open{display:flex;}
+#save-panel{
+  background:linear-gradient(145deg,rgba(4,4,20,0.98),rgba(8,8,28,0.98));
+  border:1px solid rgba(0,255,136,0.2);border-radius:12px;
+  padding:0;width:min(560px,92vw);max-height:88vh;overflow:hidden;
+  box-shadow:0 24px 80px rgba(0,0,0,0.7),0 0 40px rgba(0,255,136,0.06);
+  position:relative;
+}
+#save-panel::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,#00ff88,rgba(0,245,255,.6),transparent);
+}
+.sp-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;border-bottom:1px solid rgba(0,255,136,0.1);
+}
+.sp-title{
+  font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;
+  color:#00ff88;letter-spacing:3px;display:flex;align-items:center;gap:8px;
+}
+.sp-subtitle{font-size:8px;color:rgba(0,255,136,0.4);letter-spacing:2px;margin-top:2px;}
+.sp-close{
+  background:none;border:1px solid rgba(255,255,255,0.1);border-radius:4px;
+  color:rgba(255,255,255,0.4);cursor:pointer;font-size:14px;
+  width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+  transition:.2s;
+}
+.sp-close:hover{background:rgba(255,0,102,0.12);border-color:rgba(255,0,102,0.3);color:#ff0066;}
+
+/* Autosave toggle bar */
+.sp-auto-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 20px;background:rgba(0,255,136,0.03);
+  border-bottom:1px solid rgba(0,255,136,0.07);
+}
+.sp-auto-label{font-size:10px;color:rgba(0,255,136,0.6);letter-spacing:1px;display:flex;align-items:center;gap:6px;}
+.sp-auto-status{font-size:8px;color:rgba(0,255,136,0.35);font-family:'Share Tech Mono',monospace;}
+.sp-toggle{
+  position:relative;width:38px;height:20px;cursor:pointer;
+  background:rgba(255,255,255,0.1);border-radius:10px;border:1px solid rgba(255,255,255,0.15);
+  transition:.25s;flex-shrink:0;
+}
+.sp-toggle.on{background:rgba(0,255,136,0.35);border-color:rgba(0,255,136,0.5);}
+.sp-toggle::after{
+  content:'';position:absolute;top:2px;left:2px;
+  width:14px;height:14px;border-radius:50%;
+  background:#fff;transition:.25s;opacity:.7;
+}
+.sp-toggle.on::after{left:20px;background:#00ff88;opacity:1;}
+
+/* Slot grid */
+.sp-slots{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 20px 18px;}
+.sp-slot{
+  background:rgba(0,245,255,0.02);border:1px solid rgba(0,245,255,0.1);
+  border-radius:8px;padding:12px;transition:.2s;position:relative;overflow:hidden;
+}
+.sp-slot:hover{border-color:rgba(0,245,255,0.25);background:rgba(0,245,255,0.04);}
+.sp-slot.has-data{border-color:rgba(0,255,136,0.18);}
+.sp-slot.is-auto{border-color:rgba(153,69,255,0.18);background:rgba(153,69,255,0.03);}
+.sp-slot.is-auto:hover{border-color:rgba(153,69,255,0.38);}
+.sp-slot-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.sp-slot-name{
+  font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;
+  letter-spacing:2px;color:rgba(0,245,255,0.6);
+}
+.sp-slot.is-auto .sp-slot-name{color:rgba(153,69,255,0.7);}
+.sp-slot-badge{
+  font-size:7px;padding:2px 6px;border-radius:10px;letter-spacing:.5px;font-weight:700;
+  font-family:'Rajdhani',sans-serif;
+}
+.sp-badge-auto{background:rgba(153,69,255,0.15);color:var(--purple);border:1px solid rgba(153,69,255,0.25);}
+.sp-badge-manual{background:rgba(0,245,255,0.1);color:var(--cyan);border:1px solid rgba(0,245,255,0.2);}
+
+/* Slot empty state */
+.sp-empty{
+  padding:14px 0 10px;text-align:center;
+  color:rgba(0,245,255,0.2);font-size:9px;letter-spacing:1.5px;
+}
+.sp-empty-ico{font-size:24px;display:block;margin-bottom:6px;opacity:.35;}
+
+/* Slot data */
+.sp-data-time{font-size:8px;color:rgba(255,255,255,0.55);font-family:'Share Tech Mono',monospace;margin-bottom:6px;}
+.sp-data-rows{display:flex;flex-direction:column;gap:3px;margin-bottom:8px;}
+.sp-data-row{display:flex;align-items:center;gap:5px;font-size:8px;}
+.sp-data-ico{width:14px;text-align:center;font-size:10px;flex-shrink:0;}
+.sp-data-val{color:rgba(255,255,255,0.7);}
+.sp-data-num{font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;}
+.sp-data-num.green{color:#00ff88;}
+.sp-data-num.cyan{color:#00f5ff;}
+.sp-data-num.gold{color:#f59e0b;}
+.sp-data-num.purple{color:#9945ff;}
+
+/* Slot action buttons */
+.sp-actions{display:flex;gap:5px;margin-top:4px;}
+.sp-btn{
+  flex:1;padding:6px 4px;border-radius:5px;font-family:'Rajdhani',sans-serif;
+  font-size:9px;font-weight:700;letter-spacing:.8px;cursor:pointer;
+  border:1px solid;transition:all .18s;text-align:center;
+}
+.sp-btn-save{
+  background:rgba(0,255,136,0.08);border-color:rgba(0,255,136,0.25);color:#00ff88;
+}
+.sp-btn-save:hover{background:rgba(0,255,136,0.2);border-color:#00ff88;box-shadow:0 0 10px rgba(0,255,136,.2);}
+.sp-btn-load{
+  background:rgba(0,245,255,0.08);border-color:rgba(0,245,255,0.25);color:#00f5ff;
+}
+.sp-btn-load:hover{background:rgba(0,245,255,0.2);border-color:#00f5ff;}
+.sp-btn-del{
+  background:rgba(255,0,102,0.06);border-color:rgba(255,0,102,0.2);color:rgba(255,0,102,0.6);
+  flex:0 0 30px;
+}
+.sp-btn-del:hover{background:rgba(255,0,102,0.15);border-color:var(--pink);color:var(--pink);}
+
+/* Save toast notification */
+#save-toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:rgba(4,4,20,0.97);border:1px solid rgba(0,255,136,0.4);
+  border-radius:8px;padding:10px 20px;
+  font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;
+  color:#00ff88;letter-spacing:1px;z-index:2100;
+  opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;
+  box-shadow:0 0 20px rgba(0,255,136,0.15);
+}
+#save-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#save-toast.error{border-color:rgba(255,0,102,0.4);color:#ff0066;}
 </style>
 </head>
 <body>
@@ -1780,6 +1882,14 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
       </div>
     </div>
     <div style="display:flex;gap:6px;align-items:center;">
+      <!-- 💾 SAVE BUTTON -->
+      <button id="save-hdr-btn" onclick="openSavePanel()" title="Gestionar guardados">
+        <span id="save-hdr-ico">💾</span>
+        <div style="display:flex;flex-direction:column;line-height:1.2;">
+          <span style="font-size:9px;letter-spacing:.8px;">GUARDADO</span>
+          <span id="save-hdr-time">SIN GUARDAR</span>
+        </div>
+      </button>
       <button class="btn-connect" onclick="connectWallet()" id="connectBtn">◎ Conectar</button>
       <!-- PROFILE BUTTON -->
       <div style="position:relative;">
@@ -1835,6 +1945,14 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
               cursor:pointer;transition:.15s;text-align:left;letter-spacing:.5px;
             " onmouseover="this.style.background='rgba(0,245,255,0.06)'" onmouseout="this.style.background='none'">
               <span style="font-size:13px;">⚙️</span> CONFIGURACIÓN
+            </button>
+            <!-- GUARDADOS -->
+            <button onclick="openSavePanel();closeProfileMenu();" style="
+              display:flex;align-items:center;gap:8px;width:100%;padding:8px 14px;background:none;
+              border:none;color:#00ff88;font-family:Rajdhani,sans-serif;font-size:11px;font-weight:600;
+              cursor:pointer;transition:.15s;text-align:left;letter-spacing:.5px;
+            " onmouseover="this.style.background='rgba(0,255,136,0.06)'" onmouseout="this.style.background='none'">
+              <span style="font-size:13px;">💾</span> GUARDADOS
             </button>
             <div style="height:1px;background:rgba(0,245,255,0.08);margin:3px 0;"></div>
             <button onclick="logout();closeProfileMenu();" style="
@@ -2058,7 +2176,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
         <button class="stab" onclick="switchTab('defensa')">DEFENSA</button>
         <button class="stab" onclick="switchTab('construir')">CONSTRUIR</button>
         <button class="stab" onclick="switchTab('ataques')">ATAQUES</button>
-        <button class="stab" onclick="switchTab('bio')">🧬 BIO</button>
+        <button class="stab" onclick="switchTab('bio')" style="color:#00ff88;font-size:8px;">🧬 BIO</button>
       </div>
       <div class="tab-c active" id="tab-terrenos">
         <div class="t-list" id="territory-list"></div>
@@ -2103,33 +2221,8 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
           <div style="font-size:7px;color:var(--muted);line-height:1.5;">Ataques se desbloquean al construir el edificio correspondiente.</div>
         </div>
       </div>
-
-      <!-- ══════════════════════════════════════════ -->
-      <!-- 🧬 PESTAÑA BIO — Sistema Biológico Completo -->
-      <!-- ══════════════════════════════════════════ -->
       <div class="tab-c" id="tab-bio">
-        <div class="bio-panel">
-          <div id="pandemic-ticker-wrap"></div>
-          <div id="biochain-status-wrap"></div>
-          <div class="bio-section-title">🔬 Investigaciones Biológicas</div>
-          <div id="research-list"></div>
-          <div class="bio-section-title">🏖 Habilidades de Puerto</div>
-          <div id="port-abilities-list"></div>
-          <div class="bio-section-title">🤝 Alianzas Defensivas</div>
-          <div id="alliances-list"></div>
-          <div class="bio-section-title">⚓ Ataques Marítimos</div>
-          <div id="maritime-attacks-list"></div>
-          <div class="bio-section-title">🧬 Cadena Biológica</div>
-          <div class="bio-card bio-green">
-            <div class="bio-card-name">🦠 Sistema de Cadena Biológica</div>
-            <div class="bio-card-desc">Epidemia en 4 etapas. Requiere Laboratorio Epidémico activo.</div>
-            <div class="bio-card-meta">
-              <span class="bio-effect" id="bio-chain-stage">Inactiva</span>
-              <button class="bio-btn green" onclick="openBioChainMenu()">INICIAR</button>
-              <button class="bio-btn" onclick="stopBioChain()">DETENER</button>
-            </div>
-          </div>
-        </div>
+        <div class="bio-panel" id="bio-panel-content" style="padding:8px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:calc(100vh - 140px);"></div>
       </div>
     </div>
 
@@ -2847,73 +2940,60 @@ const gameState = {
 // ════════════════════════════════════════════════════════
 // 🧬 SISTEMA 1: INVESTIGACIONES/UPGRADES BIOLÓGICOS
 // ════════════════════════════════════════════════════════
-// ═══════════════════════════════════════════════════════════
-// ╔═╗╦╦  ╔═╗╔═╗╦╔╗╔  V8 — SISTEMAS BIOLÓGICOS INTEGRADOS
-// ╚═╗║║  ║  ║ ║║║║║  index.html → solcoin_v7_bio_complete
-// ╚═╝╩╩═╝╚═╝╚═╝╩╝╚╝
-// ═══════════════════════════════════════════════════════════
-
-// SISTEMA 1: 6 INVESTIGACIONES BIOLÓGICAS (datos de index.html)
 const RESEARCH_TREE = {
   'bio_enhancement': {
     id: 'bio_enhancement',
-    name: '🧫 Mejora Biológica Nv1',
-    desc: 'Aumento de daño en ataques pandémicos y de crucero.',
+    name: '🧬 Mejora Biológica Nivel 1',
+    desc: 'Aumenta daño de ataques biológicos +15%',
     cost: 0.200,
     researchPoints: 50,
-    effect: 'Ataques biológicos +15% daño',
-    applies: ['pandemia','crucero_infeccioso'],
-    icon: '🧫'
+    effect: {damageBoost: 1.15, targets: ['pandemia', 'crucero_infeccioso']},
+    icon: '🧬'
   },
   'viral_mutation': {
     id: 'viral_mutation',
     name: '🦠 Mutación Viral',
-    desc: 'Expande área de efecto. Sinergia con Cadenas Biológicas.',
+    desc: 'Los ataques biológicos duran 20% más y afectan 2 territorios adyacentes',
     cost: 0.350,
     researchPoints: 75,
-    req: 'bio_enhancement',
-    effect: 'Ataques duran +20%, afectan 2 territorios adyacentes',
+    effect: {durationBoost: 1.20, areaExpand: true},
     icon: '🦠'
   },
   'pandemic_resistance': {
     id: 'pandemic_resistance',
-    name: '🛡 Resistencia Pandémica',
-    desc: 'Aplicable a Vacunación y Paciente Cero. Prioridad ALTA.',
+    name: '🛡️ Resistencia Pandémica',
+    desc: 'Las defensas biológicas son 25% más efectivas',
     cost: 0.280,
     researchPoints: 60,
-    effect: 'Defensas biológicas +25% efectivas',
-    applies: ['vacunacion','paciente_cero'],
-    icon: '🛡'
+    effect: {defenseBoost: 1.25, targets: ['vacunacion', 'paciente_cero']},
+    icon: '🛡️'
   },
-  'bio_weapon_advanced': {
-    id: 'bio_weapon_advanced',
-    name: '☠ Arma Biológica Avanzada',
-    desc: 'Riesgo: puede disparar eventos pandémicos globales. Cooldown 48h.',
+  'bio_warfare': {
+    id: 'bio_warfare',
+    name: '⚗️ Arma Biológica Avanzada',
+    desc: 'Desbloquea nuevo ataque: Arma Biológica Sintética (daño máximo)',
     cost: 0.500,
     researchPoints: 100,
-    req: 'viral_mutation',
-    effect: 'Desbloquea Arma Biológica Sintética (2.5x daño)',
-    cooldown: '48h',
-    icon: '☠'
+    effect: {unlocksAttack: 'synthetic_bio_weapon', damageLevel: 'maximum'},
+    icon: '⚗️'
   },
   'immune_fortification': {
     id: 'immune_fortification',
     name: '💪 Fortificación Inmunológica',
-    desc: 'Solo aplica a territorios con Puerto construido.',
+    desc: 'Los territorios con Puerto generan +50% de defensa pasiva',
     cost: 0.300,
     researchPoints: 70,
-    effect: 'Puertos generan +50% defensa pasiva. +0.0025 SOL/ciclo',
+    effect: {portDefensePassive: 1.50, affectsPorts: true},
     icon: '💪'
   },
   'pathogen_control': {
     id: 'pathogen_control',
-    name: '💉 Control de Patógenos',
-    desc: 'Reduce eventos pandémicos negativos. 40% probabilidad de evitar evento crítico.',
+    name: '🧪 Control de Patógenos',
+    desc: 'Controla eventos pandémicos: reduce daño aleatorio -40%',
     cost: 0.400,
     researchPoints: 90,
-    req: 'pandemic_resistance',
-    effect: 'Controla pandemias: -40% daño aleatorio',
-    icon: '💉'
+    effect: {pandemicDamageReduction: 0.60, controlEvents: true},
+    icon: '🧪'
   }
 };
 
@@ -2922,183 +3002,167 @@ const RESEARCH_UPGRADES = Object.values(RESEARCH_TREE);
 // ════════════════════════════════════════════════════════
 // 🚢 SISTEMA 2: NUEVOS ATAQUES MARÍTIMOS
 // ════════════════════════════════════════════════════════
-// SISTEMA 2: 3 ATAQUES MARÍTIMOS (datos de index.html)
 const MARITIME_ATTACKS = {
-  portaaviones: {
+  'portaaviones': {
     id: 'portaaviones',
-    name: '✈ Ataque Portaaviones',
-    emoji: '✈',
+    name: '🛩️ Ataque Portaaviones',
     desc: 'Escuadrón aéreo desde el mar. Bombardea hasta 3 edificios enemigos.',
     cost: 0.200,
     damage: 1.8,
     range: 'ultra_largo',
     duration: '48h',
     reqBuilding: 'puerto',
-    color: '#fbbf24',
-    speed: 0.012,
-    arcHeight: 1.8,
-    icon: '✈'
+    icon: '🛩️',
+    color: 0xfbbf24,
+    speed: 0.012
   },
-  submarino_sigiloso: {
-    id: 'submarino_sigiloso',
-    name: '🚢 Submarino Sigiloso',
-    emoji: '🚢',
-    desc: 'Torpedos biológicos. INDETECTABLE. Mayor tiempo de carga.',
+  'submarino': {
+    id: 'submarino',
+    name: '🚤 Ataque Submarino Sigiloso',
+    desc: 'Torpedos biológicos silenciosos. No puede ser detectado (tiempo de carga 8h).',
     cost: 0.250,
     damage: 2.0,
     range: 'ultra_largo',
     duration: '72h',
     reqBuilding: 'puerto',
-    color: '#06b6d4',
+    icon: '🚤',
+    color: 0x06b6d4,
     speed: 0.008,
-    arcHeight: 1.3,
     stealthMode: true,
-    cooldown: '8h',
-    icon: '🚢'
+    cooldown: 28800
   },
-  bombardeo_acorazado: {
-    id: 'bombardeo_acorazado',
+  'acorazado': {
+    id: 'acorazado',
     name: '⚓ Bombardeo Acorazado',
-    emoji: '⚓',
-    desc: 'Artillería pesada desde el puerto. Rompe defensas: ignora 30%.',
+    desc: 'Fuego de artillería pesada desde el puerto. Destruye defensas enemigas.',
     cost: 0.180,
     damage: 1.6,
     range: 'largo',
     duration: '36h',
     reqBuilding: 'puerto',
-    color: '#64748b',
+    icon: '⚓',
+    color: 0x64748b,
     speed: 0.009,
-    arcHeight: 1.5,
-    defenseBreaker: true,
-    icon: '⚓'
+    defenseBreaker: true
   }
 };
 
 const MARITIME_FLEET = {
   'portaaviones': {id:'porta', name:'Portaaviones', cost:0.150, capacity:12, speed:0.7},
-  'submarino_sigiloso': {id:'sub', name:'Submarino Sigiloso', cost:0.200, capacity:4, speed:0.4, stealth:true},
-  'bombardeo_acorazado': {id:'acor', name:'Acorazado', cost:0.120, capacity:8, speed:0.5}
+  'submarino': {id:'sub', name:'Submarino', cost:0.200, capacity:4, speed:0.4, stealth:true},
+  'acorazado': {id:'acor', name:'Acorazado', cost:0.120, capacity:8, speed:0.5}
 };
 
 // ════════════════════════════════════════════════════════
 // ⚓ SISTEMA 3: HABILIDADES ESPECIALES DEL PUERTO
 // ════════════════════════════════════════════════════════
-// SISTEMA 3: 5 HABILIDADES ESPECIALES DE PUERTO (datos de index.html)
-const PORT_ABILITIES = [
-  {
+const PORT_ABILITIES = {
+  'puerto_refuge': {
     id: 'puerto_refuge',
-    name: '🏖 Puerto Refugio',
+    name: '🏖️ Puerto Refugio',
+    desc: 'Territorio con Puerto obtiene -50% de daño de ataques. Dura 12h.',
     cost: 0.080,
-    duration: 12*3600000,
-    cooldown: 24*3600000,
-    effect: {damageReduction: 0.50},
-    desc: 'Territorio zona de seguridad. -50% daño recibido por 12h.',
-    icon: '🏖'
+    duration: 43200,
+    cooldown: 86400,
+    icon: '🏖️',
+    effect: {damageReduction: 0.50}
   },
-  {
+  'puerto_garrison': {
     id: 'puerto_garrison',
-    name: '💂 Guarnición Puerto',
+    name: '👮 Guarnición Puerto',
+    desc: 'Generan 2 defensas automáticas cada 6h contra ataques marítimos',
     cost: 0.100,
-    duration: 24*3600000,
-    cooldown: 7*24*3600000,
-    effect: {autoDefense: 2, every: 6*3600000},
-    desc: '+2 defensas automáticas cada 6h vs ataques marítimos.',
-    icon: '💂'
+    duration: 86400,
+    cooldown: 604800,
+    icon: '👮',
+    effect: {autoDefense: true, interval: 21600}
   },
-  {
+  'puerto_trade': {
     id: 'puerto_trade',
     name: '💼 Ruta Comercial',
+    desc: 'Gana +0.010 SOL/h de ingresos pasivos durante 24h',
     cost: 0.060,
-    duration: 24*3600000,
-    cooldown: 7*24*3600000,
-    effect: {bonusIncome: 0.010},
-    desc: '+0.010 SOL/ciclo por 24h. Total ~+0.240 SOL.',
-    icon: '💼'
+    duration: 86400,
+    cooldown: 604800,
+    icon: '💼',
+    effect: {incomeBoost: 0.010}
   },
-  {
+  'puerto_research': {
     id: 'puerto_research',
     name: '📚 Centro de Investigación',
+    desc: 'Genera +30 puntos de investigación en 8h',
     cost: 0.075,
-    duration: 8*3600000,
-    cooldown: 2*24*3600000,
-    effect: {researchPoints: 30},
-    desc: '+30 puntos de investigación. ~3.75 pts/hora.',
-    icon: '📚'
+    duration: 28800,
+    cooldown: 172800,
+    icon: '📚',
+    effect: {researchBoost: 30}
   },
-  {
+  'puerto_epidemic': {
     id: 'puerto_epidemic',
     name: '🦠 Laboratorio Epidémico',
-    cost: 0.090,
-    duration: 12*3600000,
-    cooldown: 3*24*3600000,
-    effect: {enableBioChain: true},
-    desc: 'Permite iniciar cadena biológica controlada.',
-    icon: '🦠'
+    desc: 'Puerto puede iniciar cadena biológica controlada contra enemigos',
+    cost: 0.120,
+    duration: 43200,
+    cooldown: 1209600,
+    icon: '🦠',
+    effect: {unlocksChain: true, controlled: true}
   }
-];
+};
 
 // ════════════════════════════════════════════════════════
 // 🌍 SISTEMA 4: EVENTOS PANDÉMICOS ALEATORIOS
 // ════════════════════════════════════════════════════════
-// SISTEMA 4: 5 TIPOS DE EVENTOS PANDÉMICOS (datos de index.html)
 const PANDEMIC_EVENTS = {
-  brote_local: {
-    id: 'brote_local',
+  'outbreak': {
+    id: 'outbreak',
     name: '🦠 Brote Local',
+    desc: 'Un territorio aleatorio pierde 20% de ingresos por 12h',
     probability: 0.15,
-    damage: -0.20,
-    duration: 12*3600000,
+    damage: 0.20,
+    duration: 43200,
     affectedCount: 1,
-    desc: 'Un territorio aleatorio pierde 20% ingresos por 12h.',
-    severity: 'low',
     icon: '🦠'
   },
-  epidemia_regional: {
-    id: 'epidemia_regional',
+  'epidemic': {
+    id: 'epidemic',
     name: '🌍 Epidemia Regional',
+    desc: 'Todos los territorios pierden 30% de ingresos durante 24h',
     probability: 0.08,
-    damage: -0.30,
-    duration: 24*3600000,
-    affectedCount: 'all',
-    desc: 'TODOS los territorios pierden 30% ingresos por 24h.',
-    severity: 'medium',
+    damage: 0.30,
+    duration: 86400,
+    affectedCount: 999,
     icon: '🌍'
   },
-  pandemia_global: {
-    id: 'pandemia_global',
+  'pandemic': {
+    id: 'pandemic',
     name: '💀 Pandemia Global',
+    desc: 'CRÍTICO: Pérdida del 50% de ingresos en todo el mapa + colapso de defensas',
     probability: 0.03,
-    damage: -0.50,
+    damage: 0.50,
+    duration: 172800,
+    affectedCount: 999,
     defenseBreak: 0.40,
-    duration: 48*3600000,
-    affectedCount: 'all',
-    desc: 'CRÍTICO: -50% + 40% defensas destruidas.',
-    severity: 'critical',
     icon: '💀'
   },
-  resistencia_inmune: {
-    id: 'resistencia_inmune',
+  'resistance': {
+    id: 'resistance',
     name: '💪 Resistencia Inmune',
+    desc: 'Evento positivo: Todos los territorios +15% ingresos durante 18h',
     probability: 0.10,
     bonus: 0.15,
-    duration: 18*3600000,
-    affectedCount: 'all',
-    positive: true,
-    desc: 'POSITIVO: Todos +15% ingresos por 18h.',
-    severity: 'positive',
+    duration: 64800,
+    affectedCount: 999,
     icon: '💪'
   },
-  nueva_mutacion: {
-    id: 'nueva_mutacion',
-    name: '🧫 Nueva Mutación',
-    probability: 0.05,
-    damage: -0.25,
-    spreadBonus: 0.25,
-    duration: 36*3600000,
-    affectedCount: 'random',
-    desc: 'Mutación emergente. +25% velocidad propagación.',
-    severity: 'high',
-    icon: '🧫'
+  'mutation': {
+    id: 'mutation',
+    name: '🧬 Nueva Mutación',
+    desc: 'Un virus muta: ataques biológicos +25% daño durante 36h',
+    probability: 0.12,
+    damageBoost: 1.25,
+    duration: 129600,
+    affectedCount: 999,
+    icon: '🧬'
   }
 };
 
@@ -3107,91 +3171,114 @@ const PANDEMIC_EVENT_LIST = Object.values(PANDEMIC_EVENTS);
 // ════════════════════════════════════════════════════════
 // 🧬 SISTEMA 5: SISTEMAS DE CADENA BIOLÓGICA (MUTACIONES)
 // ════════════════════════════════════════════════════════
-// SISTEMA 5: 4 ETAPAS CADENA BIOLÓGICA + 4 TIPOS DE MUTACIÓN (datos de index.html)
-const BIOCHAIN_STAGES = [
-  {stage:1, name:'🦠 Virus Original',      duration:24*3600000, powerLevel:1.00, spreadRate:0.15,
-   affectAdjacent:0,   damage:-0.20, desc:'Liberación inicial. Solo territorio origen.'},
-  {stage:2, name:'🧫 Virus Propagándose',  duration:36*3600000, powerLevel:1.35, spreadRate:0.25,
-   affectAdjacent:3,   damage:-0.30, desc:'Se expande a 2-3 territorios adyacentes.'},
-  {stage:3, name:'💪 Mutación Alpha',       duration:48*3600000, powerLevel:1.75, spreadRate:0.35,
-   affectAdjacent:5,   damage:-0.40, defenseReduction:0.25, desc:'Muta: +50% poder, infecta 5 territorios.'},
-  {stage:4, name:'💀 Pandemia Total',       duration:60*3600000, powerLevel:2.50, spreadRate:1.0,
-   affectAdjacent:999, globalDamage:-0.60, defenseReduction:0.40, desc:'MÁXIMO: afecta TODO el mapa. Daño -60% global.'}
-];
-
-// Alias for backward compat
 const BIO_CHAIN_SYSTEM = {
-  stage1_initial:   BIOCHAIN_STAGES[0],
-  stage2_spreading: BIOCHAIN_STAGES[1],
-  stage3_mutation:  BIOCHAIN_STAGES[2],
-  stage4_pandemic:  BIOCHAIN_STAGES[3]
+  'stage1_initial': {
+    stage: 1,
+    name: '🦠 Virus Original',
+    desc: 'Liberación inicial del patógeno',
+    duration: 86400,
+    powerLevel: 1.0,
+    spreadRate: 0.15,
+    icon: '🦠'
+  },
+  'stage2_spreading': {
+    stage: 2,
+    name: '🧬 Virus Propagándose',
+    desc: 'Se expande a 2-3 territorios adyacentes',
+    duration: 129600,
+    powerLevel: 1.35,
+    spreadRate: 0.25,
+    affectAdjacentCells: 3,
+    icon: '🧬'
+  },
+  'stage3_mutation': {
+    stage: 3,
+    name: '💪 Mutación Alpha',
+    desc: 'El virus muta: +50% de poder, infecta 5 territorios',
+    duration: 172800,
+    powerLevel: 1.75,
+    spreadRate: 0.35,
+    affectAdjacentCells: 5,
+    icon: '💪'
+  },
+  'stage4_pandemic': {
+    stage: 4,
+    name: '💀 Pandemia Total',
+    desc: 'Máximo nivel: afecta TODO el mapa, -60% ingresos globales',
+    duration: 216000,
+    powerLevel: 2.50,
+    spreadRate: 1.0,
+    affectAdjacentCells: 999,
+    globalDamage: 0.60,
+    icon: '💀'
+  }
 };
 
 const BIO_MUTATION_TYPES = {
-  airborne:  {name:'Mutación Aérea',       modifier:2.0, spreadRate:2.0,
-              desc:'Se propaga 2x más rápido. Llega Etapa 4 en ~3 días.'},
-  aquatic:   {name:'Mutación Acuática',    modifier:1.8, targetPreference:'puerto',
-              desc:'Ataca territorios con puertos. +50% daño a ingresos portuarios.'},
-  resistant: {name:'Mutación Resistente',  modifier:1.6, effectAgainstDefense:0.6,
-              desc:'Defensas 40% menos efectivas.'},
-  adaptive:  {name:'Mutación Adaptativa',  modifier:2.2, behavior:'cambia cada 4h',
-              desc:'Cambia de tipo cada 4h. La más peligrosa.'}
+  'airborne': {name:'Aérea', desc:'Se propaga 2x más rápido', modifier:2.0},
+  'waterborne': {name:'Acuática', desc:'Afecta territorios con puertos', modifier:1.8},
+  'resilient': {name:'Resistente', desc:'Las defensas son 40% menos efectivas', modifier:1.6},
+  'adaptive': {name:'Adaptativa', desc:'Cambia cada 4h evadiendo defensas', modifier:2.2}
 };
 
 // ════════════════════════════════════════════════════════
 // 🤝 SISTEMA 6: ALIANZAS DEFENSIVAS ANTI-EPIDEMIA
 // ════════════════════════════════════════════════════════
-// SISTEMA 6: 5 TIPOS DE ALIANZAS DEFENSIVAS (datos de index.html)
 const ALLIANCE_SYSTEM = {
-  bio_defense_pact: {
+  'bio_defense_pact': {
     id: 'bio_defense_pact',
     name: '🤝 Pacto Defensa Biológica',
+    desc: 'Los aliados comparten defensas biológicas. Costo reducido 20%.',
     cost: 0.150,
-    duration: 7*24*3600000,
+    duration: 604800,
+    bonusPerAlly: 0.20,
     maxAllies: 5,
-    benefits: {defCostReduction: 0.20, defenseSharing: true},
-    desc: 'Defensas biológicas 20% más baratas. Comparten escudo.',
-    icon: '🤝'
+    icon: '🤝',
+    effects: {costReduction: 0.80, defenseSharing: true}
   },
-  epidemic_control: {
-    id: 'epidemic_control',
-    name: '🧫 Unión Control Epidémico',
+  'epidemi_control_union': {
+    id: 'epidemi_control_union',
+    name: '🧪 Unión Control Epidémico',
+    desc: 'Controlan juntos eventos pandémicos: reducen daño global -35%',
     cost: 0.200,
-    duration: 14*24*3600000,
+    duration: 1209600,
+    damageReduction: 0.65,
     maxAllies: 8,
-    benefits: {pandemicControl: true, damageReduction: 0.35},
-    desc: '-35% daño de eventos pandémicos. Puede evitar Pandemia Global.',
-    icon: '🧫'
+    icon: '🧪',
+    effects: {pandemicControl: true, sharedDefense: true}
   },
-  maritime_coalition: {
+  'maritime_coalition': {
     id: 'maritime_coalition',
     name: '⚓ Coalición Marítima',
+    desc: 'Flotas marítimas se refuerzan mutuamente. +40% de daño combinado',
     cost: 0.180,
-    duration: 10*24*3600000,
+    duration: 864000,
+    damageBoost: 1.40,
     maxAllies: 6,
-    benefits: {fleetBoosting: true, damageBoost: 0.40},
-    desc: 'Flotas marítimas +40% daño cuando atacan juntos.',
-    icon: '⚓'
+    icon: '⚓',
+    effects: {fleetBoosting: true, combinedAttacks: true}
   },
-  research_collective: {
+  'research_collective': {
     id: 'research_collective',
     name: '📚 Colectivo de Investigación',
+    desc: 'Comparten investigaciones: +50% velocidad de investigación',
     cost: 0.120,
-    duration: 14*24*3600000,
+    duration: 1209600,
+    researchSpeedBoost: 1.50,
     maxAllies: 10,
-    benefits: {sharedResearch: true, researchSpeedBoost: 0.50},
-    desc: '+50% velocidad investigación. 1.5x más rápido.',
-    icon: '📚'
+    icon: '📚',
+    effects: {sharedResearch: true, speedUp: 1.50}
   },
-  mutual_immunization: {
+  'mutual_immunization': {
     id: 'mutual_immunization',
     name: '💉 Inmunización Mutua',
-    cost: 0.090,
-    duration: 5*24*3600000,
-    maxAllies: 8,
-    benefits: {mutualImmunity: true, damageReduction: 0.45},
-    desc: '-45% daño pandémico entre aliados.',
-    icon: '💉'
+    desc: 'Aliados comparten inmunidad contra pandemias: -45% daño pandémico',
+    cost: 0.140,
+    duration: 432000,
+    pandemicReduction: 0.55,
+    maxAllies: 7,
+    icon: '💉',
+    effects: {immuneSharing: true, pandemicProtection: true}
   }
 };
 
@@ -5475,6 +5562,8 @@ function goApp(){
     setInterval(autoLog,3500);setInterval(flickerPrice,2500);
     setInterval(passiveIncomeTick,5000);
     setTimeout(initBots, 2000);
+    // ── Inicializa sistema de guardado ──
+    initSaveSystem();
     // ── Inicializa el panel de ataques globales ──
     setTimeout(()=>{
       refreshGlobeAttackPanel(); // Render initial base attacks in overlay
@@ -6746,6 +6835,161 @@ function stopAndroid(){
 
 document.getElementById('androidModal')?.addEventListener('click',function(e){if(e.target===this)closeAndroidModal();});
 
+
+// ══════════════════════════════════════════════════════════
+// 🧬 RENDER BIO TAB — Investigaciones + Puerto + Flota + Alianzas
+// ══════════════════════════════════════════════════════════
+function renderBioTab() {
+  const el = document.getElementById('bio-panel-content');
+  if (!el) return;
+
+  // Helper: SOL balance check
+  const bal = gameState.wallet;
+
+  // ── SECTION HEADER helper ──
+  const sec = (icon, label) =>
+    `<div style="font-family:'Orbitron',sans-serif;font-size:8px;font-weight:700;
+      color:rgba(0,212,255,0.7);letter-spacing:2px;text-transform:uppercase;
+      padding:5px 0 3px;border-bottom:1px solid rgba(0,212,255,0.15);margin-bottom:4px;display:flex;align-items:center;gap:6px;">
+      <span>${icon}</span>${label}
+    </div>`;
+
+  // ── RESEARCH CARDS ──
+  const resCards = Object.values(RESEARCH_TREE).map(r => {
+    const unlocked = gameState.research[r.id]?.unlocked;
+    const canAfford = bal >= r.cost;
+    const reqMet = !r.requires || gameState.research[r.requires]?.unlocked;
+    const pts = gameState.researchPoints;
+    const ptsOk = pts >= r.researchPoints;
+
+    const statusColor = unlocked ? '#00ff88' : (!reqMet ? '#3a3c58' : !canAfford ? '#ff0066' : 'rgba(0,245,255,0.6)');
+    const btnStyle = unlocked
+      ? `background:rgba(0,255,136,0.15);border:1px solid #00ff88;color:#00ff88;cursor:default;`
+      : (!reqMet || !canAfford || !ptsOk)
+        ? `background:rgba(58,60,88,0.3);border:1px solid #3a3c58;color:#3a3c58;cursor:not-allowed;`
+        : `background:rgba(0,245,255,0.1);border:1px solid rgba(0,245,255,0.4);color:var(--cyan);cursor:pointer;`;
+
+    const reqLabel = r.requires ? `<span style="font-size:7px;color:#9945ff;letter-spacing:1px;">REQUIERE: <strong style="color:#b470ff;">${r.requires.replace(/_/g,' ')}</strong></span>` : '';
+    const ptBar = Math.min(100, Math.round((pts / r.researchPoints) * 100));
+
+    return `<div style="background:rgba(0,212,255,0.03);border:1px solid rgba(0,212,255,0.12);
+        border-radius:6px;padding:8px 10px;position:relative;${unlocked ? 'border-color:rgba(0,255,136,0.25);background:rgba(0,255,136,0.03);' : ''}">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px;">
+        <div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;color:${unlocked ? '#00ff88' : '#e2e8f0'};">${r.name}</div>
+          <div style="font-size:8px;color:rgba(255,255,255,0.4);line-height:1.4;max-width:160px;">${r.desc}</div>
+        </div>
+        <button onclick="${unlocked ? '' : `bioInvest('${r.id}')`}"
+          style="flex-shrink:0;margin-left:6px;padding:4px 8px;border-radius:4px;font-family:'Orbitron',sans-serif;font-size:7px;font-weight:700;letter-spacing:1px;transition:.2s;${btnStyle}">
+          ${unlocked ? '✓ ACTIVA' : 'INVESTIR'}
+        </button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#f59e0b;">${r.cost.toFixed(3)} SOL</span>
+        <span style="font-size:8px;color:rgba(0,212,255,0.5);">${r.researchPoints} pts</span>
+        ${reqLabel}
+      </div>
+      ${!unlocked && r.researchPoints > 0 ? `
+      <div style="margin-top:5px;height:2px;background:rgba(0,212,255,0.1);border-radius:2px;">
+        <div style="width:${ptBar}%;height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));border-radius:2px;transition:width .4s;"></div>
+      </div>
+      <div style="font-size:7px;color:rgba(0,212,255,0.35);margin-top:2px;">${pts}/${r.researchPoints} puntos de investigación</div>` : ''}
+    </div>`;
+  }).join('');
+
+  // ── PORT ABILITIES ──
+  const portCards = Object.values(PORT_ABILITIES).map(ab => {
+    const active = gameState.portAbilities.find(a => a.id === ab.id);
+    const remaining = active ? Math.max(0, Math.round((active.expiresAt - Date.now()) / 60000)) : 0;
+    const canAfford = bal >= ab.cost;
+
+    const btnStyle = active
+      ? `background:rgba(0,255,136,0.12);border:1px solid #00ff88;color:#00ff88;cursor:default;`
+      : !canAfford
+        ? `background:rgba(58,60,88,0.3);border:1px solid #3a3c58;color:#3a3c58;cursor:not-allowed;`
+        : `background:rgba(0,245,255,0.08);border:1px solid rgba(0,245,255,0.3);color:var(--cyan);cursor:pointer;`;
+
+    return `<div style="background:rgba(245,158,11,0.03);border:1px solid rgba(245,158,11,0.12);
+        border-radius:6px;padding:8px 10px;${active ? 'border-color:rgba(0,255,136,0.25);background:rgba(0,255,136,0.03);' : ''}">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:3px;">
+        <div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;color:${active ? '#00ff88' : '#e2e8f0'};">${ab.name}</div>
+          <div style="font-size:8px;color:rgba(255,255,255,0.4);line-height:1.3;max-width:160px;">${ab.desc}</div>
+        </div>
+        <button onclick="${active ? '' : `bioPort('${ab.id}')`}"
+          style="flex-shrink:0;margin-left:6px;padding:4px 8px;border-radius:4px;font-family:'Orbitron',sans-serif;font-size:7px;font-weight:700;letter-spacing:1px;${btnStyle}">
+          ${active ? `✓ ${remaining}m` : 'ACTIVAR'}
+        </button>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#f59e0b;">${ab.cost.toFixed(3)} SOL</span>
+        <span style="font-size:8px;color:rgba(0,212,255,0.4);">${ab.duration}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  // ── MARITIME FLEET ──
+  const fleet = gameState.maritimeFleet;
+  const fleetHtml = `
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;">
+      ${[
+        {key:'carriers',icon:'🛩️',name:'Portaaviones',cost:0.150},
+        {key:'submarines',icon:'🤿',name:'Submarinos',cost:0.200},
+        {key:'battleships',icon:'⚓',name:'Acorazados',cost:0.120}
+      ].map(v => `<div style="background:rgba(0,245,255,0.04);border:1px solid rgba(0,245,255,0.12);border-radius:5px;padding:6px;text-align:center;">
+        <div style="font-size:18px;">${v.icon}</div>
+        <div style="font-family:'Orbitron',sans-serif;font-size:12px;font-weight:700;color:var(--cyan);">${fleet[v.key]}</div>
+        <div style="font-size:7px;color:var(--muted);margin-bottom:4px;">${v.name}</div>
+        <button onclick="bioFleet('${v.key}')"
+          style="width:100%;padding:3px;background:rgba(0,245,255,0.08);border:1px solid rgba(0,245,255,0.25);border-radius:3px;font-family:'Rajdhani',sans-serif;font-size:8px;color:var(--cyan);cursor:pointer;">
+          +1 · ${v.cost} SOL
+        </button>
+      </div>`).join('')}
+    </div>`;
+
+  // ── ALLIANCES ──
+  const activeAlliances = gameState.alliances.filter(a => a.expiresAt > Date.now());
+  const allianceStatus = activeAlliances.length > 0
+    ? activeAlliances.map(a => `<div style="font-size:8px;color:var(--green);padding:2px 0;">✓ ${a.id.replace(/_/g,' ')} — ${a.ally} (${Math.round((a.expiresAt-Date.now())/3600000)}h)</div>`).join('')
+    : `<div style="font-size:8px;color:var(--muted);">Sin alianzas activas. Los sistemas de alianza se activan mediante consola o eventos.</div>`;
+
+  // ── RESEARCH POINTS INFO ──
+  const ptsInfo = `<div style="background:rgba(153,69,255,0.06);border:1px solid rgba(153,69,255,0.2);border-radius:5px;padding:6px 10px;display:flex;align-items:center;justify-content:space-between;">
+    <span style="font-size:9px;color:rgba(153,69,255,0.8);">🔬 PUNTOS DE INVESTIGACIÓN</span>
+    <span style="font-family:'Orbitron',sans-serif;font-size:14px;color:#9945ff;font-weight:700;">${gameState.researchPoints}</span>
+  </div>`;
+
+  el.innerHTML =
+    ptsInfo +
+    sec('🧬', 'INVESTIGACIONES BIOLÓGICAS') + resCards +
+    sec('⚓', 'HABILIDADES DE PUERTO') + portCards +
+    sec('🚢', 'FLOTA MARÍTIMA') + fleetHtml +
+    sec('🤝', 'ALIANZAS DEFENSIVAS') + `<div style="padding:4px 0;">${allianceStatus}</div>`;
+}
+
+// ── BIO ACTION HANDLERS ──
+function bioInvest(id) {
+  const ok = unlockResearch(id);
+  if (ok) { showNotif('🧬 Investigación desbloqueada: ' + RESEARCH_TREE[id]?.name); renderBioTab(); }
+}
+function bioPort(id) {
+  const ok = activatePortAbility(id);
+  if (ok) { showNotif('⚓ Habilidad activada: ' + PORT_ABILITIES[id]?.name); renderBioTab(); }
+}
+function bioFleet(type) {
+  const costs = {carriers:0.150, submarines:0.200, battleships:0.120};
+  const names = {carriers:'Portaaviones', submarines:'Submarino', battleships:'Acorazado'};
+  const cost = costs[type];
+  if (!cost) return;
+  if (gameState.wallet < cost) { showNotif('❌ SOL insuficiente'); return; }
+  gameState.wallet -= cost;
+  gameState.maritimeFleet[type]++;
+  addMovement('🚢 '+names[type],'neg','-'+cost.toFixed(3)+' SOL');
+  updateWalletDisplay();
+  showNotif('🚢 '+names[type]+' añadido a la flota');
+  renderBioTab();
+}
+
 // ══════════════════════════════════════
 // TAB
 // ══════════════════════════════════════
@@ -6758,7 +7002,7 @@ function switchTab(tab){
   if(tab==='defensa')renderDefenseList();
   if(tab==='construir'&&gameState.selectedId)updateBuildTab(gameState.selectedId);
   if(tab==='ataques')renderAttacksList();
-  if(tab==='bio')renderBioPanel();
+  if(tab==='bio')renderBioTab();
 }
 
 // ══════════════════════════════════════
@@ -7351,189 +7595,6 @@ function updatePreview(id){
 
 
 
-// ══════════════════════════════════════════════════════════════
-// 🧬 BIO PANEL — Funciones de Render y UI (desde index.html)
-// ══════════════════════════════════════════════════════════════
-
-// Alias: RESEARCH_TREE → array RESEARCHES (para compatibilidad con renderResearchList)
-const RESEARCHES = Object.values(RESEARCH_TREE);
-
-function renderBioPanel(){
-  renderResearchList();
-  renderPortAbilitiesList();
-  renderAlliancesList();
-  renderMaritimeAttacksList();
-  renderPandemicTicker();
-  renderBioChainStatus();
-}
-
-function renderResearchList(){
-  const el = document.getElementById('research-list');
-  if(!el) return;
-  el.innerHTML = '';
-  RESEARCHES.forEach(r => {
-    const done = !!gameState.research[r.id];
-    const reqOk = !r.req || !!gameState.research[r.req];
-    const div = document.createElement('div');
-    div.className = 'bio-card bio-purple' + (done?' unlocked':'');
-    div.innerHTML = `<div class="bio-card-name">${r.name}${done?' ✅':''}</div>
-      <div class="bio-card-desc">${r.effect||r.desc}</div>
-      <div class="research-bar"><div class="research-bar-fill" style="width:${done?'100':reqOk?'50':'10'}%"></div></div>
-      <div class="bio-card-meta" style="margin-top:4px">
-        <span class="bio-cost">${r.cost.toFixed(3)} SOL</span>
-        <span class="bio-effect">${r.researchPoints||r.points||0} pts</span>
-        ${done?'<span style="color:#00ff88;font-size:9px">COMPLETADO</span>':
-          reqOk?`<button class="bio-btn purple" onclick="unlockResearch('${r.id}')">INVESTIGAR</button>`
-               :'<span style="color:#ff6666;font-size:9px">REQUIERE: '+(r.req||'')+'</span>'}
-      </div>`;
-    el.appendChild(div);
-  });
-}
-
-function renderPortAbilitiesList(){
-  const el = document.getElementById('port-abilities-list');
-  if(!el) return;
-  el.innerHTML = '';
-  PORT_ABILITIES.forEach(ab => {
-    const active = gameState.portAbilities.some(a=>a.id===ab.id);
-    const div = document.createElement('div');
-    div.className = 'bio-card bio-green' + (active?' unlocked':'');
-    const dh = Math.floor(ab.duration/3600000);
-    div.innerHTML = `<div class="bio-card-name">${ab.name}${active?' ⚡':''}</div>
-      <div class="bio-card-desc">${ab.desc}</div>
-      <div class="bio-card-meta">
-        <span class="bio-cost">${ab.cost.toFixed(3)} SOL</span>
-        <span class="bio-effect">${dh}h duración</span>
-        <button class="bio-btn green" onclick="activatePortAbility('${ab.id}')">ACTIVAR</button>
-      </div>`;
-    el.appendChild(div);
-  });
-}
-
-function renderAlliancesList(){
-  const el = document.getElementById('alliances-list');
-  if(!el) return;
-  el.innerHTML = '';
-  Object.entries(ALLIANCE_SYSTEM).forEach(([key, at]) => {
-    const active = gameState.alliances.some(a=>a.type===key);
-    const div = document.createElement('div');
-    div.className = 'bio-card bio-yellow' + (active?' unlocked':'');
-    div.innerHTML = `<div class="bio-card-name">${at.name}${active?' 🤝':''}</div>
-      <div class="bio-card-desc">${at.desc}</div>
-      <div class="bio-card-meta">
-        <span class="bio-cost">${at.cost.toFixed(3)} SOL</span>
-        <span class="bio-effect">Máx ${at.maxAllies} aliados</span>
-        <button class="bio-btn gold" onclick="createAlliancePrompt('${key}')">ALIARSE</button>
-      </div>`;
-    el.appendChild(div);
-  });
-}
-
-function createAlliancePrompt(type){
-  const stateKeys = Object.keys(STATES);
-  const target = stateKeys[Math.floor(Math.random()*stateKeys.length)];
-  createAlliance(type, target);
-  renderAlliancesList();
-}
-
-function renderMaritimeAttacksList(){
-  const el = document.getElementById('maritime-attacks-list');
-  if(!el) return;
-  el.innerHTML = '';
-  Object.values(MARITIME_ATTACKS).forEach(atk => {
-    const div = document.createElement('div');
-    div.className = 'bio-card bio-green';
-    div.innerHTML = `<div class="bio-card-name">${atk.name}</div>
-      <div class="bio-card-desc">${atk.desc}</div>
-      <div class="bio-card-meta">
-        <span class="bio-cost">${atk.cost.toFixed(3)} SOL</span>
-        <span class="bio-effect">${atk.damage}x daño · ${atk.duration}</span>
-        <button class="bio-btn green" onclick="promptMaritimeAttack('${atk.id}')">ATACAR</button>
-      </div>`;
-    el.appendChild(div);
-  });
-}
-
-function promptMaritimeAttack(atkType){
-  const stateKeys = Object.keys(STATES).filter(id=>!gameState.ownedTerritories[id]);
-  if(!stateKeys.length){ showNotif('⚠ No hay objetivos disponibles'); return; }
-  const target = gameState.selectedId || stateKeys[Math.floor(Math.random()*stateKeys.length)];
-  launchMaritimeAttack(atkType, target);
-}
-
-function renderPandemicTicker(){
-  const el = document.getElementById('pandemic-ticker-wrap');
-  if(!el) return;
-  if(!gameState.pandemicEvents.length){ el.innerHTML=''; return; }
-  const active = gameState.pandemicEvents.map(e=>e.name).join(' · ');
-  el.innerHTML = `<div class="pandemic-ticker">⚠ EVENTOS ACTIVOS: ${active}</div>`;
-}
-
-function renderBioChainStatus(){
-  const el = document.getElementById('biochain-status-wrap');
-  const stage_el = document.getElementById('bio-chain-stage');
-  if(!el) return;
-  if(!gameState.bioChain.active){ el.innerHTML=''; if(stage_el) stage_el.textContent='Inactiva'; return; }
-  const bc = gameState.bioChain;
-  const stage = BIOCHAIN_STAGES.find(s=>s.stage===bc.stage);
-  if(stage_el) stage_el.textContent = stage?.name||'Etapa '+bc.stage;
-  el.innerHTML = `<div class="biochain-status">🧬 CADENA BIOLÓGICA — Etapa ${bc.stage}/4<br>
-    <span style="color:#00ff88">${stage?.name||''}</span> · 
-    Afectados: ${(bc.affectedTerritories||[]).length} territorios · 
-    Poder: ${(bc.powerLevel||1).toFixed(2)}x</div>`;
-}
-
-function openBioChainMenu(){
-  const myTerrs = Object.keys(gameState.ownedTerritories);
-  if(!myTerrs.length){ showNotif('⚠ Necesitas territorios'); return; }
-  const mutTypes = Object.keys(BIO_MUTATION_TYPES);
-  const vType = mutTypes[Math.floor(Math.random()*mutTypes.length)];
-  const terr = gameState.selectedId || myTerrs[0];
-  initiateBioChain(terr, vType);
-  renderBioChainStatus();
-}
-
-// Auto-refresh bio panel si está visible
-setInterval(()=>{
-  const bioPanelActive = document.getElementById('tab-bio')?.classList.contains('active');
-  if(bioPanelActive) renderBioPanel();
-  const sc = document.getElementById('bio-chain-stage');
-  if(sc && gameState.bioChain.active){
-    const stage = BIOCHAIN_STAGES.find(s=>s.stage===gameState.bioChain.stage);
-    if(stage) sc.textContent = stage.name;
-  }
-}, 5000);
-
-
-// ── SWIPE GESTURE: cerrar panel deslizando a la izquierda ──
-(function(){
-  var panel = null;
-  var startX = 0, startY = 0, isDragging = false;
-
-  document.addEventListener('touchstart', function(e){
-    panel = document.querySelector('.panel-left');
-    if(!panel || !panel.classList.contains('mob-open')) return;
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    isDragging = true;
-  }, {passive:true});
-
-  document.addEventListener('touchmove', function(e){
-    if(!isDragging || !panel) return;
-    var dx = e.touches[0].clientX - startX;
-    var dy = e.touches[0].clientY - startY;
-    // Vertical swipe up = close
-    if(dy < -50 && Math.abs(dy) > Math.abs(dx)){
-      toggleMobPanel();
-      isDragging = false;
-    }
-  }, {passive:true});
-
-  document.addEventListener('touchend', function(){
-    isDragging = false;
-  }, {passive:true});
-})();
-
 // === MOBILE PANEL + COLLAPSIBLE ===
 function toggleHud(block){
   block.classList.toggle('collapsed');
@@ -7542,15 +7603,10 @@ function toggleMobPanel(){
   var panel = document.querySelector('.panel-left');
   var backdrop = document.getElementById('mob-backdrop');
   if(!panel) return;
-  var isOpen = panel.classList.toggle('mob-open');
+  panel.classList.toggle('mob-open');
   if(backdrop) backdrop.classList.toggle('show');
-  var hamBtn = document.getElementById('mob-ham-btn');
-  var fabBtn = document.getElementById('mob-panel-fab');
-  var icon = isOpen ? '&#10005;' : '&#9776;';
-  if(hamBtn) hamBtn.innerHTML = icon;
-  if(fabBtn) fabBtn.innerHTML = isOpen ? '&#10005;' : '☰';
-  // Scroll panel to top when opening
-  if(isOpen) panel.scrollTop = 0;
+  var btn = document.getElementById('mob-ham-btn');
+  if(btn) btn.innerHTML = panel.classList.contains('mob-open') ? '&#10005;' : '&#9776;';
 }
 function toggleMobSidebar(){
   var sidebar = document.querySelector('.sidebar');
@@ -7684,8 +7740,6 @@ setTimeout(()=>{
 </script>
 
 
-  <!-- FAB: Botón flotante para abrir panel en móvil -->
-  <button id="mob-panel-fab" onclick="toggleMobPanel()" title="Abrir panel">☰</button>
   <div class="mob-backdrop" id="mob-backdrop" onclick="toggleMobPanel()"></div>
   <button class="mob-sidebar-pill" id="mob-sidebar-pill" onclick="toggleMobSidebar()">&#9776; PANEL &#9650;</button>
 <!-- === CIUDADES 3D SCREEN === -->
@@ -9810,7 +9864,7 @@ function upgradeFleet(shipType) {
 // ═══════════════════════════════════════════════════════════════
 
 function activatePortAbility(abilityId) {
-  const ability = PORT_ABILITIES.find(a=>a.id===abilityId) || PORT_ABILITIES.find(a=>a.id===abilityId);
+  const ability = PORT_ABILITIES[abilityId];
   if (!ability) return false;
   
   if (gameState.wallet < ability.cost) {
@@ -9952,6 +10006,398 @@ window.addEventListener('load', init);
 </html>
 " allowfullscreen></iframe>
 </div>
+
+
+<!-- ══════════════════════════════════════════════════════
+     TUTORIAL ONBOARDING — Solo se muestra a usuarios nuevos
+     ══════════════════════════════════════════════════════ -->
+<div id="sc-tutorial-overlay" class="sc-tut-hidden">
+  <div class="sc-tut-card">
+    <div class="sc-tut-hdr">
+      <span class="sc-tut-step-badge" id="sc-tut-badge">PASO 1 / 7</span>
+      <button class="sc-tut-skip" onclick="scTutClose()">SALTAR ✕</button>
+    </div>
+    <div class="sc-tut-body">
+      <div class="sc-tut-icon" id="sc-tut-icon">🌍</div>
+      <div class="sc-tut-title" id="sc-tut-title">BIENVENIDO A SOLCOIN</div>
+      <div class="sc-tut-desc" id="sc-tut-desc"></div>
+    </div>
+    <div class="sc-tut-tip" id="sc-tut-tip"></div>
+    <div class="sc-tut-dots" id="sc-tut-dots"></div>
+    <div class="sc-tut-footer">
+      <button class="sc-tut-btn-back" id="sc-tut-back" onclick="scTutPrev()">← ATRÁS</button>
+      <button class="sc-tut-btn-next" id="sc-tut-next" onclick="scTutNext()">SIGUIENTE →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+// TUTORIAL ONBOARDING — SOLCOIN V7
+// ══════════════════════════════════════
+const SC_TUT_KEY = 'sc_onboarding_v1';
+
+const SC_TUT_STEPS = [
+  {
+    icon: '🌍',
+    title: 'BIENVENIDO AL GLOBO NEURAL',
+    desc: 'Aquí controlas <strong>territorios digitales</strong> en México y ciudades del mundo. Compra estados, construye, defiéndelos y genera <em>ingresos pasivos en SOL</em> cada día.',
+    tip: '⟳  Este es tu cuartel general. Todo empieza desde el globo 3D.'
+  },
+  {
+    icon: '🖱️',
+    title: 'NAVEGAR EL MAPA 3D',
+    desc: '<strong>Arrastra</strong> el globo con el ratón o el dedo para rotarlo. Usa la <strong>rueda del ratón</strong> o el gesto <strong>pellizco</strong> para hacer zoom. Al acercar al máximo entrarás a la vista <em>CIUDADES 3D</em>.',
+    tip: '💡  Usa los botones NEURAL / SATÉLITE / DEFENSA para cambiar la vista del mapa.'
+  },
+  {
+    icon: '📍',
+    title: 'LOS MARCADORES DEL MAPA',
+    desc: 'Cada punto en el globo es un territorio. <strong style="color:#00ff88">● Verde</strong> = disponible · <strong style="color:#ff0066">● Rojo</strong> = vendido · <strong style="color:#00f5ff">● Cyan</strong> = tuyo · <strong style="color:#f59e0b">● Amarillo</strong> = reservado. <em>Haz clic en cualquier punto</em> para seleccionarlo.',
+    tip: '🗺️  En el panel derecho verás la lista completa con precios en SOL.'
+  },
+  {
+    icon: '📊',
+    title: 'PANEL IZQUIERDO',
+    desc: 'Aquí encuentras tu <strong>balance SOL</strong>, el <strong>ingreso pasivo diario</strong> de tus territorios, historial de movimientos y el estado de tus <em>Androides Financieros</em> que operan por ti 24/7.',
+    tip: '🤖  Renta un Androide para que gestione tus territorios automáticamente.'
+  },
+  {
+    icon: '🗂️',
+    title: 'PANEL DERECHO — 3 PESTAÑAS',
+    desc: '<strong>TERRENOS</strong> — explora estados y ciudades del mundo.<br><strong>CONSTRUIR</strong> — añade edificios para generar más ingresos.<br><strong>DEFENSA</strong> — protege tus territorios.<br><strong>BIO</strong> — investigaciones y sistemas biológicos.',
+    tip: '⚡  Cambia entre pestañas según lo que necesites en cada momento.'
+  },
+  {
+    icon: '💰',
+    title: 'COMPRAR UN TERRITORIO',
+    desc: '1. Haz clic en un territorio <strong style="color:#00ff88">verde</strong> en el mapa.<br>2. En el panel derecho haz clic en <em>COMPRAR TERRITORIO</em>.<br>3. Elige tu método: <strong>SOL, SPEI, Bitso, OXXO, BTC, ETH</strong>.<br>4. Confirma y ¡el territorio es tuyo!',
+    tip: '🎁  Tienes 0.05 SOL de regalo de Bitso para tu primera compra.'
+  },
+  {
+    icon: '🏗️',
+    title: 'CONSTRUIR Y GANAR SOL',
+    desc: 'Con un territorio tuyo, ve a la pestaña <strong>CONSTRUIR</strong>. Elige un edificio — casa, comercio, fábrica, antena — y confírmalo. <em>Cada edificio genera SOL/día</em> acumulado automáticamente en tu balance.',
+    tip: '🚀  ¡Ya tienes todo lo que necesitas! Empieza buscando tu primer territorio verde.'
+  }
+];
+
+let scTutStep = 0;
+
+function scTutRender() {
+  const s = SC_TUT_STEPS[scTutStep];
+  const total = SC_TUT_STEPS.length;
+  document.getElementById('sc-tut-badge').textContent = 'PASO ' + (scTutStep + 1) + ' / ' + total;
+  document.getElementById('sc-tut-icon').textContent = s.icon;
+  document.getElementById('sc-tut-title').textContent = s.title;
+  document.getElementById('sc-tut-desc').innerHTML = s.desc;
+  document.getElementById('sc-tut-tip').textContent = s.tip;
+  const dotsEl = document.getElementById('sc-tut-dots');
+  dotsEl.innerHTML = '';
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'sc-tut-dot' + (i === scTutStep ? ' active' : i < scTutStep ? ' done' : '');
+    d.onclick = (function(idx){ return function(){ scTutStep = idx; scTutRender(); }; })(i);
+    dotsEl.appendChild(d);
+  }
+  const back = document.getElementById('sc-tut-back');
+  back.style.display = scTutStep === 0 ? 'none' : 'block';
+  const next = document.getElementById('sc-tut-next');
+  if (scTutStep === total - 1) {
+    next.textContent = '¡COMENZAR! 🚀';
+    next.style.background = 'linear-gradient(135deg,#00ff88,#00b4d8)';
+  } else {
+    next.textContent = 'SIGUIENTE →';
+    next.style.background = 'linear-gradient(135deg,var(--gold),var(--pink))';
+  }
+}
+
+function scTutNext() {
+  if (scTutStep < SC_TUT_STEPS.length - 1) { scTutStep++; scTutRender(); }
+  else { scTutClose(); }
+}
+
+function scTutPrev() {
+  if (scTutStep > 0) { scTutStep--; scTutRender(); }
+}
+
+function scTutClose() {
+  try { localStorage.setItem(SC_TUT_KEY, '1'); } catch(e) {}
+  document.getElementById('sc-tutorial-overlay').classList.add('sc-tut-hidden');
+}
+
+function scTutMaybeShow() {
+  let seen = false;
+  try { seen = !!localStorage.getItem(SC_TUT_KEY); } catch(e) {}
+  if (!seen) {
+    scTutStep = 0;
+    scTutRender();
+    document.getElementById('sc-tutorial-overlay').classList.remove('sc-tut-hidden');
+  }
+}
+
+// Hook en goApp para usuarios nuevos
+document.addEventListener('DOMContentLoaded', function() {
+  const _origGoApp = goApp;
+  goApp = function() {
+    _origGoApp();
+    setTimeout(scTutMaybeShow, 1800);
+  };
+});
+
+// ════════════════════════════════════════════════════════════════════
+// 💾 SOLCOIN SAVE SYSTEM — Sistema de Persistencia Completo
+// Slots 1-3 manuales + Autoguardado · Sincronizado por perfil/email
+// ════════════════════════════════════════════════════════════════════
+const SAVE_VERSION='1.0';
+const SAVE_SLOT_NAMES={slot1:'Slot 1',slot2:'Slot 2',slot3:'Slot 3',auto:'Autoguardado'};
+const SAVE_SLOTS=['slot1','slot2','slot3','auto'];
+
+let autoSaveEnabled=true, autoSaveInterval=null;
+let lastSaveTime=null, _saveProfileKey='guest';
+
+function getSaveKey(slot){ return `solcoin_v7_${_saveProfileKey}_${slot}`; }
+
+function setSaveProfile(identifier){
+  _saveProfileKey=identifier
+    ?identifier.toLowerCase().replace(/[^a-z0-9_]/g,'_').substring(0,40)
+    :'guest';
+  const lbl=document.getElementById('sp-profile-label');
+  if(lbl)lbl.textContent=identifier?identifier.toUpperCase():'SIN PERFIL';
+}
+
+function buildSavePayload(){
+  return {
+    version:SAVE_VERSION, timestamp:Date.now(), profile:_saveProfileKey,
+    wallet:gameState.wallet, bitso:gameState.bitso,
+    ownedTerritories:gameState.ownedTerritories,
+    buildings:gameState.buildings, territories:gameState.territories,
+    defenses:gameState.defenses, research:gameState.research,
+    researchPoints:gameState.researchPoints, alliances:gameState.alliances,
+    bioChain:gameState.bioChain, pandemicEvents:gameState.pandemicEvents,
+    portAbilities:gameState.portAbilities, maritimeFleet:gameState.maritimeFleet,
+    summary:{
+      territories:Object.keys(gameState.ownedTerritories||{}).length,
+      defenses:Object.values(gameState.defenses||{}).reduce((a,v)=>a+(v?.length||0),0),
+      buildings:Object.values(gameState.buildings||{}).reduce((a,v)=>a+(v?.length||0),0),
+      research:Object.keys(gameState.research||{}).length,
+      fleet:(gameState.maritimeFleet?.carriers||0)+(gameState.maritimeFleet?.submarines||0)+(gameState.maritimeFleet?.battleships||0),
+    }
+  };
+}
+
+function applyPayload(p){
+  if(!p||p.version!==SAVE_VERSION)return false;
+  const k=['wallet','bitso','ownedTerritories','buildings','territories','defenses',
+           'research','researchPoints','alliances','bioChain','pandemicEvents','portAbilities','maritimeFleet'];
+  k.forEach(key=>{ if(p[key]!==undefined) gameState[key]=p[key]; });
+  return true;
+}
+
+function saveGame(slot,silent=false){
+  try{
+    localStorage.setItem(getSaveKey(slot),JSON.stringify(buildSavePayload()));
+    lastSaveTime=new Date(); updateSaveIndicator();
+    if(!silent)showSaveToast('💾 Guardado en '+SAVE_SLOT_NAMES[slot]);
+    renderSavePanel(); return true;
+  }catch(e){ if(!silent)showSaveToast('❌ Error: '+e.message,true); return false; }
+}
+
+function loadGame(slot){
+  try{
+    const raw=localStorage.getItem(getSaveKey(slot));
+    if(!raw){showSaveToast('⚠️ Slot vacío',true);return;}
+    const p=JSON.parse(raw);
+    if(!applyPayload(p)){showSaveToast('⚠️ Versión incompatible',true);return;}
+    updateWalletDisplay();
+    try{renderTerritoryList();}catch(_){}
+    try{renderDefenseList();}catch(_){}
+    try{if(gameState.selectedId)updateBuildTab(gameState.selectedId);}catch(_){}
+    try{renderAttacksList();}catch(_){}
+    try{updateStats();}catch(_){}
+    try{updateGlobeMarkers();}catch(_){}
+    closeSavePanel();
+    showSaveToast('✅ Cargado — '+SAVE_SLOT_NAMES[slot]);
+    addLog('💾 Partida cargada desde '+SAVE_SLOT_NAMES[slot],'green');
+  }catch(e){showSaveToast('❌ Error al cargar: '+e.message,true);}
+}
+
+function deleteSlot(slot){
+  if(!confirm('¿Borrar '+SAVE_SLOT_NAMES[slot]+'?'))return;
+  localStorage.removeItem(getSaveKey(slot));
+  showSaveToast('🗑️ '+SAVE_SLOT_NAMES[slot]+' eliminado');
+  renderSavePanel();
+}
+
+function readSlotMeta(slot){
+  try{const r=localStorage.getItem(getSaveKey(slot));return r?JSON.parse(r):null;}
+  catch(_){return null;}
+}
+
+function toggleAutoSave(){
+  autoSaveEnabled=!autoSaveEnabled;
+  const tog=document.getElementById('sp-auto-toggle');
+  const lbl=document.getElementById('sp-auto-label-on');
+  const sts=document.getElementById('sp-auto-status');
+  if(autoSaveEnabled){
+    tog&&tog.classList.add('on');
+    if(lbl)lbl.textContent='ON';
+    if(sts)sts.textContent='Guarda automáticamente cada 30 segundos';
+    startAutoSave(); showSaveToast('🔄 Autoguardado activado');
+  }else{
+    tog&&tog.classList.remove('on');
+    if(lbl)lbl.textContent='OFF';
+    if(sts)sts.textContent='Autoguardado desactivado';
+    stopAutoSave(); showSaveToast('⏸️ Autoguardado pausado');
+  }
+}
+function startAutoSave(){ stopAutoSave(); if(autoSaveEnabled)autoSaveInterval=setInterval(()=>saveGame('auto',true),30000); }
+function stopAutoSave(){ if(autoSaveInterval){clearInterval(autoSaveInterval);autoSaveInterval=null;} }
+
+function updateSaveIndicator(){
+  const el=document.getElementById('save-hdr-time');
+  if(!el)return;
+  if(!lastSaveTime){el.textContent='SIN GUARDAR';return;}
+  const h=String(lastSaveTime.getHours()).padStart(2,'0');
+  const m=String(lastSaveTime.getMinutes()).padStart(2,'0');
+  const s=String(lastSaveTime.getSeconds()).padStart(2,'0');
+  el.textContent=h+':'+m+':'+s;
+}
+
+function renderSavePanel(){
+  const grid=document.getElementById('sp-slots-grid');
+  if(!grid)return;
+  grid.innerHTML='';
+  SAVE_SLOTS.forEach(slot=>{
+    const meta=readSlotMeta(slot);
+    const isAuto=slot==='auto';
+    const div=document.createElement('div');
+    div.className='sp-slot'+(meta?' has-data':'')+(isAuto?' is-auto':'');
+    let html=`<div class="sp-slot-hdr">
+      <div class="sp-slot-name">${isAuto?'🔄':'📁'} ${SAVE_SLOT_NAMES[slot].toUpperCase()}</div>
+      <div class="sp-slot-badge ${isAuto?'sp-badge-auto':'sp-badge-manual'}">${isAuto?'AUTO':'MANUAL'}</div>
+    </div>`;
+    if(!meta){
+      html+=`<div class="sp-empty"><span class="sp-empty-ico">💿</span>VACÍO</div>
+        <div class="sp-actions"><button class="sp-btn sp-btn-save" onclick="saveGame('${slot}')">💾 GUARDAR AHORA</button></div>`;
+    }else{
+      const d=new Date(meta.timestamp);
+      const ds=d.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'2-digit'})
+              +' · '+d.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+      const s=meta.summary||{};
+      html+=`<div class="sp-data-time">📅 ${ds}</div>
+        <div class="sp-data-rows">
+          <div class="sp-data-row"><span class="sp-data-ico">◎</span><span class="sp-data-val">Balance:</span><span class="sp-data-num gold" style="margin-left:auto;">${Number(meta.wallet||0).toFixed(3)} SOL</span></div>
+          <div class="sp-data-row"><span class="sp-data-ico">🗺️</span><span class="sp-data-val">Territorios:</span><span class="sp-data-num cyan" style="margin-left:auto;">${s.territories||0}</span></div>
+          <div class="sp-data-row"><span class="sp-data-ico">🏗️</span><span class="sp-data-val">Edificios:</span><span class="sp-data-num green" style="margin-left:auto;">${s.buildings||0}</span></div>
+          <div class="sp-data-row"><span class="sp-data-ico">🛡️</span><span class="sp-data-val">Defensas:</span><span class="sp-data-num" style="color:#9945ff;margin-left:auto;">${s.defenses||0}</span></div>
+          ${s.fleet>0?`<div class="sp-data-row"><span class="sp-data-ico">🚢</span><span class="sp-data-val">Flota:</span><span class="sp-data-num" style="color:#38bdf8;margin-left:auto;">${s.fleet}</span></div>`:''}
+          ${s.research>0?`<div class="sp-data-row"><span class="sp-data-ico">🧬</span><span class="sp-data-val">Investigaciones:</span><span class="sp-data-num" style="color:#f59e0b;margin-left:auto;">${s.research}</span></div>`:''}
+        </div>
+        <div class="sp-actions">
+          <button class="sp-btn sp-btn-save" onclick="saveGame('${slot}')">💾 GUARDAR</button>
+          <button class="sp-btn sp-btn-load" onclick="loadGame('${slot}')">▶ CARGAR</button>
+          <button class="sp-btn sp-btn-del" onclick="deleteSlot('${slot}')" title="Borrar slot">🗑</button>
+        </div>`;
+    }
+    div.innerHTML=html; grid.appendChild(div);
+  });
+}
+
+function openSavePanel(){ renderSavePanel(); document.getElementById('save-panel-overlay').classList.add('open'); }
+function closeSavePanel(){ document.getElementById('save-panel-overlay').classList.remove('open'); }
+
+function showSaveToast(msg,isError=false){
+  const el=document.getElementById('save-toast');if(!el)return;
+  el.textContent=msg;
+  el.className=isError?'error':'';
+  void el.offsetWidth;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t=setTimeout(()=>el.classList.remove('show'),2600);
+}
+
+// ── Logout con guardado previo ────────────────────────────────────
+const _SC_origLogout = typeof window.logout==='function' ? window.logout.bind(window) : ()=>show('splashScreen');
+window.logout = function(){
+  if(autoSaveEnabled) saveGame('auto',true);
+  stopAutoSave();
+  _SC_origLogout();
+};
+
+// ── Hooks en acciones clave (wrap silencioso) ─────────────────────
+(function _hookSaveActions(){
+  function wrapFn(name){
+    const orig=window[name];
+    if(typeof orig!=='function')return;
+    window[name]=function(...args){
+      const r=orig.apply(this,args);
+      if(autoSaveEnabled) saveGame('auto',true);
+      return r;
+    };
+  }
+  // Esperamos al domContentLoaded para wrappear correctamente
+  setTimeout(()=>{
+    ['buyTerritory','buildOn','activateDefense',
+     'unlockResearch','upgradeFleet','createAlliance'].forEach(wrapFn);
+  },500);
+})();
+
+// ── initSaveSystem — llamado desde goApp ─────────────────────────
+function initSaveSystem(){
+  const identifier=(typeof currentUser!=='undefined')
+    ?(currentUser.email||currentUser.name||'guest'):'guest';
+  setSaveProfile(identifier);
+
+  const autoMeta=readSlotMeta('auto');
+  if(autoMeta){
+    lastSaveTime=new Date(autoMeta.timestamp);
+    updateSaveIndicator();
+    const minutes=Math.round((Date.now()-autoMeta.timestamp)/60000);
+    const ago=minutes<1?'hace unos segundos':minutes<60?`hace ${minutes} min`:`hace ${Math.round(minutes/60)}h`;
+    if(!window._scSaveRestoreAsked){
+      window._scSaveRestoreAsked=true;
+      setTimeout(()=>{
+        if(confirm(`💾 Autoguardado encontrado (${ago})\n◎ ${Number(autoMeta.wallet||0).toFixed(3)} SOL · ${autoMeta.summary?.territories||0} territorios · ${autoMeta.summary?.defenses||0} defensas\n\n¿Restaurar esta partida?`)){
+          loadGame('auto');
+          addLog('💾 Autoguardado restaurado','green');
+        }
+      },900);
+    }
+  }
+  startAutoSave();
+}
+</script>
+
+<!-- ══════════════════════════════════════════════════════
+     💾 SAVE PANEL — Panel flotante de gestión de guardados
+     ══════════════════════════════════════════════════════ -->
+<div id="save-panel-overlay" onclick="if(event.target===this)closeSavePanel()">
+  <div id="save-panel">
+    <div class="sp-header">
+      <div>
+        <div class="sp-title">💾 <span>GUARDADOS</span></div>
+        <div class="sp-subtitle">SOLCOIN · PERSISTENCIA · <span id="sp-profile-label">SIN PERFIL</span></div>
+      </div>
+      <button class="sp-close" onclick="closeSavePanel()">✕</button>
+    </div>
+    <div class="sp-auto-bar">
+      <div class="sp-auto-label">
+        <span style="font-size:14px;">🔄</span>
+        <div>
+          <div style="font-size:10px;color:rgba(0,255,136,.7);letter-spacing:1px;font-weight:700;font-family:'Rajdhani',sans-serif;">AUTOGUARDADO</div>
+          <div class="sp-auto-status" id="sp-auto-status">Guarda automáticamente cada 30 segundos</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span id="sp-auto-label-on" style="font-size:8px;color:rgba(0,255,136,.45);letter-spacing:1px;font-family:'Share Tech Mono',monospace;">ON</span>
+        <div class="sp-toggle on" id="sp-auto-toggle" onclick="toggleAutoSave()" title="Activar/desactivar autoguardado"></div>
+      </div>
+    </div>
+    <div class="sp-slots" id="sp-slots-grid"></div>
+  </div>
+</div>
+<div id="save-toast"></div>
 
 </body>
 </html>
