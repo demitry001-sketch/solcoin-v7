@@ -2016,6 +2016,24 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
         <div class="hud-value" id="total-income" style="font-size:14px;">0.0000</div>
         <div class="hud-sub">SOL/día de tus territorios</div>
       </div></div>
+      <!-- 🔬 PUNTOS DE INVESTIGACIÓN -->
+      <div class="hud-block" id="rp-hud-block" style="background:rgba(153,69,255,0.03);border-color:rgba(153,69,255,0.18);cursor:pointer;" onclick="switchTab('investigacion')">
+        <div class="hud-block-hdr" onclick="toggleHud(this.parentElement);event.stopPropagation()">
+          <div class="hud-label" style="color:rgba(153,69,255,0.7);display:flex;align-items:center;gap:5px;">
+            <span style="width:5px;height:5px;border-radius:50%;background:#9945ff;box-shadow:0 0 6px #9945ff;display:inline-block;animation:blink-dot 2s infinite;"></span>
+            🔬 PUNTOS DE INVESTIGACIÓN
+          </div>
+          <span class="hud-collapse-icon">&#9660;</span>
+        </div>
+        <div class="hud-block-body" style="max-height:80px">
+          <div style="display:flex;align-items:baseline;gap:6px;">
+            <div class="hud-value" id="rp-display" style="font-size:22px;color:#9945ff;text-shadow:0 0 10px #9945ff;">0</div>
+            <div class="hud-sub" style="color:rgba(153,69,255,0.5);">PR disponibles</div>
+          </div>
+          <div class="hud-bar" style="margin-top:5px;"><div class="hud-bar-fill" id="rp-bar-fill" style="width:0%;background:linear-gradient(90deg,#9945ff,#00f5ff);"></div></div>
+          <div class="hud-sub" style="margin-top:3px;font-size:7px;color:rgba(153,69,255,0.4);">Gana PR atacando, defendiendo y construyendo · Toca para investigar</div>
+        </div>
+      </div>
       <div class="hud-block" style="flex:1;overflow:hidden;">
         <div class="hud-block-hdr" onclick="toggleHud(this.parentElement)"><div class="hud-label">⟲ MOVIMIENTOS</div><span class="hud-collapse-icon">&#9660;</span></div><div class="hud-block-body" style="max-height:200px">
         <div class="mov-log" id="mov-log"></div>
@@ -2177,6 +2195,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
         <button class="stab" onclick="switchTab('construir')">CONSTRUIR</button>
         <button class="stab" onclick="switchTab('ataques')">ATAQUES</button>
         <button class="stab" onclick="switchTab('bio')" style="color:#00ff88;font-size:8px;">🧬 BIO</button>
+        <button class="stab" onclick="switchTab('investigacion')" style="color:#9945ff;font-size:8px;">🔬 INV</button>
       </div>
       <div class="tab-c active" id="tab-terrenos">
         <div class="t-list" id="territory-list"></div>
@@ -2223,6 +2242,21 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
       </div>
       <div class="tab-c" id="tab-bio">
         <div class="bio-panel" id="bio-panel-content" style="padding:8px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:calc(100vh - 140px);"></div>
+      </div>
+      <!-- 🔬 INVESTIGACIÓN TAB -->
+      <div class="tab-c" id="tab-investigacion">
+        <div style="padding:7px 9px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:8px;color:rgba(153,69,255,0.8);letter-spacing:1.5px;">🔬 ÁRBOL DE INVESTIGACIÓN</span>
+          <span id="rp-tab-counter" style="font-family:'Orbitron',sans-serif;font-size:9px;color:#9945ff;text-shadow:0 0 8px #9945ff;">0 PR</span>
+        </div>
+        <div style="padding:6px 9px;font-size:7px;color:rgba(153,69,255,0.5);line-height:1.6;border-bottom:1px solid var(--border);">
+          Gana Puntos de Investigación (PR) lanzando ataques (+5-10), activando defensas (+6), construyendo edificios (+12) y comprando territorios (+4).
+        </div>
+        <div class="defense-list" id="research-panel-list" style="flex:1;overflow-y:auto;"></div>
+        <div style="padding:6px 9px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+          <button onclick="SoundEngine.toggle();this.textContent=SoundEngine.isEnabled()?'🔊 SONIDO ON':'🔇 SONIDO OFF'" style="font-size:8px;padding:4px 10px;border-radius:4px;border:1px solid rgba(153,69,255,0.3);background:rgba(153,69,255,0.08);color:#9945ff;cursor:pointer;font-family:'Rajdhani',sans-serif;">🔊 SONIDO ON</button>
+          <span style="font-size:7px;color:var(--muted);">v8 — Audio + Investigación</span>
+        </div>
       </div>
     </div>
 
@@ -2917,6 +2951,348 @@ let txCount = 0;
 let solPriceMXN = 3020;
 let regCounter = 0;
 const BITSO_GRANT = 0.05;
+
+// ══════════════════════════════════════════════════════════════════
+// 🔊 MOTOR DE SONIDO — Web Audio API (sin dependencias externas)
+// ══════════════════════════════════════════════════════════════════
+const SoundEngine = (function(){
+  let _ctx = null;
+  let _enabled = true;
+  function _getCtx(){
+    if(!_ctx){
+      try{ _ctx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){}
+    }
+    return _ctx;
+  }
+
+  // Genera un buffer de ruido blanco
+  function _noise(ctx, dur){
+    const buf = ctx.createBuffer(1, ctx.sampleRate*dur, ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
+    const src = ctx.createBufferSource(); src.buffer=buf; return src;
+  }
+
+  // Oscilador simple
+  function _osc(ctx, type, freq, detune=0){
+    const o = ctx.createOscillator();
+    o.type=type; o.frequency.value=freq; o.detune.value=detune; return o;
+  }
+
+  // Envelope gain
+  function _env(ctx, attack=0.01, decay=0.15, sustain=0.3, release=0.4, peak=0.6){
+    const g = ctx.createGain(); const t = ctx.currentTime;
+    g.gain.setValueAtTime(0,t);
+    g.gain.linearRampToValueAtTime(peak, t+attack);
+    g.gain.linearRampToValueAtTime(sustain, t+attack+decay);
+    g.gain.setValueAtTime(sustain, t+attack+decay);
+    g.gain.linearRampToValueAtTime(0, t+attack+decay+release);
+    return g;
+  }
+
+  // Filtro passa-banda
+  function _filter(ctx, type, freq, q=1){
+    const f = ctx.createBiquadFilter(); f.type=type; f.frequency.value=freq; f.Q.value=q; return f;
+  }
+
+  // Compresión master
+  function _master(ctx){
+    const c = ctx.createDynamicsCompressor();
+    c.threshold.value=-20; c.knee.value=8; c.ratio.value=4;
+    c.attack.value=0.005; c.release.value=0.15;
+    c.connect(ctx.destination); return c;
+  }
+
+  function play(attackType){
+    if(!_enabled) return;
+    const ctx = _getCtx(); if(!ctx) return;
+    try{
+      // Resume context on interaction
+      if(ctx.state==='suspended') ctx.resume();
+      const m = _master(ctx);
+      const t = ctx.currentTime;
+
+      if(attackType==='nuclear'||attackType==='neuro_hack'){
+        // EMP / Neural — zumbido grave + burst agudo
+        const o1=_osc(ctx,'sawtooth',55); const g1=_env(ctx,0.02,0.4,0.1,0.5,0.25);
+        const o2=_osc(ctx,'square',880); const g2=_env(ctx,0.005,0.05,0,0.12,0.18);
+        const f1=_filter(ctx,'lowpass',200,2);
+        o1.connect(g1); g1.connect(f1); f1.connect(m);
+        o2.connect(g2); g2.connect(m);
+        o1.start(t); o1.stop(t+1.0);
+        o2.start(t); o2.stop(t+0.2);
+        // Sweep
+        const o3=_osc(ctx,'sawtooth',1200);
+        const g3=_env(ctx,0.01,0.08,0,0.08,0.12);
+        o3.frequency.exponentialRampToValueAtTime(80, t+0.15);
+        o3.connect(g3); g3.connect(m); o3.start(t); o3.stop(t+0.2);
+
+      }else if(attackType==='missile'||attackType==='terrorista'||attackType==='marcha'){
+        // Misil — whoosh + boom
+        const n=_noise(ctx,1.2); const gn=_env(ctx,0.01,0.3,0.05,0.6,0.3);
+        const fn=_filter(ctx,'bandpass',320,0.8);
+        n.connect(fn); fn.connect(gn); gn.connect(m); n.start(t); n.stop(t+1.2);
+        // Boom bajo
+        const o4=_osc(ctx,'sine',60); const g4=_env(ctx,0.005,0.5,0,0.4,0.5);
+        o4.frequency.exponentialRampToValueAtTime(28, t+0.5);
+        o4.connect(g4); g4.connect(m); o4.start(t+0.1); o4.stop(t+1.0);
+        // Crackle
+        const nc=_noise(ctx,0.18); const gnc=_env(ctx,0.002,0.06,0,0.1,0.22);
+        const fnc=_filter(ctx,'highpass',1800,1.2);
+        nc.connect(fnc); fnc.connect(gnc); gnc.connect(m); nc.start(t); nc.stop(t+0.18);
+
+      }else if(attackType==='cyber'){
+        // Digital — chirps rápidos
+        [0,0.06,0.13,0.22].forEach((delay,i)=>{
+          const o=_osc(ctx,'square',400+i*300);
+          const g=_env(ctx,0.005,0.06,0,0.06,0.12);
+          const f=_filter(ctx,'bandpass',500+i*200,3);
+          o.connect(f); f.connect(g); g.connect(m);
+          o.start(t+delay); o.stop(t+delay+0.15);
+        });
+        // Glitch noise
+        const ng=_noise(ctx,0.08); const gng=_env(ctx,0.001,0.04,0,0.04,0.08);
+        const fng=_filter(ctx,'highpass',3000,1);
+        ng.connect(fng); fng.connect(gng); gng.connect(m); ng.start(t+0.2); ng.stop(t+0.28);
+
+      }else if(attackType==='ufo'||attackType==='ufo_cuantico'){
+        // OVNI — warble alienígena
+        const o5=_osc(ctx,'sine',220);
+        const lfo=_osc(ctx,'sine',8);
+        const lfoG=ctx.createGain(); lfoG.gain.value=80;
+        lfo.connect(lfoG); lfoG.connect(o5.frequency);
+        const g5=_env(ctx,0.05,0.5,0.3,0.8,0.3);
+        const f5=_filter(ctx,'bandpass',440,2);
+        o5.connect(f5); f5.connect(g5); g5.connect(m);
+        o5.start(t); lfo.start(t); o5.stop(t+1.5); lfo.stop(t+1.5);
+        // Ping metálico
+        const o6=_osc(ctx,'sine',1800); const g6=_env(ctx,0.001,0.12,0,0.15,0.2);
+        o6.connect(g6); g6.connect(m); o6.start(t+0.3); o6.stop(t+0.5);
+
+      }else if(attackType==='pandemic'||attackType==='crucero'){
+        // Bio — wet + rumble orgánico
+        const n2=_noise(ctx,1.5); const gn2=_env(ctx,0.05,0.6,0.15,0.7,0.2);
+        const fn2=_filter(ctx,'lowpass',180,0.5);
+        n2.connect(fn2); fn2.connect(gn2); gn2.connect(m); n2.start(t); n2.stop(t+1.5);
+        // Burbujeo
+        [0.1,0.25,0.45,0.7].forEach(d=>{
+          const ob=_osc(ctx,'sine',80+Math.random()*40);
+          const gb=_env(ctx,0.01,0.08,0,0.12,0.15);
+          ob.connect(gb); gb.connect(m); ob.start(t+d); ob.stop(t+d+0.2);
+        });
+
+      }else if(attackType==='economic'){
+        // Económico — caja registradora + colapso
+        const oc=_osc(ctx,'triangle',1047); const gc=_env(ctx,0.001,0.08,0,0.1,0.25);
+        oc.connect(gc); gc.connect(m); oc.start(t); oc.stop(t+0.2);
+        const oc2=_osc(ctx,'triangle',1319); const gc2=_env(ctx,0.001,0.06,0,0.08,0.18);
+        oc2.connect(gc2); gc2.connect(m); oc2.start(t+0.1); oc2.stop(t+0.2);
+        // Colapso
+        const nd=_noise(ctx,0.6); const gnd=_env(ctx,0.01,0.25,0.05,0.3,0.18);
+        const fnd=_filter(ctx,'lowpass',400,1);
+        nd.connect(fnd); fnd.connect(gnd); gnd.connect(m); nd.start(t+0.2); nd.stop(t+0.8);
+
+      }else{
+        // Default — pulso genérico
+        const od=_osc(ctx,'sawtooth',220); const gd=_env(ctx,0.01,0.2,0.05,0.3,0.3);
+        od.connect(gd); gd.connect(m); od.start(t); od.stop(t+0.6);
+      }
+    }catch(e){ /* silencioso en Safari restringido */ }
+  }
+
+  function playDefense(defType){
+    if(!_enabled) return;
+    const ctx=_getCtx(); if(!ctx) return;
+    try{
+      if(ctx.state==='suspended') ctx.resume();
+      const m=_master(ctx); const t=ctx.currentTime;
+      if(defType==='laser'){
+        const o=_osc(ctx,'sawtooth',2000); const g=_env(ctx,0.001,0.05,0,0.08,0.18);
+        o.frequency.exponentialRampToValueAtTime(200,t+0.1);
+        o.connect(g); g.connect(m); o.start(t); o.stop(t+0.12);
+      }else if(defType==='emp'){
+        const o=_osc(ctx,'square',660); const g=_env(ctx,0.005,0.15,0,0.2,0.22);
+        o.connect(g); g.connect(m); o.start(t); o.stop(t+0.3);
+      }else if(defType==='quarantine'){
+        [0,0.08,0.16].forEach((d,i)=>{
+          const o=_osc(ctx,'sine',600-i*80); const g=_env(ctx,0.005,0.06,0,0.08,0.12);
+          o.connect(g); g.connect(m); o.start(t+d); o.stop(t+d+0.1);
+        });
+      }else{
+        const o=_osc(ctx,'sine',880); const g=_env(ctx,0.005,0.1,0,0.15,0.2);
+        o.connect(g); g.connect(m); o.start(t); o.stop(t+0.22);
+      }
+    }catch(e){}
+  }
+
+  function playResearchComplete(){
+    if(!_enabled) return;
+    const ctx=_getCtx(); if(!ctx) return;
+    try{
+      if(ctx.state==='suspended') ctx.resume();
+      const m=_master(ctx); const t=ctx.currentTime;
+      [523,659,784,1047].forEach((freq,i)=>{
+        const o=_osc(ctx,'sine',freq); const g=_env(ctx,0.01,0.12,0.1,0.25,0.22);
+        o.connect(g); g.connect(m); o.start(t+i*0.11); o.stop(t+i*0.11+0.4);
+      });
+    }catch(e){}
+  }
+
+  function toggle(){ _enabled=!_enabled; return _enabled; }
+  function isEnabled(){ return _enabled; }
+  return {play, playDefense, playResearchComplete, toggle, isEnabled};
+})();
+
+// ══════════════════════════════════════════════════════════════════
+// 🔬 PUNTOS DE INVESTIGACIÓN — Sistema de progresión vinculado al gameplay
+// ══════════════════════════════════════════════════════════════════
+const RP_REWARDS = {
+  attack_basic:    5,   // Ataque básico lanzado
+  attack_special: 10,   // Ataque especial lanzado
+  attack_global:   3,   // Ataque global (overlay)
+  defense_activate:6,   // Defensa activada
+  building_built: 12,   // Edificio construido
+  territory_buy:   4,   // Territorio comprado
+  city_buy:        2,   // Ciudad comprada
+  passive_tick:    1,   // Ingreso pasivo cada 5s (solo si tiene territorios)
+  bot_action:      1,   // Acción de bot enemigo
+};
+
+// Modificadores de investigación (se activan cuando se completa research)
+const researchModifiers = {
+  damageBoost: 1.0,      // bio_enhancement: +15% daño ataques bio
+  durationBoost: 1.0,    // viral_mutation: +20% duración ataques
+  areaExpand: false,      // viral_mutation: afecta 2 territorios adyacentes
+  defenseBoost: 1.0,      // pandemic_resistance: defensas +25%
+  portDefensePassive: 1.0,// immune_fortification: puertos +50% defensa
+  pandemicDamageReduction:1.0, // pathogen_control: eventos pandémicos -40%
+  bioWeaponUnlocked: false // bio_warfare: desbloquea arma sintética
+};
+
+function earnRP(source, amount){
+  if(!gameState) return;
+  const rp = amount !== undefined ? amount : (RP_REWARDS[source]||0);
+  if(rp<=0) return;
+  // Apply research_collective alliance bonus
+  const hasCollective = gameState.alliances && gameState.alliances.some(a=>a.id==='research_collective');
+  const finalRP = hasCollective ? Math.round(rp * 1.5) : rp;
+  gameState.researchPoints = (gameState.researchPoints||0) + finalRP;
+  updateResearchHUD();
+  // Floating +RP badge cerca del HUD
+  showRPFloating('+'+finalRP+' PR');
+}
+
+function updateResearchHUD(){
+  const el = document.getElementById('rp-display');
+  const bar = document.getElementById('rp-bar-fill');
+  if(!el) return;
+  const rp = gameState.researchPoints||0;
+  el.textContent = rp;
+  // Barra hasta 200 puntos (nivel 1 máximo visible)
+  if(bar) bar.style.width = Math.min(100, (rp/200)*100)+'%';
+  // Color dinámico por nivel
+  const hud = document.getElementById('rp-hud-block');
+  if(hud){
+    if(rp>=100) hud.style.borderColor='rgba(153,69,255,0.4)';
+    else if(rp>=50) hud.style.borderColor='rgba(245,158,11,0.3)';
+    else hud.style.borderColor='rgba(0,245,255,0.1)';
+  }
+}
+
+let _rpFloatTimeout = null;
+function showRPFloating(text){
+  // Throttle — no spamear
+  const existing = document.getElementById('rp-float-badge');
+  if(existing){ existing.textContent = text; return; }
+  const el = document.createElement('div');
+  el.id = 'rp-float-badge';
+  el.textContent = text;
+  el.style.cssText = `
+    position:fixed;bottom:58px;left:14px;z-index:3000;
+    font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;
+    color:#9945ff;text-shadow:0 0 8px #9945ff;
+    background:rgba(153,69,255,0.12);border:1px solid rgba(153,69,255,0.35);
+    border-radius:4px;padding:3px 8px;
+    animation:rpFloat 1.8s ease forwards;pointer-events:none;
+  `;
+  document.body.appendChild(el);
+  setTimeout(()=>{ if(el.parentNode) el.parentNode.removeChild(el); }, 1900);
+}
+
+// Aplica los efectos de una investigación completada al gameState
+function applyResearchEffect(researchId){
+  const r = RESEARCH_TREE[researchId];
+  if(!r||!r.effect) return;
+  const e = r.effect;
+  if(e.damageBoost)          researchModifiers.damageBoost         = Math.max(researchModifiers.damageBoost, e.damageBoost);
+  if(e.durationBoost)        researchModifiers.durationBoost       = Math.max(researchModifiers.durationBoost, e.durationBoost);
+  if(e.areaExpand)           researchModifiers.areaExpand          = true;
+  if(e.defenseBoost)         researchModifiers.defenseBoost        = Math.max(researchModifiers.defenseBoost, e.defenseBoost);
+  if(e.portDefensePassive)   researchModifiers.portDefensePassive  = Math.max(researchModifiers.portDefensePassive, e.portDefensePassive);
+  if(e.pandemicDamageReduction) researchModifiers.pandemicDamageReduction = Math.min(researchModifiers.pandemicDamageReduction, e.pandemicDamageReduction);
+  if(e.unlocksAttack==='synthetic_bio_weapon') researchModifiers.bioWeaponUnlocked = true;
+  addLog('🔬 Efecto activo: '+r.name, 'purple');
+}
+
+// Comprar investigación desde el árbol de investigaciones
+function purchaseResearch(researchId){
+  const r = RESEARCH_TREE[researchId]; if(!r) return;
+  if(gameState.research[researchId]){ showNotif('✅ Ya desbloqueado: '+r.name); return; }
+  const rpNeeded = r.researchPoints||0;
+  const solNeeded = r.cost||0;
+  if((gameState.researchPoints||0) < rpNeeded){ showNotif('❌ Puntos insuficientes (necesitas '+rpNeeded+' PR)'); return; }
+  if(gameState.wallet < solNeeded){ showNotif('❌ SOL insuficiente (necesitas '+solNeeded.toFixed(3)+' SOL)'); return; }
+  gameState.researchPoints -= rpNeeded;
+  gameState.wallet -= solNeeded;
+  gameState.research[researchId] = { id:researchId, name:r.name, completedAt:Date.now(), effect:r.effect };
+  applyResearchEffect(researchId);
+  updateWalletDisplay();
+  updateResearchHUD();
+  SoundEngine.playResearchComplete();
+  addLog('🔬 '+r.name+' COMPLETADA','purple');
+  addMovement('🔬 Investigación','neg','-'+solNeeded.toFixed(3)+' SOL');
+  showNotif('🔬 '+r.name+' desbloqueada!');
+  renderResearchPanel();
+}
+
+// Renderiza el panel de investigaciones en la pestaña de investigación
+function renderResearchPanel(){
+  const container = document.getElementById('research-panel-list');
+  if(!container) return;
+  const rp = gameState.researchPoints||0;
+  container.innerHTML = Object.values(RESEARCH_TREE).map(r=>{
+    const done = gameState.research[r.id];
+    const canBuy = !done && rp>=r.researchPoints && gameState.wallet>=r.cost;
+    const pct = Math.min(100, (rp/(r.researchPoints||1))*100);
+    return `<div class="def-item" style="border-color:${done?'rgba(0,255,136,0.3)':canBuy?'rgba(153,69,255,0.35)':'rgba(0,245,255,0.08)'};background:${done?'rgba(0,255,136,0.04)':canBuy?'rgba(153,69,255,0.06)':'rgba(0,245,255,0.02)'};position:relative;overflow:hidden;">
+      ${done?'<div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00ff88,transparent);"></div>':''}
+      <div class="def-name" style="color:${done?'var(--green)':canBuy?'var(--purple)':'var(--cyan)'};display:flex;align-items:center;gap:6px;">
+        <span style="font-size:14px;">${r.icon}</span><span>${r.name}</span>
+        ${done?'<span style="margin-left:auto;font-size:8px;color:var(--green);">✅ COMPLETADO</span>':''}
+      </div>
+      <div class="def-desc">${r.desc}</div>
+      <div class="def-cost" style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+        <span style="color:var(--purple);">🔬 ${r.researchPoints} PR</span>
+        <span style="color:var(--gold);">◎ ${r.cost.toFixed(3)} SOL</span>
+      </div>
+      ${!done?`<div style="height:2px;background:rgba(153,69,255,0.1);border-radius:2px;margin-top:5px;overflow:hidden;">
+        <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--purple),var(--cyan));transition:width 0.5s;"></div>
+      </div>`:''}
+      ${!done?`<button class="def-btn" style="border-color:${canBuy?'rgba(153,69,255,0.7)':'rgba(0,245,255,0.2)'};color:${canBuy?'var(--purple)':'var(--muted)'};background:${canBuy?'rgba(153,69,255,0.12)':'transparent'};margin-top:6px;" ${canBuy?'':'disabled'} onclick="purchaseResearch('${r.id}')">
+        ${canBuy?'🔬 INVESTIGAR':'⏳ '+Math.max(0,r.researchPoints-rp)+' PR restantes'}
+      </button>`:''}
+    </div>`;
+  }).join('');
+}
+
+// Keyframes para el float badge
+(function addRPStyles(){
+  const s=document.createElement('style');
+  s.textContent=`
+    @keyframes rpFloat{0%{opacity:0;transform:translateY(0)}15%{opacity:1}80%{opacity:1;transform:translateY(-22px)}100%{opacity:0;transform:translateY(-30px)}}
+  `;
+  document.head.appendChild(s);
+})();
 
 const gameState = {
   wallet: 2.5,
@@ -4924,7 +5300,12 @@ const DEFENSE_TYPES={
 function createAttackArcFromCoords(fromCoords,toCoords,typeName){
   if(!globeGroup||!fromCoords||!toCoords)return;
   const RA=150;
-  const cfg=ATTACK_TYPES[typeName]||ATTACK_TYPES.nuclear;
+  let cfg={...ATTACK_TYPES[typeName]||ATTACK_TYPES.nuclear};
+  // 🔬 Apply research modifiers
+  if(window.researchModifiers){
+    if(researchModifiers.damageBoost>1.0) cfg.glowRadius=cfg.glowRadius*(1+(researchModifiers.damageBoost-1)*0.5);
+    if(researchModifiers.durationBoost>1.0) cfg.trailLen=Math.round(cfg.trailLen*researchModifiers.durationBoost);
+  }
   const p1=latLngToVec3(fromCoords.lat,fromCoords.lng,RA+2);
   const p2=latLngToVec3(toCoords.lat,  toCoords.lng,  RA+2);
   const mid=new THREE.Vector3().addVectors(p1,p2).multiplyScalar(0.5);
@@ -5057,6 +5438,15 @@ function spawnExplosion(pos,cfg,toCity){
   explosions.push({mesh:expMesh,ring,life:1,maxLife:1});
   triggerGlobeFlash(cfg.flashColor);
   showGlobeExplosionLabel(cfg.explosionEmoji,toCity?.name||'');
+  // 🔊 play impact sound (only for user-triggered or low-freq auto attacks)
+  if(window._lastExplosionSoundT===undefined||Date.now()-window._lastExplosionSoundT>800){
+    window._lastExplosionSoundT=Date.now();
+    // Identify type from color
+    const hx = '#'+cfg.color.toString(16).padStart(6,'0');
+    const typeMap={'#ff0066':'nuclear','#f59e0b':'missile','#00f5ff':'cyber','#9945ff':'ufo','#00ff88':'pandemic','#fcd34d':'economic','#ff4400':'terrorista','#f97316':'marcha','#00ccff':'neuro_hack','#39ff14':'crucero','#b45fff':'ufo_cuantico'};
+    const snd = typeMap[hx] || 'nuclear';
+    SoundEngine.play(snd);
+  }
 }
 
 // Legacy spawnImpact alias
@@ -5167,6 +5557,9 @@ function globeActivateDefense(defType){
   updateGlobeDefenseStats();
   addGlobeDefenseLog(DEFENSE_TYPES[defType].label,GLOBE_CITIES[from].name+' → '+GLOBE_CITIES[to].name,defType);
   showInterceptLabel(DEFENSE_TYPES[defType].interceptLabel);
+  // 🔊 🔬
+  SoundEngine.playDefense(defType);
+  earnRP('bot_action');
 }
 
 function globeToggleShield(){
@@ -5263,6 +5656,11 @@ function globalLaunchAttack(typeName){
   }
   addGlobeAttackFeedItem(typeName, GLOBE_CITIES[from].name+' → '+GLOBE_CITIES[to].name);
   _updateGlobeAttackCounters();
+  // 🔊 Sonido + 🔬 Puntos de investigación
+  SoundEngine.play(typeName);
+  earnRP('attack_global');
+  const rpTabC = document.getElementById('rp-tab-counter');
+  if(rpTabC) rpTabC.textContent=(gameState.researchPoints||0)+' PR';
 }
 
 // War mode toggle — uses ALL available attacks (base + unlocked)
@@ -5564,6 +5962,8 @@ function goApp(){
     setTimeout(initBots, 2000);
     // ── Inicializa sistema de guardado ──
     initSaveSystem();
+    // 🔬 Init research HUD
+    setTimeout(()=>{ updateResearchHUD(); renderResearchPanel(); }, 500);
     // ── Inicializa el panel de ataques globales ──
     setTimeout(()=>{
       refreshGlobeAttackPanel(); // Render initial base attacks in overlay
@@ -5788,7 +6188,13 @@ function passiveIncomeTick(){
     total+=STATES[id].income_base/288;
     (gameState.buildings[id]||[]).forEach(bid=>{const b=BUILDINGS.find(b=>b.id===bid);if(b)total+=b.income/288;});
   });
-  if(total>0){gameState.wallet+=total;gameState.bitso+=total*0.1;updateWalletDisplay();}
+  if(total>0){
+    gameState.wallet+=total;gameState.bitso+=total*0.1;updateWalletDisplay();
+    // 🔬 RP pasivos por tener territorios
+    earnRP('passive_tick');
+    const rpTabP = document.getElementById('rp-tab-counter');
+    if(rpTabP) rpTabP.textContent=(gameState.researchPoints||0)+' PR';
+  }
 }
 
 // ══════════════════════════════════════
@@ -5842,6 +6248,10 @@ function confirmPago(){
     addLog('✓ TX: '+STATES[p.stateId].name+' confirmado','gold');
     addMovement('🏴 Compra '+STATES[p.stateId].name,'neg','-'+p.price.toFixed(3)+' SOL');
     showNotif('🎉 ¡'+STATES[p.stateId].name+' es tuyo!');
+    // 🔬
+    earnRP('territory_buy');
+    const rpTabT = document.getElementById('rp-tab-counter');
+    if(rpTabT) rpTabT.textContent=(gameState.researchPoints||0)+' PR';
     highlightGlobeState(p.stateId);
     showReceipt({name:p.name,txId,price:p.total,ref:p.ref,hash});
     if(gameState.selectedId===p.stateId)selectState(p.stateId);
@@ -5923,6 +6333,11 @@ function activateDefense(defId,cost){
   addLog('🛡️ '+def.name+' activada en '+STATES[id].name,'pink');
   addMovement('🛡️ '+def.name,'neg','-'+cost.toFixed(3)+' SOL');
   showNotif('✅ '+def.name+' activada');
+  // 🔊 🔬
+  SoundEngine.playDefense(defId);
+  earnRP('defense_activate');
+  const rpTabD = document.getElementById('rp-tab-counter');
+  if(rpTabD) rpTabD.textContent=(gameState.researchPoints||0)+' PR';
 }
 function launchAttack(){
   const id=gameState.selectedId;if(!id)return;
@@ -5946,6 +6361,11 @@ function launchAttack(){
   const aa=document.getElementById('attack-alert');
   aa.textContent='⚔ ATAQUE SOBRE '+STATES[id].name.toUpperCase();
   aa.classList.add('show');setTimeout(()=>aa.classList.remove('show'),3000);
+  // 🔊 🔬
+  SoundEngine.play('nuclear');
+  earnRP('attack_basic');
+  const rpTabB = document.getElementById('rp-tab-counter');
+  if(rpTabB) rpTabB.textContent=(gameState.researchPoints||0)+' PR';
 }
 
 // ══════════════════════════════════════
@@ -6035,6 +6455,10 @@ function buildOn(stId,bldId){
   addMovement('🏗️ '+bld.name,'neg','-'+bld.cost.toFixed(3)+' SOL');
   showNotif('✅ '+bld.name+' construido');
   renderAttacksList();
+  // 🔬 Puntos de investigación por construir
+  earnRP('building_built');
+  const rpTabBld = document.getElementById('rp-tab-counter');
+  if(rpTabBld) rpTabBld.textContent=(gameState.researchPoints||0)+' PR';
   // If this building unlocks an attack → notify + refresh globe panel
   const newAtkKey = BUILD_TO_ATK[bldId];
   if(newAtkKey && ATTACK_TYPES[newAtkKey]){
@@ -6215,6 +6639,11 @@ function launchSpecialAttack(atkId,cost){
   aa.classList.add('show');setTimeout(()=>aa.classList.remove('show'),3500);
   showNotif('⚔ '+atkName+' lanzado');
   renderAttacksList();
+  // 🔊 🔬
+  SoundEngine.play(atkId);
+  earnRP('attack_special');
+  const rpTabS = document.getElementById('rp-tab-counter');
+  if(rpTabS) rpTabS.textContent=(gameState.researchPoints||0)+' PR';
 }
 
 // ══════════════════════════════════════════════════════
@@ -6997,12 +7426,13 @@ function switchTab(tab){
   document.querySelectorAll('.tab-c').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('.stab').forEach(el=>el.classList.remove('active'));
   document.getElementById('tab-'+tab).classList.add('active');
-  const tabs=['terrenos','defensa','construir','ataques','bio'];
+  const tabs=['terrenos','defensa','construir','ataques','bio','investigacion'];
   document.querySelectorAll('.stab').forEach((el,i)=>{if(tabs[i]===tab)el.classList.add('active');});
   if(tab==='defensa')renderDefenseList();
   if(tab==='construir'&&gameState.selectedId)updateBuildTab(gameState.selectedId);
   if(tab==='ataques')renderAttacksList();
   if(tab==='bio')renderBioTab();
+  if(tab==='investigacion'){ renderResearchPanel(); updateResearchHUD(); }
 }
 
 // ══════════════════════════════════════
@@ -10809,6 +11239,10 @@ function completeResearch(researchId) {
   if (typeof addLog === 'function') {
     addLog(`✅ ${research.name} completada`, 'green');
   }
+  // 🔬 Apply effect to game modifiers + play sound
+  if (typeof applyResearchEffect === 'function') applyResearchEffect(researchId);
+  if (typeof SoundEngine !== 'undefined') SoundEngine.playResearchComplete();
+  if (typeof renderResearchPanel === 'function') renderResearchPanel();
   return true;
 }
 
