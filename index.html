@@ -244,10 +244,24 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
 
 /* Attack alert */
 .attack-alert{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-30px);
-  background:rgba(255,0,102,0.15);border:1px solid var(--pink);border-radius:var(--r);
-  padding:8px 18px;font-family:'Orbitron',sans-serif;font-size:10px;color:var(--pink);
-  opacity:0;pointer-events:none;z-index:2000;transition:.3s;text-align:center;box-shadow:0 0 20px rgba(255,0,102,0.3);}
-.attack-alert.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  background:rgba(255,0,102,0.18);border:1px solid var(--pink);border-radius:var(--r);
+  padding:10px 22px;font-family:'Orbitron',sans-serif;font-size:11px;color:var(--pink);
+  opacity:0;pointer-events:none;z-index:2000;transition:.3s;text-align:center;
+  box-shadow:0 0 28px rgba(255,0,102,0.4),0 0 60px rgba(255,0,102,0.15);
+  letter-spacing:2px;text-shadow:0 0 12px rgba(255,0,102,0.8);}
+.attack-alert.show{opacity:1;transform:translateX(-50%) translateY(0);animation:attackShake 0.4s ease,attackGlow 1.2s ease-in-out infinite 0.4s;}
+@keyframes attackShake{
+  0%{transform:translateX(-50%) translateY(0) scale(0.85);}
+  20%{transform:translateX(calc(-50% + 6px)) translateY(0) scale(1.05);}
+  40%{transform:translateX(calc(-50% - 5px)) translateY(0) scale(1.02);}
+  60%{transform:translateX(calc(-50% + 3px)) translateY(0) scale(1.01);}
+  80%{transform:translateX(calc(-50% - 2px)) translateY(0) scale(1.0);}
+  100%{transform:translateX(-50%) translateY(0) scale(1.0);}
+}
+@keyframes attackGlow{
+  0%,100%{box-shadow:0 0 28px rgba(255,0,102,0.4),0 0 60px rgba(255,0,102,0.15);}
+  50%{box-shadow:0 0 40px rgba(255,0,102,0.7),0 0 80px rgba(255,0,102,0.3);}
+}
 
 /* ══ RIGHT SIDEBAR ══ */
 .sidebar{background:var(--bg1);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
@@ -755,6 +769,72 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
 .terms-body p{font-size:11px;color:var(--muted);line-height:1.6;margin-bottom:4px;}
 .terms-foot{padding:10px 18px;border-top:1px solid var(--border);}
 .terms-accept{width:100%;padding:10px;border-radius:var(--r);background:linear-gradient(135deg,var(--gold),var(--pink));color:#fff;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;border:none;cursor:pointer;letter-spacing:1px;}
+
+/* ═══════════════════════════════════════════════════════
+   GLOBAL ATTACK SYSTEM — Live Feed & Controls
+══════════════════════════════════════════════════════ */
+/* Attack Flash Full Screen */
+.g-attack-flash{position:fixed;inset:0;pointer-events:none;z-index:890;opacity:0;}
+.g-attack-flash.show{animation:g-flash-out .55s ease forwards;}
+@keyframes g-flash-out{0%{opacity:.22}100%{opacity:0}}
+
+/* Explosion Float Label */
+.g-exp-label{position:fixed;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:2px;pointer-events:none;z-index:891;transform:translate(-50%,-50%);
+  animation:g-exp-rise 1.8s ease forwards;}
+@keyframes g-exp-rise{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.5);}
+  15%{opacity:1;transform:translate(-50%,-50%) scale(1.15);}
+  40%{opacity:1;transform:translate(-50%,-70%) scale(1);}
+  100%{opacity:0;transform:translate(-50%,-120%) scale(.8);}
+}
+
+/* Global Attack Live Feed block */
+.g-atk-feed{display:flex;flex-direction:column;gap:3px;max-height:180px;overflow-y:auto;overflow-x:hidden;}
+.g-atk-feed::-webkit-scrollbar{width:2px;}
+.g-atk-feed::-webkit-scrollbar-thumb{background:rgba(255,0,102,.3);}
+.g-atk-item{display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:3px;
+  border-left:2px solid;animation:cfSlideIn .3s ease;font-size:8px;}
+.g-atk-item.clr-pink{border-color:#ff0066;background:rgba(255,0,102,.04);}
+.g-atk-item.clr-gold{border-color:#f59e0b;background:rgba(245,158,11,.04);}
+.g-atk-item.clr-cyan{border-color:#00f5ff;background:rgba(0,245,255,.04);}
+.g-atk-item.clr-purple{border-color:#9945ff;background:rgba(153,69,255,.04);}
+.g-atk-item.clr-green{border-color:#00ff88;background:rgba(0,255,136,.04);}
+.g-atk-icon{font-size:12px;flex-shrink:0;}
+.g-atk-txt{flex:1;color:rgba(200,220,255,.75);line-height:1.35;}
+.g-atk-time{font-size:6.5px;color:rgba(0,245,255,.22);white-space:nowrap;font-family:'Share Tech Mono',monospace;}
+
+/* Globe overlay — attack control mini-panel */
+.g-ctrl-overlay{position:absolute;top:40px;right:12px;z-index:31;
+  background:rgba(2,2,14,.93);border:1px solid rgba(0,245,255,.12);border-radius:6px;
+  padding:10px;display:flex;flex-direction:column;gap:6px;min-width:178px;}
+.g-ctrl-hdr{font-size:7px;color:rgba(0,245,255,.4);letter-spacing:2px;margin-bottom:2px;font-family:'Rajdhani',sans-serif;font-weight:700;}
+.g-ctrl-row{display:flex;align-items:center;justify-content:space-between;gap:4px;}
+.g-ctrl-stat{text-align:center;}
+.g-ctrl-val{font-family:'Orbitron',sans-serif;font-size:11px;color:var(--gold);}
+.g-ctrl-lbl{font-size:6px;color:rgba(0,245,255,.3);letter-spacing:1.5px;}
+.g-ctrl-sep{height:1px;background:rgba(0,245,255,.07);}
+.g-atk-btn{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:4px;
+  border:1px solid rgba(0,245,255,.1);background:rgba(0,245,255,.03);
+  cursor:pointer;transition:all .18s;font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:600;
+  color:rgba(220,240,255,.7);letter-spacing:.5px;}
+.g-atk-btn:hover{border-color:rgba(0,245,255,.35);background:rgba(0,245,255,.08);color:var(--cyan);}
+.g-atk-btn-ico{width:18px;height:18px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
+.g-war-btn{background:linear-gradient(135deg,rgba(255,0,102,.18),rgba(153,69,255,.12));
+  border:1px solid rgba(255,0,102,.35);color:var(--pink);font-family:'Orbitron',sans-serif;
+  font-size:8px;letter-spacing:1px;padding:7px 8px;border-radius:4px;cursor:pointer;
+  transition:all .2s;text-align:center;font-weight:700;}
+.g-war-btn:hover{background:linear-gradient(135deg,rgba(255,0,102,.35),rgba(153,69,255,.25));
+  box-shadow:0 0 14px rgba(255,0,102,.22);}
+.g-war-btn.active{background:linear-gradient(135deg,rgba(255,0,102,.55),rgba(153,69,255,.4));
+  box-shadow:0 0 22px rgba(255,0,102,.35);}
+
+/* Compact attack legend bar */
+.g-legend{position:absolute;bottom:38px;left:50%;transform:translateX(-50%);z-index:31;
+  background:rgba(2,2,14,.82);border:1px solid rgba(0,245,255,.09);border-radius:16px;
+  padding:5px 14px;display:flex;gap:14px;align-items:center;}
+.g-leg-item{display:flex;align-items:center;gap:4px;font-size:7px;color:rgba(180,200,255,.45);letter-spacing:.5px;}
+.g-leg-dot{width:6px;height:6px;border-radius:50%;}
 
 /* NOTIF */
 .notif{position:fixed;bottom:58px;left:50%;transform:translateX(-50%) translateY(20px);
@@ -1329,8 +1409,95 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
   .pozo-bar{left:0!important;}
 }
 
+/* === CIUDADES 3D SCREEN === */
+#ciudadesScreen{position:fixed;inset:0;z-index:900;background:#05080f;display:none;flex-direction:column;}
+#ciudadesScreen.active{display:flex;}
+.ciudades-bar{height:48px;background:linear-gradient(90deg,rgba(0,20,40,0.98),rgba(0,10,25,0.98));
+  border-bottom:1px solid rgba(0,212,255,0.25);display:flex;align-items:center;
+  justify-content:space-between;padding:0 16px;flex-shrink:0;z-index:10;}
+.ciudades-bar-logo{font-family:'Orbitron',sans-serif;font-size:16px;font-weight:900;
+  background:linear-gradient(90deg,#00d4ff,#00ff88);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:3px;}
+.ciudades-back-btn{background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);color:#00d4ff;
+  padding:6px 14px;border-radius:6px;cursor:pointer;font-family:'Rajdhani',sans-serif;
+  font-size:13px;font-weight:600;letter-spacing:1px;transition:all 0.2s;}
+.ciudades-back-btn:hover{background:rgba(0,212,255,0.25);box-shadow:0 0 12px rgba(0,212,255,0.3);}
+#ciudades-iframe{flex:1;border:none;width:100%;display:block;}
+.btn-ciudades{background:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(0,255,136,0.1));
+  border:1px solid rgba(0,212,255,0.4);border-radius:4px;padding:5px 11px;
+  font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;color:#00d4ff;
+  cursor:pointer;letter-spacing:1px;transition:.2s;white-space:nowrap;}
+.btn-ciudades:hover{background:rgba(0,212,255,0.3);box-shadow:0 0 10px rgba(0,212,255,0.4);}
 
-/* ═══ V7 BIOLOGICAL SYSTEMS UI ═══ */
+/* ══ SISTEMA DE DEFENSA GLOBAL — Estilos del globo ══ */
+.g-def-panel{position:absolute;top:40px;left:8px;z-index:32;
+  background:rgba(2,10,2,.94);border:1px solid rgba(0,255,136,.16);border-radius:6px;
+  padding:10px;min-width:185px;display:none;flex-direction:column;gap:6px;}
+.g-def-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,#00ff88,transparent);}
+.g-def-panel.visible{display:flex;}
+.g-def-ttl{font-size:7.5px;color:rgba(0,255,136,.5);letter-spacing:2px;margin-bottom:2px;font-family:'Rajdhani',sans-serif;font-weight:700;}
+.g-def-btn{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:4px;
+  border:1px solid rgba(0,255,136,.12);background:rgba(0,255,136,.03);
+  cursor:pointer;transition:all .18s;font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:600;
+  color:rgba(200,240,210,.7);letter-spacing:.4px;}
+.g-def-btn:hover{border-color:rgba(0,255,136,.4);background:rgba(0,255,136,.09);color:#00ff88;}
+.g-def-btn-ico{width:18px;height:18px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
+.g-def-sep{height:1px;background:rgba(0,255,136,.08);}
+.g-shield-btn{background:linear-gradient(135deg,rgba(0,255,136,.16),rgba(0,245,255,.1));
+  border:1px solid rgba(0,255,136,.42);color:#00ff88;font-family:'Orbitron',sans-serif;
+  font-size:7.5px;letter-spacing:1px;padding:7px 8px;border-radius:4px;cursor:pointer;
+  transition:all .2s;text-align:center;font-weight:700;}
+.g-shield-btn:hover{background:linear-gradient(135deg,rgba(0,255,136,.3),rgba(0,245,255,.2));box-shadow:0 0 14px rgba(0,255,136,.22);}
+.g-shield-btn.active{background:linear-gradient(135deg,rgba(0,255,136,.5),rgba(0,245,255,.3));
+  box-shadow:0 0 22px rgba(0,255,136,.4);color:#fff;}
+
+/* Defense log (bottom left of globe) */
+.g-def-log{position:absolute;bottom:50px;left:8px;z-index:32;
+  background:rgba(2,10,2,.92);border:1px solid rgba(0,255,136,.12);border-radius:6px;
+  padding:8px;min-width:190px;max-width:210px;display:none;}
+.g-def-log.visible{display:block;}
+.g-def-log-ttl{font-size:7px;color:rgba(0,255,136,.45);letter-spacing:2px;margin-bottom:6px;}
+.g-def-log-list{display:flex;flex-direction:column;gap:3px;max-height:140px;overflow:hidden;}
+.g-dl-item{display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:3px;
+  border-left:2px solid #00ff88;background:rgba(0,255,136,.04);animation:cfSlideIn .3s ease;font-size:8px;}
+.g-dl-item.intercepted{border-color:#00ff88;}
+.g-dl-item.blocked{border-color:#00f5ff;background:rgba(0,245,255,.04);}
+.g-dl-item.shielded{border-color:#9945ff;background:rgba(153,69,255,.04);}
+.g-dl-icon{font-size:11px;flex-shrink:0;}
+.g-dl-txt{flex:1;color:rgba(180,240,200,.75);line-height:1.35;}
+.g-dl-time{font-size:6.5px;color:rgba(0,255,136,.25);white-space:nowrap;}
+
+/* Defense HUD stats (bottom left) */
+.g-def-hud{position:absolute;bottom:8px;left:8px;z-index:32;
+  background:rgba(2,10,2,.88);border:1px solid rgba(0,255,136,.12);border-radius:5px;
+  padding:6px 10px;display:none;gap:12px;align-items:center;}
+.g-def-hud.visible{display:flex;}
+.g-dhv{font-family:'Orbitron',sans-serif;font-size:12px;color:#00ff88;line-height:1;}
+.g-dhl{font-size:6px;color:rgba(0,255,136,.35);letter-spacing:1.5px;margin-top:2px;}
+.g-dhsep{width:1px;height:22px;background:rgba(0,255,136,.12);}
+
+/* Shield pulse full-overlay */
+.g-shield-pulse{position:absolute;inset:0;pointer-events:none;z-index:2;opacity:0;border-radius:inherit;}
+.g-shield-pulse.active{animation:g-shield-breathe 2.5s ease-in-out infinite;}
+@keyframes g-shield-breathe{
+  0%,100%{opacity:0;box-shadow:inset 0 0 60px rgba(0,255,136,0);}
+  50%{opacity:1;box-shadow:inset 0 0 60px rgba(0,255,136,.055);}
+}
+
+/* Intercept label float */
+.g-intercept-label{position:fixed;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:2px;pointer-events:none;z-index:891;transform:translate(-50%,-50%);
+  animation:g-intercept-rise 1.6s ease forwards;}
+@keyframes g-intercept-rise{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.4);}
+  20%{opacity:1;transform:translate(-50%,-50%) scale(1.3);}
+  50%{opacity:1;transform:translate(-50%,-65%) scale(1);}
+  100%{opacity:0;transform:translate(-50%,-110%) scale(.9);}
+}
+
+/* ═══════════════════════════════════════════
+   🧬 BIO PANEL — Pestaña Sistema Biológico
+   ═══════════════════════════════════════════ */
 .bio-panel{padding:8px;display:flex;flex-direction:column;gap:6px;overflow-y:auto;max-height:calc(100vh - 140px);}
 .bio-section-title{font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;
   color:rgba(0,212,255,0.6);letter-spacing:2px;text-transform:uppercase;
@@ -1366,25 +1533,6 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
 .research-bar{height:3px;background:rgba(255,255,255,0.08);border-radius:2px;margin-top:4px;}
 .research-bar-fill{height:100%;background:linear-gradient(90deg,#9945ff,#00f5ff);
   border-radius:2px;transition:width .5s;}
-
-/* === CIUDADES 3D SCREEN === */
-#ciudadesScreen{position:fixed;inset:0;z-index:900;background:#05080f;display:none;flex-direction:column;}
-#ciudadesScreen.active{display:flex;}
-.ciudades-bar{height:48px;background:linear-gradient(90deg,rgba(0,20,40,0.98),rgba(0,10,25,0.98));
-  border-bottom:1px solid rgba(0,212,255,0.25);display:flex;align-items:center;
-  justify-content:space-between;padding:0 16px;flex-shrink:0;z-index:10;}
-.ciudades-bar-logo{font-family:'Orbitron',sans-serif;font-size:16px;font-weight:900;
-  background:linear-gradient(90deg,#00d4ff,#00ff88);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:3px;}
-.ciudades-back-btn{background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);color:#00d4ff;
-  padding:6px 14px;border-radius:6px;cursor:pointer;font-family:'Rajdhani',sans-serif;
-  font-size:13px;font-weight:600;letter-spacing:1px;transition:all 0.2s;}
-.ciudades-back-btn:hover{background:rgba(0,212,255,0.25);box-shadow:0 0 12px rgba(0,212,255,0.3);}
-#ciudades-iframe{flex:1;border:none;width:100%;display:block;}
-.btn-ciudades{background:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(0,255,136,0.1));
-  border:1px solid rgba(0,212,255,0.4);border-radius:4px;padding:5px 11px;
-  font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;color:#00d4ff;
-  cursor:pointer;letter-spacing:1px;transition:.2s;white-space:nowrap;}
-.btn-ciudades:hover{background:rgba(0,212,255,0.3);box-shadow:0 0 10px rgba(0,212,255,0.4);}
 </style>
 </head>
 <body>
@@ -1669,6 +1817,34 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
         <div class="hud-block-hdr" onclick="toggleHud(this.parentElement)"><div class="hud-label">📋 LOG DE ACTIVIDAD</div><span class="hud-collapse-icon">&#9660;</span></div><div class="hud-block-body" style="max-height:200px">
         <div class="log-block" id="activity-log" style="max-height:160px;overflow-y:auto;"></div>
       </div></div>
+      <!-- ◉ ATAQUES GLOBALES EN VIVO -->
+      <div class="hud-block" style="background:rgba(255,0,102,0.03);border-color:rgba(255,0,102,0.18);">
+        <div class="hud-block-hdr" onclick="toggleHud(this.parentElement)">
+          <div class="hud-label" style="color:rgba(255,0,102,0.7);display:flex;align-items:center;gap:5px;">
+            <span style="width:5px;height:5px;border-radius:50%;background:#ff0066;box-shadow:0 0 6px #ff0066;display:inline-block;animation:blink-dot 1.2s infinite;"></span>
+            ◉ ATAQUES GLOBALES EN VIVO
+          </div>
+          <span class="hud-collapse-icon">&#9660;</span>
+        </div>
+        <div class="hud-block-body" style="max-height:200px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;padding-bottom:4px;border-bottom:1px solid rgba(255,0,102,.1);">
+            <div style="text-align:center;">
+              <div style="font-family:'Orbitron',sans-serif;font-size:12px;color:var(--gold);" id="g-hud-attacks">0</div>
+              <div style="font-size:6px;color:rgba(0,245,255,.3);letter-spacing:1.5px;">ATAQUES</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-family:'Orbitron',sans-serif;font-size:12px;color:var(--cyan);" id="g-hud-arcs">0</div>
+              <div style="font-size:6px;color:rgba(0,245,255,.3);letter-spacing:1.5px;">ARCOS</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-family:'Orbitron',sans-serif;font-size:12px;color:var(--green);" id="g-hud-countries">40+</div>
+              <div style="font-size:6px;color:rgba(0,245,255,.3);letter-spacing:1.5px;">PAÍSES</div>
+            </div>
+          </div>
+          <div class="g-atk-feed" id="g-attack-log"></div>
+        </div>
+      </div>
+
       <div class="hud-block" style="background:rgba(153,69,255,0.04);border-color:rgba(153,69,255,0.2);">
         <div style="display:flex;justify-content:space-between;align-items:center;">
           <div class="hud-block-hdr" onclick="toggleHud(this.parentElement)"><div class="hud-label" style="color:rgba(153,69,255,0.7);">🤖 ANDROIDES EN RED</div><span class="hud-collapse-icon">&#9660;</span></div><div class="hud-block-body" style="max-height:250px">
@@ -1704,6 +1880,77 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
         <div class="tt-price" id="gt-price">—</div>
         <div class="tt-status" id="gt-status">—</div>
       </div>
+
+      <!-- ◉ GLOBAL ATTACK CONTROL PANEL -->
+      <div class="g-ctrl-overlay" id="g-ctrl-panel">
+        <div class="g-ctrl-hdr">⚡ SISTEMA DE ATAQUES GLOBAL</div>
+        <div class="g-ctrl-row">
+          <div class="g-ctrl-stat"><div class="g-ctrl-val" id="g-ov-attacks">0</div><div class="g-ctrl-lbl">ATAQUES</div></div>
+          <div class="g-ctrl-stat"><div class="g-ctrl-val" id="g-ov-arcs">0</div><div class="g-ctrl-lbl">ARCOS VIVOS</div></div>
+        </div>
+        <div class="g-ctrl-sep"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+          <div class="g-ctrl-hdr" style="margin:0;">LANZAR MANUAL</div>
+          <div style="font-size:6px;color:rgba(0,245,255,.3);letter-spacing:1px;">🔓 = desbloqueado</div>
+        </div>
+        <!-- Dynamic attack buttons — rebuilt by refreshGlobeAttackPanel() -->
+        <div id="g-ctrl-btns" style="display:flex;flex-direction:column;gap:5px;max-height:320px;overflow-y:auto;">
+          <!-- populated by refreshGlobeAttackPanel() -->
+        </div>
+        <div class="g-ctrl-sep" style="margin-top:4px;"></div>
+        <div class="g-war-btn" id="g-war-btn" onclick="globalWarToggle()">⚔ MODO GUERRA GLOBAL</div>
+      </div>
+
+      <!-- ATTACK LEGEND — dynamic -->
+      <div class="g-legend">
+        <div id="g-legend-items" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
+          <!-- populated by refreshGlobeAttackPanel() -->
+        </div>
+      </div>
+
+      <!-- FLASH OVERLAY -->
+      <div class="g-attack-flash" id="g-attack-flash"></div>
+
+      <!-- ══ DEFENSA GLOBAL — Panel ══ -->
+      <div class="g-def-panel" id="g-def-panel">
+        <div class="g-def-ttl">🛡 SISTEMA DE DEFENSA</div>
+        <div class="g-def-btn" onclick="globeActivateDefense('interceptor')">
+          <div class="g-def-btn-ico" style="background:rgba(0,255,136,.12);border:1px solid rgba(0,255,136,.3);">🚀</div>Interceptor SAM
+        </div>
+        <div class="g-def-btn" onclick="globeActivateDefense('laser')">
+          <div class="g-def-btn-ico" style="background:rgba(0,245,255,.12);border:1px solid rgba(0,245,255,.3);">⚡</div>Láser de Alta Energía
+        </div>
+        <div class="g-def-btn" onclick="globeActivateDefense('emp')">
+          <div class="g-def-btn-ico" style="background:rgba(153,69,255,.12);border:1px solid rgba(153,69,255,.3);">🔮</div>Pulso EMP · Área
+        </div>
+        <div class="g-def-btn" onclick="globeActivateDefense('cyberdefense')">
+          <div class="g-def-btn-ico" style="background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.25);">🛡</div>Contra-Hackeo IA
+        </div>
+        <div class="g-def-btn" onclick="globeActivateDefense('quarantine')">
+          <div class="g-def-btn-ico" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);">🧬</div>Cuarentena Bio-Escudo
+        </div>
+        <div class="g-def-sep"></div>
+        <div class="g-shield-btn" id="g-shield-btn" onclick="globeToggleShield()">🌐 ESCUDO GLOBAL TOTAL</div>
+        <div class="g-def-btn" onclick="globeClearDefenses()" style="font-size:8px;color:rgba(180,255,200,.35);">⏹ Desactivar defensas</div>
+      </div>
+
+      <!-- Defense log bottom-left -->
+      <div class="g-def-log" id="g-def-log">
+        <div class="g-def-log-ttl">🛡 ACTIVIDAD DEFENSIVA</div>
+        <div class="g-def-log-list" id="g-def-log-list"></div>
+      </div>
+
+      <!-- Defense HUD stats -->
+      <div class="g-def-hud" id="g-def-hud">
+        <div><div class="g-dhv" id="g-def-intercepted">0</div><div class="g-dhl">INTERCEPTADOS</div></div>
+        <div class="g-dhsep"></div>
+        <div><div class="g-dhv" id="g-def-blocked" style="color:#00f5ff;text-shadow:0 0 8px rgba(0,245,255,.4);">0</div><div class="g-dhl">BLOQUEADOS</div></div>
+        <div class="g-dhsep"></div>
+        <div><div class="g-dhv" id="g-def-rate" style="color:#f59e0b;">0%</div><div class="g-dhl">EFICIENCIA</div></div>
+      </div>
+
+      <!-- Shield pulse overlay -->
+      <div class="g-shield-pulse" id="g-shield-pulse"></div>
     
       <div style="position:absolute;bottom:40px;right:12px;z-index:30;display:flex;flex-direction:column;gap:6px;">
         <button onclick="globeZoom(-1)" style="width:32px;height:32px;border-radius:4px;border:1px solid var(--border);background:rgba(2,2,8,0.85);color:var(--cyan);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:monospace;">+</button>
@@ -1748,6 +1995,25 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
         <div id="build-cities" style="margin:5px 8px 0;"></div>
         <div class="build-list" id="build-items"></div>
       </div>
+      <div class="tab-c" id="tab-ataques">
+        <!-- LIVE FEED header -->
+        <div style="padding:6px 8px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:8px;color:rgba(255,165,0,0.85);letter-spacing:1.5px;">⚔ ATAQUES EN TIEMPO REAL</span>
+          <span style="font-size:7px;color:var(--green);animation:blink-dot 1.2s infinite;">● LIVE</span>
+        </div>
+        <!-- LIVE COMBAT FEED (orbe + datos flotantes) -->
+        <div id="combat-feed" style="padding:6px 0;border-bottom:1px solid var(--border);min-height:90px;position:relative;overflow:hidden;background:rgba(255,0,102,0.02);"></div>
+        <!-- UNLOCKED ATTACKS LIST -->
+        <div style="padding:5px 8px;font-size:7px;color:rgba(255,165,0,0.55);letter-spacing:1px;border-bottom:1px solid var(--border);">⚔ MIS ATAQUES DESBLOQUEADOS</div>
+        <div class="defense-list" id="attacks-list" style="flex:1;overflow-y:auto;"></div>
+        <div style="padding:6px 8px;border-top:1px solid var(--border);">
+          <div style="font-size:7px;color:var(--muted);line-height:1.5;">Ataques se desbloquean al construir el edificio correspondiente.</div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════ -->
+      <!-- 🧬 PESTAÑA BIO — Sistema Biológico Completo -->
+      <!-- ══════════════════════════════════════════ -->
       <div class="tab-c" id="tab-bio">
         <div class="bio-panel">
           <div id="pandemic-ticker-wrap"></div>
@@ -1770,21 +2036,6 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
               <button class="bio-btn" onclick="stopBioChain()">DETENER</button>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="tab-c" id="tab-ataques">
-        <!-- LIVE FEED header -->
-        <div style="padding:6px 8px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-          <span style="font-size:8px;color:rgba(255,165,0,0.85);letter-spacing:1.5px;">⚔ ATAQUES EN TIEMPO REAL</span>
-          <span style="font-size:7px;color:var(--green);animation:blink-dot 1.2s infinite;">● LIVE</span>
-        </div>
-        <!-- LIVE COMBAT FEED (orbe + datos flotantes) -->
-        <div id="combat-feed" style="padding:6px 0;border-bottom:1px solid var(--border);min-height:90px;position:relative;overflow:hidden;background:rgba(255,0,102,0.02);"></div>
-        <!-- UNLOCKED ATTACKS LIST -->
-        <div style="padding:5px 8px;font-size:7px;color:rgba(255,165,0,0.55);letter-spacing:1px;border-bottom:1px solid var(--border);">⚔ MIS ATAQUES DESBLOQUEADOS</div>
-        <div class="defense-list" id="attacks-list" style="flex:1;overflow-y:auto;"></div>
-        <div style="padding:6px 8px;border-top:1px solid var(--border);">
-          <div style="font-size:7px;color:var(--muted);line-height:1.5;">Ataques se desbloquean al construir el edificio correspondiente.</div>
         </div>
       </div>
     </div>
@@ -2490,15 +2741,370 @@ const gameState = {
   buildings: {},
   territories: {},
   defenses: {},
-  // ═══ V7 SISTEMAS BIOLÓGICOS ═══
-  research: {},            // {id: {unlocked:true, completedAt:ts}}
-  researchPoints: 0,       // puntos de investigación acumulados
-  alliances: [],           // [{id, type, ally, expiresAt, benefits}]
-  bioChain: {active:false, stage:0, startTerritory:null, virus:null, affectedTerritories:[], powerLevel:1.0, lastProgress:0},
-  pandemicEvents: [],      // eventos activos [{id, type, expiresAt, effect}]
-  portAbilities: [],       // habilidades de puerto activas
-  maritimeFleet: {carriers:0, submarines:0, battleships:0}
+  // 🧬 NUEVOS SISTEMAS BIOLÓGICOS
+  research: {},                    // Investigaciones desbloqueadas
+  researchPoints: 0,              // Puntos para investigación
+  alliances: [],                  // Alianzas defensivas activas
+  bioChain: {active:false,stage:0,virus:null,mutation:null},  // Cadenas biológicas
+  pandemicEvents: [],             // Eventos pandémicos en progreso
+  portAbilities: [],              // Habilidades de puerto activas
+  maritimeFleet: {carriers:0,submarines:0,battleships:0}  // Flota marítima
 };
+
+// ════════════════════════════════════════════════════════
+// 🧬 SISTEMA 1: INVESTIGACIONES/UPGRADES BIOLÓGICOS
+// ════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+// ╔═╗╦╦  ╔═╗╔═╗╦╔╗╔  V8 — SISTEMAS BIOLÓGICOS INTEGRADOS
+// ╚═╗║║  ║  ║ ║║║║║  index.html → solcoin_v7_bio_complete
+// ╚═╝╩╩═╝╚═╝╚═╝╩╝╚╝
+// ═══════════════════════════════════════════════════════════
+
+// SISTEMA 1: 6 INVESTIGACIONES BIOLÓGICAS (datos de index.html)
+const RESEARCH_TREE = {
+  'bio_enhancement': {
+    id: 'bio_enhancement',
+    name: '🧫 Mejora Biológica Nv1',
+    desc: 'Aumento de daño en ataques pandémicos y de crucero.',
+    cost: 0.200,
+    researchPoints: 50,
+    effect: 'Ataques biológicos +15% daño',
+    applies: ['pandemia','crucero_infeccioso'],
+    icon: '🧫'
+  },
+  'viral_mutation': {
+    id: 'viral_mutation',
+    name: '🦠 Mutación Viral',
+    desc: 'Expande área de efecto. Sinergia con Cadenas Biológicas.',
+    cost: 0.350,
+    researchPoints: 75,
+    req: 'bio_enhancement',
+    effect: 'Ataques duran +20%, afectan 2 territorios adyacentes',
+    icon: '🦠'
+  },
+  'pandemic_resistance': {
+    id: 'pandemic_resistance',
+    name: '🛡 Resistencia Pandémica',
+    desc: 'Aplicable a Vacunación y Paciente Cero. Prioridad ALTA.',
+    cost: 0.280,
+    researchPoints: 60,
+    effect: 'Defensas biológicas +25% efectivas',
+    applies: ['vacunacion','paciente_cero'],
+    icon: '🛡'
+  },
+  'bio_weapon_advanced': {
+    id: 'bio_weapon_advanced',
+    name: '☠ Arma Biológica Avanzada',
+    desc: 'Riesgo: puede disparar eventos pandémicos globales. Cooldown 48h.',
+    cost: 0.500,
+    researchPoints: 100,
+    req: 'viral_mutation',
+    effect: 'Desbloquea Arma Biológica Sintética (2.5x daño)',
+    cooldown: '48h',
+    icon: '☠'
+  },
+  'immune_fortification': {
+    id: 'immune_fortification',
+    name: '💪 Fortificación Inmunológica',
+    desc: 'Solo aplica a territorios con Puerto construido.',
+    cost: 0.300,
+    researchPoints: 70,
+    effect: 'Puertos generan +50% defensa pasiva. +0.0025 SOL/ciclo',
+    icon: '💪'
+  },
+  'pathogen_control': {
+    id: 'pathogen_control',
+    name: '💉 Control de Patógenos',
+    desc: 'Reduce eventos pandémicos negativos. 40% probabilidad de evitar evento crítico.',
+    cost: 0.400,
+    researchPoints: 90,
+    req: 'pandemic_resistance',
+    effect: 'Controla pandemias: -40% daño aleatorio',
+    icon: '💉'
+  }
+};
+
+const RESEARCH_UPGRADES = Object.values(RESEARCH_TREE);
+
+// ════════════════════════════════════════════════════════
+// 🚢 SISTEMA 2: NUEVOS ATAQUES MARÍTIMOS
+// ════════════════════════════════════════════════════════
+// SISTEMA 2: 3 ATAQUES MARÍTIMOS (datos de index.html)
+const MARITIME_ATTACKS = {
+  portaaviones: {
+    id: 'portaaviones',
+    name: '✈ Ataque Portaaviones',
+    emoji: '✈',
+    desc: 'Escuadrón aéreo desde el mar. Bombardea hasta 3 edificios enemigos.',
+    cost: 0.200,
+    damage: 1.8,
+    range: 'ultra_largo',
+    duration: '48h',
+    reqBuilding: 'puerto',
+    color: '#fbbf24',
+    speed: 0.012,
+    arcHeight: 1.8,
+    icon: '✈'
+  },
+  submarino_sigiloso: {
+    id: 'submarino_sigiloso',
+    name: '🚢 Submarino Sigiloso',
+    emoji: '🚢',
+    desc: 'Torpedos biológicos. INDETECTABLE. Mayor tiempo de carga.',
+    cost: 0.250,
+    damage: 2.0,
+    range: 'ultra_largo',
+    duration: '72h',
+    reqBuilding: 'puerto',
+    color: '#06b6d4',
+    speed: 0.008,
+    arcHeight: 1.3,
+    stealthMode: true,
+    cooldown: '8h',
+    icon: '🚢'
+  },
+  bombardeo_acorazado: {
+    id: 'bombardeo_acorazado',
+    name: '⚓ Bombardeo Acorazado',
+    emoji: '⚓',
+    desc: 'Artillería pesada desde el puerto. Rompe defensas: ignora 30%.',
+    cost: 0.180,
+    damage: 1.6,
+    range: 'largo',
+    duration: '36h',
+    reqBuilding: 'puerto',
+    color: '#64748b',
+    speed: 0.009,
+    arcHeight: 1.5,
+    defenseBreaker: true,
+    icon: '⚓'
+  }
+};
+
+const MARITIME_FLEET = {
+  'portaaviones': {id:'porta', name:'Portaaviones', cost:0.150, capacity:12, speed:0.7},
+  'submarino_sigiloso': {id:'sub', name:'Submarino Sigiloso', cost:0.200, capacity:4, speed:0.4, stealth:true},
+  'bombardeo_acorazado': {id:'acor', name:'Acorazado', cost:0.120, capacity:8, speed:0.5}
+};
+
+// ════════════════════════════════════════════════════════
+// ⚓ SISTEMA 3: HABILIDADES ESPECIALES DEL PUERTO
+// ════════════════════════════════════════════════════════
+// SISTEMA 3: 5 HABILIDADES ESPECIALES DE PUERTO (datos de index.html)
+const PORT_ABILITIES = [
+  {
+    id: 'puerto_refuge',
+    name: '🏖 Puerto Refugio',
+    cost: 0.080,
+    duration: 12*3600000,
+    cooldown: 24*3600000,
+    effect: {damageReduction: 0.50},
+    desc: 'Territorio zona de seguridad. -50% daño recibido por 12h.',
+    icon: '🏖'
+  },
+  {
+    id: 'puerto_garrison',
+    name: '💂 Guarnición Puerto',
+    cost: 0.100,
+    duration: 24*3600000,
+    cooldown: 7*24*3600000,
+    effect: {autoDefense: 2, every: 6*3600000},
+    desc: '+2 defensas automáticas cada 6h vs ataques marítimos.',
+    icon: '💂'
+  },
+  {
+    id: 'puerto_trade',
+    name: '💼 Ruta Comercial',
+    cost: 0.060,
+    duration: 24*3600000,
+    cooldown: 7*24*3600000,
+    effect: {bonusIncome: 0.010},
+    desc: '+0.010 SOL/ciclo por 24h. Total ~+0.240 SOL.',
+    icon: '💼'
+  },
+  {
+    id: 'puerto_research',
+    name: '📚 Centro de Investigación',
+    cost: 0.075,
+    duration: 8*3600000,
+    cooldown: 2*24*3600000,
+    effect: {researchPoints: 30},
+    desc: '+30 puntos de investigación. ~3.75 pts/hora.',
+    icon: '📚'
+  },
+  {
+    id: 'puerto_epidemic',
+    name: '🦠 Laboratorio Epidémico',
+    cost: 0.090,
+    duration: 12*3600000,
+    cooldown: 3*24*3600000,
+    effect: {enableBioChain: true},
+    desc: 'Permite iniciar cadena biológica controlada.',
+    icon: '🦠'
+  }
+];
+
+// ════════════════════════════════════════════════════════
+// 🌍 SISTEMA 4: EVENTOS PANDÉMICOS ALEATORIOS
+// ════════════════════════════════════════════════════════
+// SISTEMA 4: 5 TIPOS DE EVENTOS PANDÉMICOS (datos de index.html)
+const PANDEMIC_EVENTS = {
+  brote_local: {
+    id: 'brote_local',
+    name: '🦠 Brote Local',
+    probability: 0.15,
+    damage: -0.20,
+    duration: 12*3600000,
+    affectedCount: 1,
+    desc: 'Un territorio aleatorio pierde 20% ingresos por 12h.',
+    severity: 'low',
+    icon: '🦠'
+  },
+  epidemia_regional: {
+    id: 'epidemia_regional',
+    name: '🌍 Epidemia Regional',
+    probability: 0.08,
+    damage: -0.30,
+    duration: 24*3600000,
+    affectedCount: 'all',
+    desc: 'TODOS los territorios pierden 30% ingresos por 24h.',
+    severity: 'medium',
+    icon: '🌍'
+  },
+  pandemia_global: {
+    id: 'pandemia_global',
+    name: '💀 Pandemia Global',
+    probability: 0.03,
+    damage: -0.50,
+    defenseBreak: 0.40,
+    duration: 48*3600000,
+    affectedCount: 'all',
+    desc: 'CRÍTICO: -50% + 40% defensas destruidas.',
+    severity: 'critical',
+    icon: '💀'
+  },
+  resistencia_inmune: {
+    id: 'resistencia_inmune',
+    name: '💪 Resistencia Inmune',
+    probability: 0.10,
+    bonus: 0.15,
+    duration: 18*3600000,
+    affectedCount: 'all',
+    positive: true,
+    desc: 'POSITIVO: Todos +15% ingresos por 18h.',
+    severity: 'positive',
+    icon: '💪'
+  },
+  nueva_mutacion: {
+    id: 'nueva_mutacion',
+    name: '🧫 Nueva Mutación',
+    probability: 0.05,
+    damage: -0.25,
+    spreadBonus: 0.25,
+    duration: 36*3600000,
+    affectedCount: 'random',
+    desc: 'Mutación emergente. +25% velocidad propagación.',
+    severity: 'high',
+    icon: '🧫'
+  }
+};
+
+const PANDEMIC_EVENT_LIST = Object.values(PANDEMIC_EVENTS);
+
+// ════════════════════════════════════════════════════════
+// 🧬 SISTEMA 5: SISTEMAS DE CADENA BIOLÓGICA (MUTACIONES)
+// ════════════════════════════════════════════════════════
+// SISTEMA 5: 4 ETAPAS CADENA BIOLÓGICA + 4 TIPOS DE MUTACIÓN (datos de index.html)
+const BIOCHAIN_STAGES = [
+  {stage:1, name:'🦠 Virus Original',      duration:24*3600000, powerLevel:1.00, spreadRate:0.15,
+   affectAdjacent:0,   damage:-0.20, desc:'Liberación inicial. Solo territorio origen.'},
+  {stage:2, name:'🧫 Virus Propagándose',  duration:36*3600000, powerLevel:1.35, spreadRate:0.25,
+   affectAdjacent:3,   damage:-0.30, desc:'Se expande a 2-3 territorios adyacentes.'},
+  {stage:3, name:'💪 Mutación Alpha',       duration:48*3600000, powerLevel:1.75, spreadRate:0.35,
+   affectAdjacent:5,   damage:-0.40, defenseReduction:0.25, desc:'Muta: +50% poder, infecta 5 territorios.'},
+  {stage:4, name:'💀 Pandemia Total',       duration:60*3600000, powerLevel:2.50, spreadRate:1.0,
+   affectAdjacent:999, globalDamage:-0.60, defenseReduction:0.40, desc:'MÁXIMO: afecta TODO el mapa. Daño -60% global.'}
+];
+
+// Alias for backward compat
+const BIO_CHAIN_SYSTEM = {
+  stage1_initial:   BIOCHAIN_STAGES[0],
+  stage2_spreading: BIOCHAIN_STAGES[1],
+  stage3_mutation:  BIOCHAIN_STAGES[2],
+  stage4_pandemic:  BIOCHAIN_STAGES[3]
+};
+
+const BIO_MUTATION_TYPES = {
+  airborne:  {name:'Mutación Aérea',       modifier:2.0, spreadRate:2.0,
+              desc:'Se propaga 2x más rápido. Llega Etapa 4 en ~3 días.'},
+  aquatic:   {name:'Mutación Acuática',    modifier:1.8, targetPreference:'puerto',
+              desc:'Ataca territorios con puertos. +50% daño a ingresos portuarios.'},
+  resistant: {name:'Mutación Resistente',  modifier:1.6, effectAgainstDefense:0.6,
+              desc:'Defensas 40% menos efectivas.'},
+  adaptive:  {name:'Mutación Adaptativa',  modifier:2.2, behavior:'cambia cada 4h',
+              desc:'Cambia de tipo cada 4h. La más peligrosa.'}
+};
+
+// ════════════════════════════════════════════════════════
+// 🤝 SISTEMA 6: ALIANZAS DEFENSIVAS ANTI-EPIDEMIA
+// ════════════════════════════════════════════════════════
+// SISTEMA 6: 5 TIPOS DE ALIANZAS DEFENSIVAS (datos de index.html)
+const ALLIANCE_SYSTEM = {
+  bio_defense_pact: {
+    id: 'bio_defense_pact',
+    name: '🤝 Pacto Defensa Biológica',
+    cost: 0.150,
+    duration: 7*24*3600000,
+    maxAllies: 5,
+    benefits: {defCostReduction: 0.20, defenseSharing: true},
+    desc: 'Defensas biológicas 20% más baratas. Comparten escudo.',
+    icon: '🤝'
+  },
+  epidemic_control: {
+    id: 'epidemic_control',
+    name: '🧫 Unión Control Epidémico',
+    cost: 0.200,
+    duration: 14*24*3600000,
+    maxAllies: 8,
+    benefits: {pandemicControl: true, damageReduction: 0.35},
+    desc: '-35% daño de eventos pandémicos. Puede evitar Pandemia Global.',
+    icon: '🧫'
+  },
+  maritime_coalition: {
+    id: 'maritime_coalition',
+    name: '⚓ Coalición Marítima',
+    cost: 0.180,
+    duration: 10*24*3600000,
+    maxAllies: 6,
+    benefits: {fleetBoosting: true, damageBoost: 0.40},
+    desc: 'Flotas marítimas +40% daño cuando atacan juntos.',
+    icon: '⚓'
+  },
+  research_collective: {
+    id: 'research_collective',
+    name: '📚 Colectivo de Investigación',
+    cost: 0.120,
+    duration: 14*24*3600000,
+    maxAllies: 10,
+    benefits: {sharedResearch: true, researchSpeedBoost: 0.50},
+    desc: '+50% velocidad investigación. 1.5x más rápido.',
+    icon: '📚'
+  },
+  mutual_immunization: {
+    id: 'mutual_immunization',
+    name: '💉 Inmunización Mutua',
+    cost: 0.090,
+    duration: 5*24*3600000,
+    maxAllies: 8,
+    benefits: {mutualImmunity: true, damageReduction: 0.45},
+    desc: '-45% daño pandémico entre aliados.',
+    icon: '💉'
+  }
+};
+
+const ALLIANCE_TYPES = Object.values(ALLIANCE_SYSTEM);
+
+// ════════════════════════════════════════════════════════
 
 const STATES = {
   BC:{name:'Baja California',capital:'Mexicali',pop:'3.7M',price:0.280,income_base:0.0012,coords:{lat:30.8,lng:-115.7},cities:['Mexicali','Tijuana','Ensenada','Tecate','Rosarito']},
@@ -2975,8 +3581,8 @@ const DEFENSE_SYSTEMS = [
   {id:'ejercito',name:'⚔️ Ejército Digital',desc:'Fuerzas combinadas tierra-aire. Permite contraatacar y lanzar operaciones ofensivas.',cost:0.100,duration:'1 ataque',power:8},
   {id:'bunker',name:'🏰 Búnker Neural',desc:'Protección máxima del territorio. Reduce pérdidas en caso de captura enemiga al 20%.',cost:0.060,duration:'96h',power:6},
   {id:'radar',name:'📡 Radar Cuántico',desc:'Detecta ataques con 2h de anticipación. Alerta automática al jugador.',cost:0.030,duration:'120h',power:3},
-  {id:'vacunacion',name:'💉 Vacunación Paciente 0',desc:'Inmunización territorial contra patógenos biológicos. Bloquea ataques pandémicos por 6h.',cost:0.055,duration:'6h',power:5,req:'puerto'},
-  {id:'paciente_cero',name:'🧟 Paciente Cero',desc:'Defensa biológica avanzada de largo plazo. Resistencia máxima a ataques epidemiológicos por 24h.',cost:0.670,duration:'24h',power:8,req:'puerto'}
+  {id:'vacunacion',name:'💉 Vacunación Paciente 0',desc:'Protocolo de respuesta biológica inmediata. Inmuniza el territorio contra Crucero Infeccioso y Pandemia por 72h.',cost:0.055,duration:'72h',power:5,req:'puerto'},
+  {id:'paciente_cero',name:'🧟 Paciente Cero',desc:'ARMA DUAL — Infecta tu propio territorio como señuelo para atraer y neutralizar agentes enemigos. Convierte el contagio en escudo biológico de máxima potencia.',cost:0.670,duration:'48h',power:10,req:'puerto'}
 ];
 
 // ATAQUES por edificio construido
@@ -2987,10 +3593,7 @@ const BUILDING_ATTACKS = {
   'refineria':  {id:'sabotaje',name:'🛢️ Sabotaje Industrial',desc:'Sabotea la refinería enemiga. Elimina ingresos industriales por 72h.',cost:0.070,req:'refineria'},
   'agencia_espacial':{id:'ufo_ataque',name:'🛸 Fenómeno Aéreo No Identificado',desc:'Protocolo desclasificado OVNI. Colapsa las defensas enemigas. Daño masivo.',cost:0.150,req:'agencia_espacial'},
   'laboratorio':{id:'neuro_hack',name:'🧬 NeuroHack Cuántico',desc:'Hackeo de laboratorio. Roba 20% de los ingresos pasivos del enemigo por 24h.',cost:0.100,req:'laboratorio'},
-  'puerto':{id:'crucero_infeccioso',name:'🦠 Crucero Infeccioso',desc:'Libera una epidemia marina. Bloquea el comercio enemigo por 36h.',cost:0.075,req:'puerto'},
-  'puerto_portaaviones':{id:'portaaviones',name:'✈ Ataque Portaaviones',desc:'Escuadrón aéreo desde el mar. Bombardea hasta 3 edificios enemigos.',cost:0.200,req:'puerto'},
-  'puerto_submarino':{id:'submarino_sigiloso',name:'🚢 Submarino Sigiloso',desc:'Torpedos biológicos silenciosos. No puede ser detectado. Cooldown 8h.',cost:0.250,req:'puerto'},
-  'puerto_acorazado':{id:'bombardeo_acorazado',name:'⚓ Bombardeo Acorazado',desc:'Fuego de artillería pesada desde el puerto. Ignora 30% de defensa enemiga.',cost:0.180,req:'puerto'}
+  'puerto':     {id:'crucero_infeccioso',name:'🦠 Crucero Infeccioso',desc:'Despacha un crucero con carga biológica al territorio enemigo. Bloquea puertos e ingresos marítimos por 36h y contagia edificios adyacentes.',cost:0.095,req:'puerto'}
 };
 
 const BUILDINGS = [
@@ -3003,119 +3606,10 @@ const BUILDINGS = [
   {id:'cuartel',name:'Cuartel General',emoji:'🏯',cost:0.050,income:0.0025,req:'torre',attack:'marcha',attackLabel:'🥾 Operación Marcha'},
   {id:'hospital',name:'Hospital BioTech',emoji:'🏥',cost:0.045,income:0.0020,req:'universidad',attack:'pandemia',attackLabel:'☣️ Ataque Pandemia'},
   {id:'refineria',name:'Refinería Industrial',emoji:'🛢️',cost:0.055,income:0.0030,req:'fabrica',attack:'sabotaje',attackLabel:'🛢️ Sabotaje Industrial'},
+  {id:'puerto',name:'Puerto Biológico',emoji:'🏖️',cost:0.055,income:0.005,req:null,attack:'crucero_infeccioso',attackLabel:'🦠 Crucero Infeccioso'},
   {id:'laboratorio',name:'Laboratorio Cuántico',emoji:'🧬',cost:0.070,income:0.0040,req:'hospital',attack:'neuro_hack',attackLabel:'🧬 NeuroHack Cuántico'},
   {id:'agencia_espacial',name:'Agencia Espacial / NASA',emoji:'🚀',cost:0.120,income:0.0065,req:'laboratorio',attack:'ufo_ataque',attackLabel:'🛸 OVNI — Fenómeno Aéreo No Identificado'},
-  {id:'puerto',name:'Puerto Biológico',emoji:'🏖️',cost:0.055,income:0.0050,req:null,attack:'crucero_infeccioso',attackLabel:'🦠 Crucero Infeccioso'}
 ];
-
-// ═══════════════════════════════════════════════════════════
-// ╔═╗╦╦  ╔═╗╔═╗╦╔╗╔  V7 — SISTEMAS BIOLÓGICOS COMPLETOS
-// ╚═╗║║  ║  ║ ║║║║║  Mayo 2026
-// ╚═╝╩╩═╝╚═╝╚═╝╩╝╚╝
-// ═══════════════════════════════════════════════════════════
-
-// SISTEMA 1: INVESTIGACIONES BIOLÓGICAS
-const RESEARCHES = [
-  {id:'bio_enhancement',name:'🧫 Mejora Biológica Nv1',cost:0.200,points:50,
-   effect:'Ataques biológicos +15% daño',applies:['pandemia','crucero_infeccioso'],
-   desc:'Aumento de daño en ataques pandémicos y de crucero.'},
-  {id:'viral_mutation',name:'🦠 Mutación Viral',cost:0.350,points:75,req:'bio_enhancement',
-   effect:'Ataques duran +20%, afectan 2 territorios adyacentes',
-   desc:'Expande área de efecto. Sinergia con Cadenas Biológicas.'},
-  {id:'pandemic_resistance',name:'🛡 Resistencia Pandémica',cost:0.280,points:60,
-   effect:'Defensas biológicas +25% efectivas',applies:['vacunacion','paciente_cero'],
-   desc:'Aplicable a Vacunación y Paciente Cero. Prioridad ALTA.'},
-  {id:'bio_weapon_advanced',name:'☠ Arma Biológica Avanzada',cost:0.500,points:100,req:'viral_mutation',
-   effect:'Desbloquea Arma Biológica Sintética (2.5x daño)',
-   desc:'Riesgo: puede disparar eventos pandémicos globales. Cooldown 48h.'},
-  {id:'immune_fortification',name:'💪 Fortificación Inmunológica',cost:0.300,points:70,
-   effect:'Puertos generan +50% defensa pasiva. +0.0025 SOL/ciclo',
-   desc:'Solo aplica a territorios con Puerto construido.'},
-  {id:'pathogen_control',name:'💉 Control de Patógenos',cost:0.400,points:90,req:'pandemic_resistance',
-   effect:'Controla pandemias: -40% daño aleatorio',
-   desc:'Reduce eventos pandémicos negativos. 40% probabilidad de evitar evento crítico.'}
-];
-
-// SISTEMA 2: ATAQUES MARÍTIMOS (complementan los de BUILDING_ATTACKS)
-const MARITIME_ATTACKS = {
-  portaaviones:{id:'portaaviones',name:'✈ Ataque Portaaviones',emoji:'✈',cost:0.200,
-    damage:1.8,range:'ultra_largo',duration:'48h',color:'#fbbf24',speed:0.012,arcHeight:1.8,
-    desc:'Escuadrón aéreo desde el mar. Bombardea hasta 3 edificios enemigos.'},
-  submarino_sigiloso:{id:'submarino_sigiloso',name:'🚢 Submarino Sigiloso',emoji:'🚢',cost:0.250,
-    damage:2.0,range:'ultra_largo',duration:'72h',color:'#06b6d4',speed:0.008,arcHeight:1.3,
-    stealthMode:true,cooldown:'8h',desc:'Torpedos biológicos. INDETECTABLE. Mayor tiempo de carga.'},
-  bombardeo_acorazado:{id:'bombardeo_acorazado',name:'⚓ Bombardeo Acorazado',emoji:'⚓',cost:0.180,
-    damage:1.6,range:'largo',duration:'36h',color:'#64748b',speed:0.009,arcHeight:1.5,
-    defenseBreaker:true,desc:'Artillería pesada desde el puerto. Rompe defensas: ignora 30%.'}
-};
-
-// SISTEMA 3: HABILIDADES ESPECIALES DEL PUERTO
-const PORT_ABILITIES = [
-  {id:'puerto_refuge',name:'🏖 Puerto Refugio',cost:0.080,duration:12*3600000,cooldown:24*3600000,
-   effect:{damageReduction:0.50},desc:'Territorio zona de seguridad. -50% daño recibido por 12h.'},
-  {id:'puerto_garrison',name:'💂 Guarnición Puerto',cost:0.100,duration:24*3600000,cooldown:7*24*3600000,
-   effect:{autoDefense:2,every:6*3600000},desc:'+2 defensas automáticas cada 6h vs ataques marítimos.'},
-  {id:'puerto_trade',name:'💼 Ruta Comercial',cost:0.060,duration:24*3600000,cooldown:7*24*3600000,
-   effect:{bonusIncome:0.010},desc:'+0.010 SOL/ciclo por 24h. Total ~+0.240 SOL.'},
-  {id:'puerto_research',name:'📚 Centro de Investigación',cost:0.075,duration:8*3600000,cooldown:2*24*3600000,
-   effect:{researchPoints:30},desc:'+30 puntos de investigación. ~3.75 pts/hora.'},
-  {id:'puerto_epidemic',name:'🦠 Laboratorio Epidémico',cost:0.090,duration:12*3600000,cooldown:3*24*3600000,
-   effect:{enableBioChain:true},desc:'Permite iniciar cadena biológica controlada.'}
-];
-
-// SISTEMA 4: EVENTOS PANDÉMICOS ALEATORIOS
-const PANDEMIC_EVENTS = [
-  {id:'brote_local',name:'🦠 Brote Local',probability:0.15,damage:-0.20,duration:12*3600000,
-   affectedCount:1,desc:'Un territorio aleatorio pierde 20% ingresos por 12h.',severity:'low'},
-  {id:'epidemia_regional',name:'🌍 Epidemia Regional',probability:0.08,damage:-0.30,duration:24*3600000,
-   affectedCount:'all',desc:'TODOS los territorios pierden 30% ingresos por 24h.',severity:'medium'},
-  {id:'pandemia_global',name:'💀 Pandemia Global',probability:0.03,damage:-0.50,defenseBreak:0.40,
-   duration:48*3600000,affectedCount:'all',desc:'CRÍTICO: -50% + 40% defensas destruidas.',severity:'critical'},
-  {id:'resistencia_inmune',name:'💪 Resistencia Inmune',probability:0.10,bonus:0.15,duration:18*3600000,
-   affectedCount:'all',positive:true,desc:'POSITIVO: Todos +15% ingresos por 18h.',severity:'positive'},
-  {id:'nueva_mutacion',name:'🧫 Nueva Mutación',probability:0.05,damage:-0.25,spreadBonus:0.25,
-   duration:36*3600000,affectedCount:'random',desc:'Mutación emergente. +25% velocidad propagación.',severity:'high'}
-];
-
-// SISTEMA 5: CADENAS BIOLÓGICAS — 4 etapas
-const BIOCHAIN_STAGES = [
-  {stage:1,name:'🦠 Virus Original',duration:24*3600000,powerLevel:1.0,spreadRate:0.15,
-   affectAdjacent:0,damage:-0.20,desc:'Liberación inicial. Solo territorio origen.'},
-  {stage:2,name:'🧫 Virus Propagándose',duration:36*3600000,powerLevel:1.35,spreadRate:0.25,
-   affectAdjacent:3,damage:-0.30,desc:'Se expande a 2-3 territorios adyacentes.'},
-  {stage:3,name:'💪 Mutación Alpha',duration:48*3600000,powerLevel:1.75,spreadRate:0.35,
-   affectAdjacent:5,damage:-0.40,defenseReduction:0.25,desc:'Muta: +50% poder, infecta 5 territorios.'},
-  {stage:4,name:'💀 Pandemia Total',duration:60*3600000,powerLevel:2.50,spreadRate:1.0,
-   affectAdjacent:999,globalDamage:-0.60,defenseReduction:0.40,
-   desc:'MÁXIMO: afecta TODO el mapa. Daño -60% global.'}
-];
-
-const MUTATION_TYPES = {
-  airborne:{name:'Mutación Aérea',modifier:2.0,spreadRate:2.0,desc:'Se propaga 2x más rápido. Llega Etapa 4 en ~3 días.'},
-  aquatic:{name:'Mutación Acuática',modifier:1.8,targetPreference:'puerto',desc:'Ataca territorios con puertos. +50% daño a ingresos portuarios.'},
-  resistant:{name:'Mutación Resistente',modifier:1.6,effectAgainstDefense:0.6,desc:'Defensas 40% menos efectivas.'},
-  adaptive:{name:'Mutación Adaptativa',modifier:2.2,behavior:'cambia cada 4h',desc:'Cambia de tipo cada 4h. La más peligrosa.'}
-};
-
-// SISTEMA 6: ALIANZAS DEFENSIVAS
-const ALLIANCE_TYPES = {
-  bio_defense_pact:{name:'🤝 Pacto Defensa Biológica',cost:0.150,duration:7*24*3600000,
-   maxAllies:5,benefits:{defCostReduction:0.20,defenseSharing:true},
-   desc:'Defensas biológicas 20% más baratas. Comparten escudo.'},
-  epidemic_control:{name:'🧫 Unión Control Epidémico',cost:0.200,duration:14*24*3600000,
-   maxAllies:8,benefits:{pandemicControl:true,damageReduction:0.35},
-   desc:'-35% daño de eventos pandémicos. Puede evitar Pandemia Global.'},
-  maritime_coalition:{name:'⚓ Coalición Marítima',cost:0.180,duration:10*24*3600000,
-   maxAllies:6,benefits:{fleetBoosting:true,damageBoost:0.40},
-   desc:'Flotas marítimas +40% daño cuando atacan juntos.'},
-  research_collective:{name:'📚 Colectivo de Investigación',cost:0.120,duration:14*24*3600000,
-   maxAllies:10,benefits:{sharedResearch:true,researchSpeedBoost:0.50},
-   desc:'+50% velocidad investigación. 1.5x más rápido.'},
-  mutual_immunization:{name:'💉 Inmunización Mutua',cost:0.090,duration:5*24*3600000,
-   maxAllies:8,benefits:{mutualImmunity:true,damageReduction:0.45},
-   desc:'-45% daño pandémico entre aliados.'}
-};
-
 
 const STATUS_COLORS = {available:'rgba(0,255,136,.15)',sold:'rgba(255,0,102,.25)',reserved:'rgba(245,158,11,.2)',mine:'rgba(0,245,255,.2)'};
 const STATUS_STROKE = {available:'#00ff88',sold:'#ff0066',reserved:'#f59e0b',mine:'#00f5ff'};
@@ -3319,8 +3813,17 @@ let markerMeshes=[], markerDataMap={};
 let selectedGlobeRing=null;
 let globeAutoRotate=true, globeAutoTimeout;
 let globePackets=[], globePacketTimer=0;
+let globeAttackArcs=[], globeExplosions=[];  // legacy aliases
+let activeArcs=globeAttackArcs, explosions=globeExplosions;
+let defenseArcs=[];
+let globeWarMode=false, globeWarTimer=null;
+let shieldModeActive=false, autoDefenseTimer=null;
+let totalGlobeAttacks=0, totalIntercepted=0, totalBlocked=0;
+let defLogCount=0;
 let globeTime=0;
 let globeLabels=[];
+// Drag inertia
+let globeVelX=0, globeVelY=0;
 
 const GLOBE_CONNECTIONS=[
   ['CDMX','JAL'],['CDMX','NL'],['CDMX','VER'],['CDMX','OAX'],
@@ -3357,6 +3860,22 @@ function initGlobe(){
   const R=150;
   globeGroup=new THREE.Group();
   globeScene.add(globeGroup);
+
+  // ── Star field (static depth layer) ──
+  const starCount=800;
+  const starPositions=new Float32Array(starCount*3);
+  for(let i=0;i<starCount;i++){
+    const theta=Math.random()*Math.PI*2;
+    const phi=Math.acos(2*Math.random()-1);
+    const r=600+Math.random()*400;
+    starPositions[i*3]  =r*Math.sin(phi)*Math.cos(theta);
+    starPositions[i*3+1]=r*Math.cos(phi);
+    starPositions[i*3+2]=r*Math.sin(phi)*Math.sin(theta);
+  }
+  const starGeo=new THREE.BufferGeometry();
+  starGeo.setAttribute('position',new THREE.BufferAttribute(starPositions,3));
+  const starMat=new THREE.PointsMaterial({color:0xaaccff,size:1.8,transparent:true,opacity:0.55,sizeAttenuation:true});
+  globeScene.add(new THREE.Points(starGeo,starMat));
   
   // ══════════════════════════════════════════════════
   //  NEURAL canvas texture (fallback / default mode)
@@ -3518,6 +4037,7 @@ function initGlobe(){
     new THREE.MeshPhongMaterial({color:new THREE.Color(0x00f5ff),transparent:true,opacity:0.055,side:THREE.BackSide})
   );
   globeGroup.add(atm1);
+  window._sc_atm1=atm1;
   
   // Atmosphere outer (pink)
   const atm2=new THREE.Mesh(
@@ -3525,6 +4045,15 @@ function initGlobe(){
     new THREE.MeshPhongMaterial({color:new THREE.Color(0xff0066),transparent:true,opacity:0.02,side:THREE.BackSide})
   );
   globeGroup.add(atm2);
+  window._sc_atm2=atm2;
+
+  // Atmosphere mid gold-pulse layer
+  const atm3=new THREE.Mesh(
+    new THREE.SphereGeometry(R+8,48,48),
+    new THREE.MeshPhongMaterial({color:new THREE.Color(0xf59e0b),transparent:true,opacity:0.008,side:THREE.BackSide})
+  );
+  globeGroup.add(atm3);
+  window._sc_atm3=atm3;
   
   // Outer ring halo
   const haloGeo=new THREE.RingGeometry(R+2,R+16,128);
@@ -3594,21 +4123,25 @@ function initGlobe(){
     markerDataMap[id]={dot:sprite,orbTex,orbCvs,hRing,pos:pos.clone(),col:statusHex,hit};
   });
   
-  // Neural connection arcs
+  // Neural connection arcs — multi-layer glow
   GLOBE_CONNECTIONS.forEach(([a,b])=>{
     if(!STATES[a]||!STATES[b])return;
     const p1=latLngToVec3(STATES[a].coords.lat,STATES[a].coords.lng,R+1);
     const p2=latLngToVec3(STATES[b].coords.lat,STATES[b].coords.lng,R+1);
     const pts=[];
-    for(let i=0;i<=24;i++){
-      const t=i/24;
+    for(let i=0;i<=28;i++){
+      const t=i/28;
       const p=new THREE.Vector3().lerpVectors(p1,p2,t);
-      p.normalize().multiplyScalar(R+2+Math.sin(Math.PI*t)*10);
+      p.normalize().multiplyScalar(R+2+Math.sin(Math.PI*t)*12);
       pts.push(p);
     }
     const lineGeo=new THREE.BufferGeometry().setFromPoints(pts);
-    const lineMat=new THREE.LineBasicMaterial({color:0x00f5ff,transparent:true,opacity:0.12});
+    // Core thin bright line
+    const lineMat=new THREE.LineBasicMaterial({color:0x00f5ff,transparent:true,opacity:0.18});
     globeGroup.add(new THREE.Line(lineGeo,lineMat));
+    // Wide soft glow underneath
+    const glowMat=new THREE.LineBasicMaterial({color:0x004466,transparent:true,opacity:0.08});
+    globeGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),glowMat));
   });
   
 
@@ -3685,10 +4218,13 @@ function initGlobe(){
   globeRenderer.domElement.addEventListener('mousedown',e=>{
     isDragging=true;prevMouse={x:e.clientX,y:e.clientY};clickStart={x:e.clientX,y:e.clientY};
     globeAutoRotate=false;clearTimeout(globeAutoTimeout);
+    globeVelX=0;globeVelY=0;
   });
   window.addEventListener('mousemove',e=>{
     if(!isDragging)return;
     const dx=(e.clientX-prevMouse.x)*0.004,dy=(e.clientY-prevMouse.y)*0.004;
+    globeVelX=dx*0.7+globeVelX*0.3;
+    globeVelY=dy*0.7+globeVelY*0.3;
     globeGroup.rotation.y+=dx;globeGroup.rotation.x+=dy;
     globeGroup.rotation.x=Math.max(-0.85,Math.min(0.85,globeGroup.rotation.x));
     prevMouse={x:e.clientX,y:e.clientY};
@@ -3861,41 +4397,108 @@ function initGlobe(){
   (function animate(){
     requestAnimationFrame(animate);
     globeTime+=0.016;
-    if(globeAutoRotate)globeGroup.rotation.y+=0.0012;
+    
+    // ── Auto-rotate with inertia ──
+    if(!isDragging){
+      if(globeAutoRotate){
+        globeGroup.rotation.y+=0.0012;
+        globeVelX*=0.88; globeVelY*=0.88;
+      } else {
+        globeGroup.rotation.y+=globeVelX;
+        globeGroup.rotation.x+=globeVelY;
+        globeGroup.rotation.x=Math.max(-0.85,Math.min(0.85,globeGroup.rotation.x));
+        globeVelX*=0.94; globeVelY*=0.94;
+      }
+    }
+    
     // Clouds rotate slightly faster (satellite mode)
-    if(window._sc_cloudMesh)window._sc_cloudMesh.rotation.y+=0.00016;
-    // Smooth zoom interpolation
+    if(window._sc_cloudMesh)window._sc_cloudMesh.rotation.y+=0.00018;
+    
+    // ── Smooth zoom interpolation ──
     if(globeZoomTarget!==null){
       globeCamera.position.z+=(globeZoomTarget-globeCamera.position.z)*0.09;
       if(Math.abs(globeZoomTarget-globeCamera.position.z)<0.5){globeCamera.position.z=globeZoomTarget;globeZoomTarget=null;}
       globeCamera.updateProjectionMatrix();
     }
     
-    // Pulse halo rings only (badges stay fixed size — no sprite scale oscillation)
-
-    Object.values(markerDataMap).forEach((d,i)=>{
-      if(d.hRing){d.hRing.material.opacity=0.12+Math.sin(globeTime*1.5+i*0.3)*0.1;}
-    });
-    // Pulse selected ring
-    if(selectedGlobeRing)selectedGlobeRing.material.opacity=0.6+Math.sin(globeTime*5)*0.35;
-    // Halo rotation
-    halo.rotation.z+=0.002;
+    // ── Animated atmosphere layers ──
+    if(window._sc_atm1)window._sc_atm1.material.opacity=0.038+Math.sin(globeTime*0.7)*0.018;
+    if(window._sc_atm2)window._sc_atm2.material.opacity=0.010+Math.sin(globeTime*0.45+1.2)*0.009;
+    if(window._sc_atm3)window._sc_atm3.material.opacity=0.004+Math.sin(globeTime*1.1+2.5)*0.004;
     
-    // Packets
+    // ── Dynamic neural accent lights (neural mode only) ──
+    if(window._sc_mode==='neural'){
+      if(window._sc_pinkL)window._sc_pinkL.intensity=0.20+Math.sin(globeTime*0.65)*0.10;
+      if(window._sc_goldL)window._sc_goldL.intensity=0.12+Math.sin(globeTime*0.85+1.0)*0.07;
+    }
+    
+    // ── Pulse halo rings — layered easing ──
+    Object.values(markerDataMap).forEach((d,i)=>{
+      if(d.hRing){
+        const p=0.09+Math.sin(globeTime*1.9+i*0.38)*0.09+Math.sin(globeTime*0.65+i*0.72)*0.04;
+        d.hRing.material.opacity=Math.max(0.04,p);
+      }
+    });
+    
+    // ── Selected ring — dramatic pulse + breathe scale ──
+    if(selectedGlobeRing){
+      selectedGlobeRing.material.opacity=0.55+Math.sin(globeTime*6.0)*0.40;
+      const sc=1+Math.sin(globeTime*4.2)*0.045;
+      selectedGlobeRing.scale.setScalar(sc);
+    }
+    
+    // ── Halo ring — slow drift + pulse ──
+    halo.rotation.z+=0.0022;
+    halo.material.opacity=0.028+Math.sin(globeTime*0.5)*0.014;
+    
+    // ── Packets ──
     globePacketTimer+=0.016;
-    if(globePacketTimer>1.0&&globePackets.length<20){spawnGlobePacket();globePacketTimer=0;}
+    if(globePacketTimer>0.85&&globePackets.length<26){spawnGlobePacket();globePacketTimer=0;}
     for(let i=globePackets.length-1;i>=0;i--){
       const pk=globePackets[i];pk.t+=pk.speed;
-      if(pk.t>=1){globeGroup.remove(pk.mesh);globePackets.splice(i,1);continue;}
-      const pos=new THREE.Vector3().lerpVectors(pk.p1,pk.p2,pk.t);
-      pos.normalize().multiplyScalar(R+2+Math.sin(Math.PI*pk.t)*10);
-      pk.mesh.position.copy(pos);
-      pk.mesh.material.opacity=Math.sin(Math.PI*pk.t)*0.95;
+      if(pk.t>=1){
+        globeGroup.remove(pk.mesh);
+        globePackets.splice(i,1);continue;
+      }
+      const pp=new THREE.Vector3().lerpVectors(pk.p1,pk.p2,pk.t);
+      pp.normalize().multiplyScalar(152+Math.sin(Math.PI*pk.t)*10);
+      pk.mesh.position.copy(pp);
+      const fade=Math.sin(Math.PI*pk.t);
+      pk.mesh.material.opacity=fade*0.95;
+      pk.mesh.scale.setScalar(0.75+Math.sin(globeTime*9+pk.t*8)*0.25);
     }
-    // 🌍 V7: Globe attack arcs + explosions
-    updateGlobeAttacks(R);
-    // V7: Biological systems update (every 5s)
-    if(Math.floor(globeTime*60) % 300 === 0) updateBiologicalSystems();
+    
+    // ── Attack arcs & explosions ──
+    updateGlobeAttackArcs();
+    updateGlobeExplosions();
+
+    // ── Defense arcs ──
+    for(let i=defenseArcs.length-1;i>=0;i--){
+      const da=defenseArcs[i];
+      da.t+=da.cfg.speed;
+      const tc=Math.min(da.t,1);
+      const pos=da.curve.getPoint(tc);
+      da.head.position.copy(pos);
+      da.head.material.opacity=Math.sin(Math.PI*tc)*0.9+0.1;
+      da.head.scale.setScalar(1+Math.sin(globeTime*28)*0.35);
+      if(da.trailLine){
+        const pts=[];
+        for(let j=10;j>=0;j--){
+          const tt=Math.max(0,da.t-j*da.cfg.speed*1.1);
+          pts.push(da.curve.getPoint(Math.min(tt,1)));
+        }
+        da.trailLine.geometry.setFromPoints(pts);
+        da.trailLine.geometry.attributes.position.needsUpdate=true;
+        da.trailLine.material.opacity=Math.sin(Math.PI*tc)*0.82;
+      }
+      if(da.t>=1){
+        spawnInterceptExplosion(da.curve.getPoint(1),da.cfg);
+        globeGroup.remove(da.head);
+        if(da.trailLine)globeGroup.remove(da.trailLine);
+        defenseArcs.splice(i,1);
+      }
+    }
+    
     globeRenderer.render(globeScene,globeCamera);
   })();
   
@@ -3906,145 +4509,664 @@ function initGlobe(){
   });
 }
 
-
-// ══════════════════════════════════════════════════════════════
-// 🌍 GLOBE ATTACK ANIMATION SYSTEM V7
-// ══════════════════════════════════════════════════════════════
-let globeAttacks = [];      // Active attack arcs
-let globeExplosions = [];   // Active explosion effects
-
-const ATK_ARC_COLORS = {
-  pandemia:0x00ff88, terrorista:0xff0066, marcha:0xf59e0b,
-  sabotaje:0xff6600, ufo_ataque:0x9945ff, neuro_hack:0x00f5ff,
-  basico:0xff0066, crucero_infeccioso:0x00cc88, portaaviones:0xfbbf24,
-  submarino_sigiloso:0x06b6d4, bombardeo_acorazado:0x64748b,
-  pandemia_global:0xff4444, brote_local:0xff8800
-};
-
-function spawnGlobeAttack(fromId, toId, atkType) {
-  if(!globeGroup || !STATES[fromId] || !STATES[toId]) return;
-  const R = 150;
-  const color = ATK_ARC_COLORS[atkType] || 0xff0066;
-  const p1 = latLngToVec3(STATES[fromId].coords.lat, STATES[fromId].coords.lng, R+1);
-  const p2 = latLngToVec3(STATES[toId].coords.lat, STATES[toId].coords.lng, R+1);
-
-  // Trail spheres (N orbs that follow the arc)
-  const trailLen = atkType === 'ufo_ataque' ? 8 : 5;
-  const trailMeshes = [];
-  for(let t=0; t<trailLen; t++){
-    const size = 1.2 - (t/trailLen)*0.8;
-    const geo = new THREE.SphereGeometry(size, 5, 5);
-    const mat = new THREE.MeshBasicMaterial({color, transparent:true, opacity:0.9-(t/trailLen)*0.7});
-    const mesh = new THREE.Mesh(geo, mat);
-    globeGroup.add(mesh);
-    trailMeshes.push({mesh, offset: t * 0.04});
-  }
-
-  // Head orb (brighter)
-  const headGeo = new THREE.SphereGeometry(2.2, 7, 7);
-  const headMat = new THREE.MeshBasicMaterial({color:0xffffff, transparent:true, opacity:0.95});
-  const headMesh = new THREE.Mesh(headGeo, headMat);
-  globeGroup.add(headMesh);
-
-  globeAttacks.push({
-    p1, p2, headMesh, trailMeshes,
-    t: 0,
-    speed: (atkType === 'submarino_sigiloso') ? 0.006 : (atkType === 'ufo_ataque' ? 0.018 : 0.010),
-    arcH: (atkType === 'portaaviones') ? 1.8 : 1.4,
-    color, atkType,
-    fromId, toId
-  });
-}
-
-function getArcPoint(p1, p2, t, arcH, R) {
-  // Lerp on sphere surface with parabolic lift
-  const v = new THREE.Vector3().lerpVectors(p1, p2, t);
-  const lift = Math.sin(Math.PI * t) * R * (arcH - 1.0) * 0.5;
-  v.normalize().multiplyScalar(R + 1 + lift);
-  return v;
-}
-
-function spawnGlobeExplosion(pos, color) {
-  const particles = [];
-  for(let i=0; i<10; i++){
-    const geo = new THREE.SphereGeometry(1.0, 4, 4);
-    const mat = new THREE.MeshBasicMaterial({color, transparent:true, opacity:0.9});
-    const mesh = new THREE.Mesh(geo, mat);
-    mesh.position.copy(pos);
-    const dir = new THREE.Vector3(
-      Math.random()*2-1, Math.random()*2-1, Math.random()*2-1
-    ).normalize().multiplyScalar(0.6 + Math.random()*0.8);
-    globeGroup.add(mesh);
-    particles.push({mesh, vel:dir, life:1.0});
-  }
-  // Ring flash
-  const ringGeo = new THREE.RingGeometry(2, 6, 16);
-  const ringMat = new THREE.MeshBasicMaterial({color, transparent:true, opacity:0.8, side:THREE.DoubleSide});
-  const ring = new THREE.Mesh(ringGeo, ringMat);
-  ring.position.copy(pos);
-  ring.lookAt(new THREE.Vector3(0,0,0));
-  globeGroup.add(ring);
-  globeExplosions.push({particles, ring, ringScale:1.0, life:1.0});
-}
-
-function updateGlobeAttacks(R) {
-  // Update attack arcs
-  for(let i = globeAttacks.length-1; i>=0; i--){
-    const atk = globeAttacks[i];
-    atk.t += atk.speed;
-    // Move head
-    const headPos = getArcPoint(atk.p1, atk.p2, Math.min(atk.t, 1.0), atk.arcH, R);
-    atk.headMesh.position.copy(headPos);
-    atk.headMesh.material.opacity = Math.sin(Math.PI * atk.t) * 0.95;
-    // Move trail
-    atk.trailMeshes.forEach((tr,ti) => {
-      const tt = Math.max(0, atk.t - tr.offset);
-      if(tt > 0 && tt < 1){
-        const trailPos = getArcPoint(atk.p1, atk.p2, tt, atk.arcH, R);
-        tr.mesh.position.copy(trailPos);
-        tr.mesh.material.opacity = Math.sin(Math.PI * tt) * (0.7 - ti*0.12);
-      }
-    });
-    // Finished
-    if(atk.t >= 1.0){
-      globeGroup.remove(atk.headMesh);
-      atk.trailMeshes.forEach(tr => globeGroup.remove(tr.mesh));
-      spawnGlobeExplosion(atk.p2, atk.color);
-      globeAttacks.splice(i, 1);
-    }
-  }
-  // Update explosions
-  for(let i = globeExplosions.length-1; i>=0; i--){
-    const ex = globeExplosions[i];
-    ex.life -= 0.04;
-    ex.ringScale += 0.18;
-    ex.ring.scale.setScalar(ex.ringScale);
-    ex.ring.material.opacity = ex.life * 0.7;
-    ex.particles.forEach(p => {
-      p.mesh.position.addScaledVector(p.vel, 0.5);
-      p.mesh.material.opacity = ex.life * 0.9;
-      p.mesh.scale.setScalar(ex.life);
-    });
-    if(ex.life <= 0){
-      ex.particles.forEach(p => globeGroup.remove(p.mesh));
-      globeGroup.remove(ex.ring);
-      globeExplosions.splice(i, 1);
-    }
-  }
-}
-
 function spawnGlobePacket(){
   const conn=GLOBE_CONNECTIONS[Math.floor(Math.random()*GLOBE_CONNECTIONS.length)];
   if(!STATES[conn[0]]||!STATES[conn[1]])return;
-  const R=150;
-  const p1=latLngToVec3(STATES[conn[0]].coords.lat,STATES[conn[0]].coords.lng,R+1);
-  const p2=latLngToVec3(STATES[conn[1]].coords.lat,STATES[conn[1]].coords.lng,R+1);
-  const colors=[0x00f5ff,0xff0066,0xf59e0b,0x00ff88,0x9945ff];
-  const geo=new THREE.SphereGeometry(1.5,6,6);
-  const mat=new THREE.MeshBasicMaterial({color:colors[Math.floor(Math.random()*colors.length)],transparent:true,opacity:0.9});
+  const RP=150;
+  const p1=latLngToVec3(STATES[conn[0]].coords.lat,STATES[conn[0]].coords.lng,RP+1);
+  const p2=latLngToVec3(STATES[conn[1]].coords.lat,STATES[conn[1]].coords.lng,RP+1);
+  const colors=[0x00f5ff,0xff0066,0xf59e0b,0x00ff88,0x9945ff,0x38bdf8];
+  const col=colors[Math.floor(Math.random()*colors.length)];
+  const sz=0.8+Math.random()*1.4;
+  const geo=new THREE.SphereGeometry(sz,6,6);
+  const mat=new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:0.9});
   const mesh=new THREE.Mesh(geo,mat);
   globeGroup.add(mesh);
-  globePackets.push({mesh,p1,p2,t:0,speed:0.007+Math.random()*0.012});
+  globePackets.push({mesh,p1,p2,t:Math.random()*0.15,speed:0.006+Math.random()*0.013});
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// 🌍 SISTEMA DE ATAQUES & DEFENSA GLOBAL — Sistema_Ataque_Defensa_Mundial
+// QuadraticBezierCurve3 con trail dinámico, explosión + arcos de defensa
+// ══════════════════════════════════════════════════════════════════════
+
+// Ciudades globales para ataques automáticos
+const GLOBE_CITIES = {
+  CDMX:{name:'Ciudad de México',country:'🇲🇽 MX',lat:19.43,lng:-99.13},
+  GDL:{name:'Guadalajara',country:'🇲🇽 MX',lat:20.66,lng:-103.35},
+  MTY:{name:'Monterrey',country:'🇲🇽 MX',lat:25.67,lng:-100.31},
+  CUN:{name:'Cancún',country:'🇲🇽 MX',lat:21.16,lng:-86.85},
+  OAX:{name:'Oaxaca',country:'🇲🇽 MX',lat:17.07,lng:-96.73},
+  TIJ:{name:'Tijuana',country:'🇲🇽 MX',lat:32.52,lng:-117.03},
+  LIM:{name:'Lima',country:'🇵🇪 PE',lat:-12.04,lng:-77.03},
+  CUS:{name:'Cusco',country:'🇵🇪 PE',lat:-13.52,lng:-71.97},
+  AQP:{name:'Arequipa',country:'🇵🇪 PE',lat:-16.41,lng:-71.54},
+  NYC:{name:'Nueva York',country:'🇺🇸 US',lat:40.71,lng:-74.01},
+  LAX:{name:'Los Ángeles',country:'🇺🇸 US',lat:34.05,lng:-118.24},
+  MIA:{name:'Miami',country:'🇺🇸 US',lat:25.77,lng:-80.19},
+  CHI:{name:'Chicago',country:'🇺🇸 US',lat:41.88,lng:-87.63},
+  AUS:{name:'Austin TX',country:'🇺🇸 US',lat:30.27,lng:-97.74},
+  SEA:{name:'Seattle',country:'🇺🇸 US',lat:47.61,lng:-122.33},
+  WDC:{name:'Washington DC',country:'🇺🇸 US',lat:38.91,lng:-77.04},
+  TOR:{name:'Toronto',country:'🇨🇦 CA',lat:43.65,lng:-79.38},
+  LON:{name:'Londres',country:'🇬🇧 UK',lat:51.51,lng:-0.13},
+  PAR:{name:'París',country:'🇫🇷 FR',lat:48.86,lng:2.35},
+  BER:{name:'Berlín',country:'🇩🇪 DE',lat:52.52,lng:13.40},
+  MAD:{name:'Madrid',country:'🇪🇸 ES',lat:40.42,lng:-3.70},
+  ROM:{name:'Roma',country:'🇮🇹 IT',lat:41.90,lng:12.50},
+  MOS:{name:'Moscú',country:'🇷🇺 RU',lat:55.75,lng:37.62},
+  ZUG:{name:'Zug',country:'🇨🇭 CH',lat:47.17,lng:8.52},
+  AMS:{name:'Ámsterdam',country:'🇳🇱 NL',lat:52.37,lng:4.90},
+  STO:{name:'Estocolmo',country:'🇸🇪 SE',lat:59.33,lng:18.07},
+  TKY:{name:'Tokio',country:'🇯🇵 JP',lat:35.69,lng:139.69},
+  SEO:{name:'Seúl',country:'🇰🇷 KR',lat:37.57,lng:126.98},
+  BEI:{name:'Pekín',country:'🇨🇳 CN',lat:39.91,lng:116.39},
+  SHA:{name:'Shanghái',country:'🇨🇳 CN',lat:31.23,lng:121.47},
+  SHE:{name:'Shenzhen',country:'🇨🇳 CN',lat:22.54,lng:114.06},
+  SGP:{name:'Singapur',country:'🇸🇬 SG',lat:1.35,lng:103.82},
+  DXB:{name:'Dubái',country:'🇦🇪 AE',lat:25.20,lng:55.27},
+  MUM:{name:'Mumbai',country:'🇮🇳 IN',lat:19.08,lng:72.88},
+  IST:{name:'Estambul',country:'🇹🇷 TR',lat:41.01,lng:28.95},
+  BKK:{name:'Bangkok',country:'🇹🇭 TH',lat:13.75,lng:100.52},
+  TAS:{name:'Tashkent',country:'🇺🇿 UZ',lat:41.30,lng:69.24},
+  BOG:{name:'Bogotá',country:'🇨🇴 CO',lat:4.71,lng:-74.07},
+  SAO:{name:'São Paulo',country:'🇧🇷 BR',lat:-23.55,lng:-46.63},
+  BUE:{name:'Buenos Aires',country:'🇦🇷 AR',lat:-34.60,lng:-58.38},
+  SCL:{name:'Santiago',country:'🇨🇱 CL',lat:-33.45,lng:-70.67},
+  CAR:{name:'Caracas',country:'🇻🇪 VE',lat:10.49,lng:-66.88},
+  GUA:{name:'Guatemala City',country:'🇬🇹 GT',lat:14.64,lng:-90.51},
+  HAV:{name:'La Habana',country:'🇨🇺 CU',lat:23.13,lng:-82.38},
+  LAG:{name:'Lagos',country:'🇳🇬 NG',lat:6.46,lng:3.38},
+  CAI:{name:'El Cairo',country:'🇪🇬 EG',lat:30.05,lng:31.25},
+  JHB:{name:'Johannesburgo',country:'🇿🇦 ZA',lat:-26.20,lng:28.05},
+  NBO:{name:'Nairobi',country:'🇰🇪 KE',lat:-1.29,lng:36.82},
+  SYD:{name:'Sídney',country:'🇦🇺 AU',lat:-33.87,lng:151.21},
+  MEL:{name:'Melbourne',country:'🇦🇺 AU',lat:-37.81,lng:144.96},
+};
+
+// ══════════════════════════════════════════════════════════════════════════
+// ☀ REGISTRO UNIFICADO DE ATAQUES — Globe + Edificios fusionados sin duplicados
+// Cada entrada incluye su mapping desde BUILDING_ATTACKS y su configuración 3D
+// ══════════════════════════════════════════════════════════════════════════
+const ATTACK_TYPES = {
+  // ── BASE (siempre disponibles) ───────────────────────────────────────────
+  nuclear:  {
+    label:'☢ NeuroHack', icon:'☢', buildId:null, alwaysAvailable:true,
+    color:0xff0066, colorHex:'#ff0066', trailColor:0xff3388,
+    speed:0.006, arcHeight:1.8, thickness:2.5, trailLen:18, glowRadius:4,
+    explosionEmoji:'💥', flashColor:'rgba(255,0,102,', uiColor:'clr-pink',
+    desc:'Ataque de pulso electromagnético neural. Largo alcance.'
+  },
+  missile:  {
+    label:'🚀 Misil ICBM', icon:'🚀', buildId:null, alwaysAvailable:true,
+    color:0xf59e0b, colorHex:'#f59e0b', trailColor:0xfbbf24,
+    speed:0.009, arcHeight:2.2, thickness:2, trailLen:14, glowRadius:3.5,
+    explosionEmoji:'🔥', flashColor:'rgba(245,158,11,', uiColor:'clr-gold',
+    desc:'Misil balístico intercontinental de largo alcance.'
+  },
+  cyber:    {
+    label:'💻 Ciberataque', icon:'💻', buildId:null, alwaysAvailable:true,
+    color:0x00f5ff, colorHex:'#00f5ff', trailColor:0x38bdf8,
+    speed:0.020, arcHeight:1.2, thickness:1.5, trailLen:10, glowRadius:2.5,
+    explosionEmoji:'⚡', flashColor:'rgba(0,245,255,', uiColor:'clr-cyan',
+    desc:'Infiltración digital rápida. Máxima velocidad.'
+  },
+  ufo:      {
+    label:'🛸 OVNI — Fenómeno', icon:'🛸', buildId:null, alwaysAvailable:true,
+    color:0x9945ff, colorHex:'#9945ff', trailColor:0xc084fc,
+    speed:0.012, arcHeight:2.8, thickness:3, trailLen:20, glowRadius:5,
+    explosionEmoji:'🛸', flashColor:'rgba(153,69,255,', uiColor:'clr-purple',
+    desc:'Protocolo desclasificado OVNI. Trayectoria inexplicable.'
+  },
+  pandemic: {
+    label:'☣ Pandemia / Bio', icon:'☣', buildId:'hospital', alwaysAvailable:true,
+    color:0x00ff88, colorHex:'#00ff88', trailColor:0x4ade80,
+    speed:0.008, arcHeight:1.5, thickness:2, trailLen:22, glowRadius:3,
+    explosionEmoji:'☣', flashColor:'rgba(0,255,136,', uiColor:'clr-green',
+    // Fusiona: Pandemia (hospital) + Crucero Infeccioso (puerto)
+    desc:'Agente biológico + crucero infeccioso. Paraliza territorios.'
+  },
+  economic: {
+    label:'💰 Sabotaje Económico', icon:'💰', buildId:'refineria', alwaysAvailable:true,
+    color:0xfcd34d, colorHex:'#fcd34d', trailColor:0xf59e0b,
+    speed:0.010, arcHeight:1.6, thickness:2, trailLen:15, glowRadius:3,
+    explosionEmoji:'💰', flashColor:'rgba(252,211,77,', uiColor:'clr-gold',
+    // Fusiona: Sabotaje Industrial (refinería)
+    desc:'Colapsa la economía enemiga. Elimina ingresos industriales.'
+  },
+
+  // ── DESBLOQUEABLES (requieren edificio) ─────────────────────────────────
+  terrorista: {
+    label:'💥 Ataque Terrorista', icon:'💥', buildId:'aeropuerto', alwaysAvailable:false,
+    color:0xff4400, colorHex:'#ff4400', trailColor:0xff6622,
+    speed:0.011, arcHeight:2.0, thickness:2.5, trailLen:16, glowRadius:4,
+    explosionEmoji:'💥', flashColor:'rgba(255,68,0,', uiColor:'clr-pink',
+    desc:'Infiltración aérea. Destruye hasta 2 edificios del objetivo.',
+    cost:0.120, buildName:'Hub Aéreo Internacional ✈️'
+  },
+  marcha: {
+    label:'🥾 Operación Marcha', icon:'🥾', buildId:'cuartel', alwaysAvailable:false,
+    color:0xf97316, colorHex:'#f97316', trailColor:0xfb923c,
+    speed:0.013, arcHeight:1.4, thickness:2, trailLen:12, glowRadius:3,
+    explosionEmoji:'🥾', flashColor:'rgba(249,115,22,', uiColor:'clr-gold',
+    desc:'Marchas masivas + drones militares. Reduce ingresos 30%.',
+    cost:0.090, buildName:'Cuartel General 🏯'
+  },
+  neuro_hack: {
+    label:'🧬 NeuroHack Cuántico', icon:'🧬', buildId:'laboratorio', alwaysAvailable:false,
+    color:0x00ccff, colorHex:'#00ccff', trailColor:0x38bdf8,
+    speed:0.007, arcHeight:2.0, thickness:2.5, trailLen:20, glowRadius:5,
+    explosionEmoji:'🧬', flashColor:'rgba(0,204,255,', uiColor:'clr-cyan',
+    // Fusiona con nuclear pero como variante cuántica
+    desc:'Hackeo cuántico de laboratorio. Roba ingresos pasivos del enemigo.',
+    cost:0.100, buildName:'Laboratorio Cuántico 🧬'
+  },
+  crucero: {
+    label:'🦠 Crucero Infeccioso', icon:'🦠', buildId:'puerto', alwaysAvailable:false,
+    color:0x39ff14, colorHex:'#39ff14', trailColor:0x4ade80,
+    speed:0.006, arcHeight:1.3, thickness:2, trailLen:24, glowRadius:3.5,
+    explosionEmoji:'🦠', flashColor:'rgba(57,255,20,', uiColor:'clr-green',
+    desc:'Crucero con carga biológica. Bloquea puertos y contagia edificios.',
+    cost:0.095, buildName:'Puerto Biológico 🏖️'
+  },
+  ufo_cuantico: {
+    label:'🛸 Fenómeno No Identificado', icon:'🛸', buildId:'agencia_espacial', alwaysAvailable:false,
+    color:0xb45fff, colorHex:'#b45fff', trailColor:0xc084fc,
+    speed:0.010, arcHeight:3.0, thickness:3.5, trailLen:22, glowRadius:6,
+    explosionEmoji:'👽', flashColor:'rgba(180,95,255,', uiColor:'clr-purple',
+    // Fusiona con ufo pero versión mejorada NASA
+    desc:'Protocolo NASA desclasificado. Colapsa defensas enemigas totalmente.',
+    cost:0.150, buildName:'Agencia Espacial / NASA 🚀'
+  },
+};
+
+// Map legacy game atkType keys → ATTACK_TYPES keys (para retrocompatibilidad)
+const ATK_TYPE_MAP = {
+  basico:'nuclear', terrorista:'terrorista', marcha:'marcha',
+  sabotaje:'economic', ufo_ataque:'ufo_cuantico', neuro_hack:'neuro_hack',
+  pandemia:'pandemic', crucero_infeccioso:'crucero', default:'nuclear'
+};
+
+// Map buildId → ATTACK_TYPES key (para lookup rápido)
+const BUILD_TO_ATK = {};
+Object.entries(ATTACK_TYPES).forEach(([key,atk])=>{ if(atk.buildId) BUILD_TO_ATK[atk.buildId]=key; });
+
+// Returns array of ATTACK_TYPES keys currently available for the user + bots
+function getAvailableAtkKeys(includeAlways=true){
+  const keys = [];
+  if(includeAlways) Object.entries(ATTACK_TYPES).forEach(([k,a])=>{ if(a.alwaysAvailable) keys.push(k); });
+  // Add unlocked via buildings owned by user
+  Object.keys(gameState.buildings||{}).forEach(stId=>{
+    (gameState.buildings[stId]||[]).forEach(bid=>{
+      const atkKey = BUILD_TO_ATK[bid];
+      if(atkKey && !keys.includes(atkKey)) keys.push(atkKey);
+    });
+  });
+  return keys;
+}
+
+// Rebuild the globe overlay attack panel dynamically
+function refreshGlobeAttackPanel(){
+  const panel = document.getElementById('g-ctrl-btns');
+  if(!panel) return;
+  const available = getAvailableAtkKeys();
+  panel.innerHTML = available.map(key=>{
+    const atk = ATTACK_TYPES[key];
+    const isUnlocked = atk.alwaysAvailable || BUILD_TO_ATK[atk.buildId]===key;
+    const borderCol = atk.colorHex;
+    const bg = atk.colorHex+'26';
+    const badge = !atk.alwaysAvailable ? `<span style="font-size:5px;padding:1px 4px;border-radius:3px;background:${atk.colorHex}22;color:${atk.colorHex};margin-left:auto;letter-spacing:.5px;">🔓 DESBLOQUEADO</span>` : '';
+    return `<div class="g-atk-btn" onclick="globalLaunchAttack('${key}')" title="${atk.desc}">
+      <div class="g-atk-btn-ico" style="background:${bg};border:1px solid ${borderCol}55;">${atk.icon}</div>
+      <span style="flex:1;">${atk.label}</span>${badge}
+    </div>`;
+  }).join('');
+  // Also refresh legend
+  const legend = document.getElementById('g-legend-items');
+  if(legend){
+    legend.innerHTML = available.map(key=>{
+      const atk = ATTACK_TYPES[key];
+      return `<div class="g-leg-item"><div class="g-leg-dot" style="background:${atk.colorHex};box-shadow:0 0 5px ${atk.colorHex};"></div>${atk.icon}</div>`;
+    }).join('');
+  }
+}
+
+// Defense types
+const DEFENSE_TYPES={
+  interceptor: {label:'🚀 Interceptor SAM', color:0x00ff88,trailColor:0x4ade80,speed:0.022,arcHeight:1.4,glowRadius:3, interceptLabel:'INTERCEPTADO'},
+  laser:       {label:'⚡ Láser HEL',        color:0x00f5ff,trailColor:0x38bdf8,speed:0.030,arcHeight:0.8,glowRadius:2, interceptLabel:'NEUTRALIZADO'},
+  emp:         {label:'🔮 EMP',              color:0x9945ff,trailColor:0xc084fc,speed:0.018,arcHeight:1.8,glowRadius:4, interceptLabel:'EMP BLOQUEADO'},
+  cyberdefense:{label:'🛡 Contra-Hackeo',    color:0x00ff88,trailColor:0x00f5ff,speed:0.025,arcHeight:1.1,glowRadius:2.5,interceptLabel:'CIBERDEFENSA'},
+  quarantine:  {label:'🧬 Cuarentena',       color:0xf59e0b,trailColor:0xfbbf24,speed:0.014,arcHeight:1.3,glowRadius:3, interceptLabel:'CUARENTENA'},
+};
+
+// ── Core arc builder (coords version — usado por el juego) ──
+function createAttackArcFromCoords(fromCoords,toCoords,typeName){
+  if(!globeGroup||!fromCoords||!toCoords)return;
+  const RA=150;
+  const cfg=ATTACK_TYPES[typeName]||ATTACK_TYPES.nuclear;
+  const p1=latLngToVec3(fromCoords.lat,fromCoords.lng,RA+2);
+  const p2=latLngToVec3(toCoords.lat,  toCoords.lng,  RA+2);
+  const mid=new THREE.Vector3().addVectors(p1,p2).multiplyScalar(0.5);
+  const dist=p1.distanceTo(p2);
+  const lift=RA*cfg.arcHeight*(0.5+dist/(RA*2.5));
+  const ctrl=mid.clone().normalize().multiplyScalar(mid.length()+lift);
+  const curve=new THREE.QuadraticBezierCurve3(p1,ctrl,p2);
+
+  const head=new THREE.Mesh(
+    new THREE.SphereGeometry(cfg.glowRadius,10,10),
+    new THREE.MeshBasicMaterial({color:cfg.color,transparent:true,opacity:1})
+  );
+  head.position.copy(p1); globeGroup.add(head);
+
+  const trailPts=Array(cfg.trailLen+1).fill(p1.clone());
+  const trailLine=new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(trailPts),
+    new THREE.LineBasicMaterial({color:cfg.color,transparent:true,opacity:0.8,linewidth:cfg.thickness})
+  );
+  globeGroup.add(trailLine);
+
+  const trailGlow=new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(trailPts),
+    new THREE.LineBasicMaterial({color:cfg.trailColor,transparent:true,opacity:0.3})
+  );
+  globeGroup.add(trailGlow);
+
+  activeArcs.push({curve,head,trailLine,trailGlow,t:0,cfg,
+    fromCity:{name:'origen',lat:fromCoords.lat,lng:fromCoords.lng},
+    toCity:{name:'objetivo',lat:toCoords.lat,lng:toCoords.lng}});
+
+  totalGlobeAttacks++;
+  const el=document.getElementById('g-ov-attacks');
+  if(el)el.textContent=totalGlobeAttacks;
+  const el2=document.getElementById('g-ov-arcs');
+  if(el2)el2.textContent=activeArcs.length;
+}
+
+// ── Arc builder by city key (global attacks) ──
+function createAttackArc(fromKey,toKey,typeName){
+  const from=GLOBE_CITIES[fromKey];const to=GLOBE_CITIES[toKey];
+  if(!from||!to)return;
+  const RA=150;
+  const cfg=ATTACK_TYPES[typeName]||ATTACK_TYPES.nuclear;
+  const p1=latLngToVec3(from.lat,from.lng,RA+2);
+  const p2=latLngToVec3(to.lat,  to.lng,  RA+2);
+  const mid=new THREE.Vector3().addVectors(p1,p2).multiplyScalar(0.5);
+  const dist=p1.distanceTo(p2);
+  const lift=RA*cfg.arcHeight*(0.5+dist/(RA*2.5));
+  const ctrl=mid.clone().normalize().multiplyScalar(mid.length()+lift);
+  const curve=new THREE.QuadraticBezierCurve3(p1,ctrl,p2);
+
+  const head=new THREE.Mesh(
+    new THREE.SphereGeometry(cfg.glowRadius,10,10),
+    new THREE.MeshBasicMaterial({color:cfg.color,transparent:true,opacity:1})
+  );
+  head.position.copy(p1); globeGroup.add(head);
+
+  const trailPts=Array(cfg.trailLen+1).fill(p1.clone());
+  const trailLine=new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(trailPts),
+    new THREE.LineBasicMaterial({color:cfg.color,transparent:true,opacity:0.8,linewidth:cfg.thickness})
+  );
+  globeGroup.add(trailLine);
+
+  const trailGlow=new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(trailPts),
+    new THREE.LineBasicMaterial({color:cfg.trailColor,transparent:true,opacity:0.3})
+  );
+  globeGroup.add(trailGlow);
+
+  activeArcs.push({curve,head,trailLine,trailGlow,t:0,cfg,fromCity:from,toCity:to});
+  totalGlobeAttacks++;
+  const el=document.getElementById('g-ov-attacks');if(el)el.textContent=totalGlobeAttacks;
+  const el2=document.getElementById('g-ov-arcs');if(el2)el2.textContent=activeArcs.length;
+}
+
+// ── Game bridge: spawnAttackArc ──
+function spawnAttackArc(fromCoords,toCoords,atkType,atkLabel){
+  const typeName=ATK_TYPE_MAP[atkType]||ATK_TYPE_MAP.default;
+  createAttackArcFromCoords(fromCoords,toCoords,typeName);
+}
+
+// ── Arc update (called from animate loop) ──
+function updateGlobeAttackArcs(){
+  for(let i=activeArcs.length-1;i>=0;i--){
+    const arc=activeArcs[i];
+    arc.t+=arc.cfg.speed;
+    const t_c=Math.min(arc.t,1);
+    const headPos=arc.curve.getPoint(t_c);
+    arc.head.position.copy(headPos);
+    arc.head.scale.setScalar(1+Math.sin(globeTime*20)*0.3);
+    arc.head.material.opacity=Math.sin(Math.PI*t_c)*0.95+0.05;
+    if(arc.trailLine){
+      const pts=[];const numPts=arc.cfg.trailLen;
+      for(let j=numPts;j>=0;j--){
+        const tt=Math.max(0,arc.t-j*(arc.cfg.speed*1.2));
+        pts.push(arc.curve.getPoint(Math.min(tt,1)));
+      }
+      arc.trailLine.geometry.setFromPoints(pts);
+      arc.trailLine.geometry.attributes.position.needsUpdate=true;
+      arc.trailLine.material.opacity=Math.sin(Math.PI*t_c)*0.72;
+    }
+    if(arc.trailGlow)arc.trailGlow.material.opacity=Math.sin(Math.PI*t_c)*0.35;
+    if(arc.t>=1){
+      spawnExplosion(arc.curve.getPoint(1),arc.cfg,arc.toCity);
+      globeGroup.remove(arc.head);
+      if(arc.trailLine)globeGroup.remove(arc.trailLine);
+      if(arc.trailGlow)globeGroup.remove(arc.trailGlow);
+      activeArcs.splice(i,1);
+      const el2=document.getElementById('g-ov-arcs');if(el2)el2.textContent=activeArcs.length;
+    }
+  }
+}
+
+// ── Explosion system ──
+function spawnExplosion(pos,cfg,toCity){
+  const expMesh=new THREE.Mesh(
+    new THREE.SphereGeometry(cfg.glowRadius*1.5,12,12),
+    new THREE.MeshBasicMaterial({color:cfg.color,transparent:true,opacity:0.8})
+  );
+  expMesh.position.copy(pos); globeGroup.add(expMesh);
+
+  const ring=new THREE.Mesh(
+    new THREE.RingGeometry(cfg.glowRadius*2,cfg.glowRadius*4,24),
+    new THREE.MeshBasicMaterial({color:cfg.color,transparent:true,opacity:0.5,side:THREE.DoubleSide})
+  );
+  ring.position.copy(pos); ring.lookAt(0,0,0); globeGroup.add(ring);
+
+  explosions.push({mesh:expMesh,ring,life:1,maxLife:1});
+  triggerGlobeFlash(cfg.flashColor);
+  showGlobeExplosionLabel(cfg.explosionEmoji,toCity?.name||'');
+}
+
+// Legacy spawnImpact alias
+function spawnImpact(pos,hexCol){
+  const cfg={color:hexCol,glowRadius:3,explosionEmoji:'💥',flashColor:'rgba(255,0,102,'};
+  spawnExplosion(pos,cfg,null);
+}
+
+function updateGlobeExplosions(){
+  for(let i=explosions.length-1;i>=0;i--){
+    const ex=explosions[i];
+    ex.life-=0.022;
+    const t=ex.life/ex.maxLife;
+    ex.mesh.scale.setScalar(1+(1-t)*4.5);
+    ex.mesh.material.opacity=t*0.85;
+    if(ex.ring){ex.ring.scale.setScalar(1+(1-t)*7);ex.ring.material.opacity=t*0.5;}
+    if(ex.ring2){ex.ring2.scale.setScalar(1+(1-t)*11);ex.ring2.material.opacity=t*0.3;}
+    if(ex.life<=0){
+      globeGroup.remove(ex.mesh);
+      if(ex.ring)globeGroup.remove(ex.ring);
+      if(ex.ring2)globeGroup.remove(ex.ring2);
+      explosions.splice(i,1);
+    }
+  }
+}
+
+function triggerGlobeFlash(colorFn){
+  const el=document.getElementById('g-attack-flash');if(!el)return;
+  el.style.background=colorFn+'0.11)';
+  el.classList.remove('show');void el.offsetWidth;el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),700);
+}
+
+function showGlobeExplosionLabel(emoji,cityName){
+  const el=document.createElement('div');
+  el.className='g-exp-label';
+  el.style.left=(30+Math.random()*45)+'vw';
+  el.style.top=(20+Math.random()*50)+'vh';
+  el.style.color='#fff';
+  el.innerHTML=emoji+' <span style="font-size:8px;color:rgba(255,200,200,.7)">'+cityName+'</span>';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),2000);
+}
+
+// ── Intercept explosion ──
+function spawnInterceptExplosion(pos,cfg){
+  const mesh=new THREE.Mesh(
+    new THREE.SphereGeometry(cfg.glowRadius*2,12,12),
+    new THREE.MeshBasicMaterial({color:cfg.color,transparent:true,opacity:0.9})
+  );
+  mesh.position.copy(pos);globeGroup.add(mesh);
+  const ring=new THREE.Mesh(
+    new THREE.RingGeometry(cfg.glowRadius*2.5,cfg.glowRadius*6,24),
+    new THREE.MeshBasicMaterial({color:cfg.color,transparent:true,opacity:0.6,side:THREE.DoubleSide})
+  );
+  ring.position.copy(pos);ring.lookAt(0,0,0);globeGroup.add(ring);
+  const ring2=new THREE.Mesh(
+    new THREE.RingGeometry(cfg.glowRadius*5,cfg.glowRadius*9,24),
+    new THREE.MeshBasicMaterial({color:cfg.trailColor,transparent:true,opacity:0.3,side:THREE.DoubleSide})
+  );
+  ring2.position.copy(pos);ring2.lookAt(0,0,0);globeGroup.add(ring2);
+  explosions.push({mesh,ring,ring2,life:1,maxLife:1});
+}
+
+// ── Defense arc builder ──
+function createDefenseArc(fromKey,toKey,defTypeName){
+  if(!globeGroup)return;
+  const cfg=DEFENSE_TYPES[defTypeName]||DEFENSE_TYPES.interceptor;
+  // Accept both GLOBE_CITIES keys and coord objects
+  const from=GLOBE_CITIES[fromKey]||(typeof fromKey==='object'?fromKey:null);
+  const to  =GLOBE_CITIES[toKey]  ||(typeof toKey==='object'?toKey:null);
+  if(!from||!to)return;
+  const RA=150;
+  const p1=latLngToVec3(from.lat,from.lng,RA+2);
+  const p2=latLngToVec3(to.lat,  to.lng,  RA+2);
+  const mid=new THREE.Vector3().addVectors(p1,p2).multiplyScalar(0.5);
+  const dist=p1.distanceTo(p2);
+  const lift=RA*cfg.arcHeight*(0.4+dist/(RA*3));
+  const ctrl=mid.clone().normalize().multiplyScalar(mid.length()+lift);
+  const curve=new THREE.QuadraticBezierCurve3(p1,ctrl,p2);
+  const head=new THREE.Mesh(
+    new THREE.SphereGeometry(cfg.glowRadius,10,10),
+    new THREE.MeshBasicMaterial({color:cfg.color,transparent:true,opacity:1})
+  );
+  head.position.copy(p1);globeGroup.add(head);
+  const trailPts=Array(11).fill(p1.clone());
+  const trailLine=new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(trailPts),
+    new THREE.LineBasicMaterial({color:cfg.color,transparent:true,opacity:0.9})
+  );
+  globeGroup.add(trailLine);
+  defenseArcs.push({curve,head,trailLine,t:0,cfg,fromCity:from,toCity:to});
+}
+
+// ── Defense UI functions ──
+function globeActivateDefense(defType){
+  const keys=Object.keys(GLOBE_CITIES);
+  const from=keys[Math.floor(Math.random()*keys.length)];
+  let to;do{to=keys[Math.floor(Math.random()*keys.length)];}while(to===from);
+  const count=1+Math.floor(Math.random()*3);
+  for(let i=0;i<count;i++){
+    setTimeout(()=>{
+      let to2;do{to2=keys[Math.floor(Math.random()*keys.length)];}while(to2===from);
+      createDefenseArc(from,to2,defType);
+    },i*120);
+  }
+  totalIntercepted+=count;
+  updateGlobeDefenseStats();
+  addGlobeDefenseLog(DEFENSE_TYPES[defType].label,GLOBE_CITIES[from].name+' → '+GLOBE_CITIES[to].name,defType);
+  showInterceptLabel(DEFENSE_TYPES[defType].interceptLabel);
+}
+
+function globeToggleShield(){
+  shieldModeActive=!shieldModeActive;
+  const btn=document.getElementById('g-shield-btn');
+  const pulse=document.getElementById('g-shield-pulse');
+  if(shieldModeActive){
+    if(btn){btn.classList.add('active');btn.textContent='🌐 ESCUDO ACTIVO — Clic para desactivar';}
+    if(pulse)pulse.classList.add('active');
+    autoDefenseTimer=setInterval(()=>{
+      if(!shieldModeActive)return;
+      const defKeys=Object.keys(DEFENSE_TYPES);
+      const cityKeys=Object.keys(GLOBE_CITIES);
+      const defType=defKeys[Math.floor(Math.random()*defKeys.length)];
+      const from=cityKeys[Math.floor(Math.random()*cityKeys.length)];
+      let to;do{to=cityKeys[Math.floor(Math.random()*cityKeys.length)];}while(to===from);
+      createDefenseArc(from,to,defType);
+      if(activeArcs.length>0)totalBlocked++;
+      totalIntercepted++;
+      updateGlobeDefenseStats();
+    },600);
+    addGlobeDefenseLog('🌐 ESCUDO GLOBAL ACTIVADO','Defensa automática en todos los frentes','emp');
+  }else{
+    if(btn){btn.classList.remove('active');btn.textContent='🌐 ESCUDO GLOBAL TOTAL';}
+    if(pulse)pulse.classList.remove('active');
+    clearInterval(autoDefenseTimer);
+    addGlobeDefenseLog('⏹ Escudo desactivado','Modo manual restaurado','cyberdefense');
+  }
+}
+
+function globeClearDefenses(){
+  shieldModeActive=false;clearInterval(autoDefenseTimer);
+  const btn=document.getElementById('g-shield-btn');
+  const pulse=document.getElementById('g-shield-pulse');
+  if(btn){btn.classList.remove('active');btn.textContent='🌐 ESCUDO GLOBAL TOTAL';}
+  if(pulse)pulse.classList.remove('active');
+  defenseArcs.forEach(da=>{globeGroup.remove(da.head);if(da.trailLine)globeGroup.remove(da.trailLine);});
+  defenseArcs.length=0;
+  addGlobeDefenseLog('⏹ DEFENSAS DETENIDAS','Sistema de defensa pausado','interceptor');
+}
+
+function updateGlobeDefenseStats(){
+  const el1=document.getElementById('g-def-intercepted');if(el1)el1.textContent=totalIntercepted;
+  const el2=document.getElementById('g-def-blocked');if(el2)el2.textContent=totalBlocked;
+  const el3=document.getElementById('g-def-rate');
+  if(el3){const rate=totalGlobeAttacks>0?Math.min(99,Math.round(((totalIntercepted+totalBlocked)/totalGlobeAttacks)*100)):0;el3.textContent=rate+'%';}
+  const el4=document.getElementById('hud-intercepted');if(el4)el4.textContent=totalIntercepted;
+}
+
+function showInterceptLabel(text){
+  const el=document.createElement('div');
+  el.className='g-intercept-label';
+  el.style.left=(25+Math.random()*55)+'vw';
+  el.style.top=(20+Math.random()*55)+'vh';
+  el.style.color='#00ff88';
+  el.style.textShadow='0 0 12px #00ff88';
+  el.innerHTML='💚 <span style="font-size:8px;color:rgba(150,255,180,.8)">'+text+'</span>';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),2000);
+}
+
+// Defense log
+const DEF_LOG_CLS={interceptor:'intercepted',laser:'blocked',emp:'shielded',cyberdefense:'intercepted',quarantine:'intercepted'};
+function addGlobeDefenseLog(title,detail,type){
+  const list=document.getElementById('g-def-log-list');if(!list)return;
+  const cls=DEF_LOG_CLS[type]||'intercepted';
+  const icons={interceptor:'🚀',laser:'⚡',emp:'🔮',cyberdefense:'🛡',quarantine:'🧬'};
+  const now=new Date();
+  const time=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0')+':'+String(now.getSeconds()).padStart(2,'0');
+  const item=document.createElement('div');
+  item.className='g-dl-item '+cls;
+  item.innerHTML=`<div class="g-dl-icon">${icons[type]||'🛡'}</div><div class="g-dl-txt"><strong>${title}</strong><br/>${detail}</div><div class="g-dl-time">${time}</div>`;
+  list.insertBefore(item,list.firstChild);
+  defLogCount++;if(defLogCount>8){list.removeChild(list.lastChild);defLogCount--;}
+}
+
+// Global launch (for overlay buttons) — works with any ATTACK_TYPES key
+function globalLaunchAttack(typeName){
+  const cfg = ATTACK_TYPES[typeName];
+  if(!cfg) return;
+  const keys = Object.keys(GLOBE_CITIES);
+  let from, to;
+  do { from = keys[Math.floor(Math.random()*keys.length)]; to = keys[Math.floor(Math.random()*keys.length)]; } while(from===to);
+  // Salvo 25%
+  if(Math.random()<0.25){
+    const salvo = 2+Math.floor(Math.random()*3);
+    for(let i=0;i<salvo;i++){
+      setTimeout(()=>{ let t2; do{t2=keys[Math.floor(Math.random()*keys.length)];}while(t2===from); createAttackArc(from,t2,typeName); },i*180);
+    }
+    globeAttackTotal += salvo;
+  } else {
+    createAttackArc(from, to, typeName);
+    globeAttackTotal++;
+  }
+  addGlobeAttackFeedItem(typeName, GLOBE_CITIES[from].name+' → '+GLOBE_CITIES[to].name);
+  _updateGlobeAttackCounters();
+}
+
+// War mode toggle — uses ALL available attacks (base + unlocked)
+function globalWarToggle(){
+  globeWarMode=!globeWarMode;
+  const btn=document.getElementById('g-war-btn');
+  if(globeWarMode){
+    if(btn){btn.textContent='🔥 GUERRA ACTIVA — Clic para detener';btn.classList.add('active');}
+    globeWarTimer=setInterval(()=>{
+      const types = getAvailableAtkKeys();
+      const keys=Object.keys(GLOBE_CITIES);
+      const count=3+Math.floor(Math.random()*4);
+      for(let i=0;i<count;i++){
+        const from=keys[Math.floor(Math.random()*keys.length)];
+        let to;do{to=keys[Math.floor(Math.random()*keys.length)];}while(to===from);
+        createAttackArc(from,to,types[Math.floor(Math.random()*types.length)]);
+      }
+      globeAttackTotal+=count; _updateGlobeAttackCounters();
+    },800);
+    addGlobeAttackFeedItem('nuclear','⚔ GUERRA GLOBAL — todos los países en conflicto');
+  }else{
+    if(btn){btn.textContent='⚔ MODO GUERRA GLOBAL';btn.classList.remove('active');}
+    clearInterval(globeWarTimer);
+    addGlobeAttackFeedItem('cyber','🏳 Tregua — guerra global detenida');
+  }
+}
+
+// Feed item for attack log (left panel + right ataques tab)
+function addGlobeAttackFeedItem(typeName, label){
+  const cfg = ATTACK_TYPES[typeName] || ATTACK_TYPES.nuclear;
+  const now = new Date();
+  const time = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+
+  // Left panel feed
+  const leftList = document.getElementById('g-attack-log');
+  if(leftList){
+    const item = document.createElement('div');
+    item.className = 'g-atk-item '+(cfg.uiColor||'clr-cyan');
+    item.innerHTML = `<div class="g-atk-icon">${cfg.icon||'◈'}</div><div class="g-atk-txt"><strong>${cfg.label}</strong><br/>${label}</div><div class="g-atk-time">${time}</div>`;
+    leftList.insertBefore(item, leftList.firstChild);
+    if(leftList.children.length>16) leftList.removeChild(leftList.lastChild);
+  }
+
+  // Right ataques tab combat feed
+  const rightList = document.getElementById('g-atk-feed-list') || document.getElementById('combat-feed');
+  if(rightList && rightList!==leftList){
+    const item2 = document.createElement('div');
+    item2.className = 'g-atk-item '+(cfg.uiColor||'clr-cyan');
+    item2.innerHTML = `<div class="g-atk-icon">${cfg.icon||'◈'}</div><div class="g-atk-txt"><strong>${cfg.label}</strong><br/>${label}</div><div class="g-atk-time">${time}</div>`;
+    rightList.insertBefore(item2, rightList.firstChild);
+    if(rightList.children.length>20) rightList.removeChild(rightList.lastChild);
+  }
+}
+
+// Counter sync helper
+let globeAttackTotal = 0;
+function _updateGlobeAttackCounters(){
+  const arcs = (typeof globeAttackArcs!=='undefined') ? globeAttackArcs.length : 0;
+  ['g-ov-attacks','g-hud-attacks'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent=globeAttackTotal; });
+  ['g-ov-arcs','g-hud-arcs'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent=arcs; });
+}
+
+// Auto-attack scheduler — uses ALL available attacks incl. unlocked buildings
+let globeAutoAttackTimer=null;
+function scheduleGlobeAutoAttack(){
+  const delay=1400+Math.random()*2000;
+  globeAutoAttackTimer=setTimeout(()=>{
+    if(!globeGroup)return;
+    const types = getAvailableAtkKeys(); // includes unlocked
+    const keys=Object.keys(GLOBE_CITIES);
+    const from=keys[Math.floor(Math.random()*keys.length)];
+    let to;do{to=keys[Math.floor(Math.random()*keys.length)];}while(to===from);
+    const type=types[Math.floor(Math.random()*types.length)];
+    if(Math.random()<0.3){
+      let to2;do{to2=keys[Math.floor(Math.random()*keys.length)];}while(to2===from||to2===to);
+      createAttackArc(from,to2,type);
+      globeAttackTotal++;
+    }
+    createAttackArc(from,to,type);
+    globeAttackTotal++;
+    addGlobeAttackFeedItem(type, GLOBE_CITIES[from].name+' → '+GLOBE_CITIES[to].name);
+    _updateGlobeAttackCounters();
+    scheduleGlobeAutoAttack();
+  },delay);
 }
 
 function highlightGlobeState(id){
@@ -4107,6 +5229,10 @@ function setGlobeView(v){
   if(v==='satelite'){
     // ── SATELLITE MODE ──
     window._sc_mode='satelite';
+    // Hide defense overlays
+    const dp=document.getElementById('g-def-panel');if(dp)dp.classList.remove('visible');
+    const dl=document.getElementById('g-def-log');if(dl)dl.classList.remove('visible');
+    const dh=document.getElementById('g-def-hud');if(dh)dh.classList.remove('visible');
     if(window._sc_satReady){
       window._sc_applySat();
     }else{
@@ -4125,22 +5251,34 @@ function setGlobeView(v){
     switchTab('terrenos');
 
   }else if(v==='defensa'){
-    // ── DEFENSE MODE (keep current texture, tint rings) ──
+    // ── DEFENSE MODE ── show defense panels + start globe auto-attacks
+    window._sc_mode='defensa';
     switchTab('defensa');
+    // Show defense overlays
+    const dp=document.getElementById('g-def-panel');if(dp)dp.classList.add('visible');
+    const dl=document.getElementById('g-def-log');if(dl)dl.classList.add('visible');
+    const dh=document.getElementById('g-def-hud');if(dh)dh.classList.add('visible');
+    // Tint markers by defense status
     Object.keys(STATES).forEach(id=>{
       if(!markerDataMap[id])return;
       const hasDefense=(gameState.defenses[id]&&gameState.defenses[id].length>0);
       const d=markerDataMap[id];
       if(d.hRing){
-        d.hRing.material.color.setHex(hasDefense?0xff0066:0x3a3c58);
+        d.hRing.material.color.setHex(hasDefense?0x00ff88:0x3a3c58);
         d.hRing.material.opacity=hasDefense?0.45:0.06;
       }
     });
-    document.getElementById('globe-info').textContent='🛡️ Vista DEFENSA — sistemas activos';
+    // Launch initial defense arcs burst
+    setTimeout(()=>{for(let i=0;i<3;i++)setTimeout(()=>globeActivateDefense(Object.keys(DEFENSE_TYPES)[i%5]),i*300);},400);
+    document.getElementById('globe-info').textContent='🛡️ DEFENSA GLOBAL — Sistema activo';
 
   }else{
     // ── NEURAL MODE ──
     window._sc_mode='neural';
+    // Hide defense overlays
+    const dp=document.getElementById('g-def-panel');if(dp)dp.classList.remove('visible');
+    const dl=document.getElementById('g-def-log');if(dl)dl.classList.remove('visible');
+    const dh=document.getElementById('g-def-hud');if(dh)dh.classList.remove('visible');
     if(window._sc_applyNeural)window._sc_applyNeural();
     switchTab('terrenos');
     Object.keys(STATES).forEach(id=>{
@@ -4244,6 +5382,19 @@ function goApp(){
     setInterval(autoLog,3500);setInterval(flickerPrice,2500);
     setInterval(passiveIncomeTick,5000);
     setTimeout(initBots, 2000);
+    // ── Inicializa el panel de ataques globales ──
+    setTimeout(()=>{
+      refreshGlobeAttackPanel(); // Render initial base attacks in overlay
+      scheduleGlobeAutoAttack();
+      // Burst inicial: 3 arcos al arrancar
+      for(let i=0;i<3;i++) setTimeout(()=>{
+        const keys=Object.keys(GLOBE_CITIES);
+        const from=keys[Math.floor(Math.random()*keys.length)];
+        let to;do{to=keys[Math.floor(Math.random()*keys.length)];}while(to===from);
+        const types=Object.keys(ATTACK_TYPES);
+        createAttackArc(from,to,types[Math.floor(Math.random()*types.length)]);
+      },i*900);
+    },1800);
   },150);
 }
 function loading(t,s,ms,cb){
@@ -4561,13 +5712,18 @@ function renderDefenseList(){
   DEFENSE_SYSTEMS.forEach(def=>{
     const ownedId=gameState.selectedId;
     const isOwned=ownedId&&gameState.ownedTerritories[ownedId];
+    const territoryBuildings=ownedId?(gameState.buildings[ownedId]||[]):[];
+    // Si la defensa requiere un edificio, ocultarla si no está construido
+    if(def.req&&!territoryBuildings.includes(def.req))return;
     const isActive=ownedId&&(gameState.defenses[ownedId]||[]).includes(def.id);
     const canActivate=isOwned&&!isActive&&gameState.wallet>=def.cost;
+    const reqBld=def.req?BUILDINGS.find(b=>b.id===def.req):null;
+    const reqBadge=reqBld?`<span style="font-size:8px;color:var(--gold);margin-left:6px;">Req: ${reqBld.emoji}${reqBld.name}</span>`:'';
     const el=document.createElement('div');
     el.className='def-item'+(isActive?' active-def':'');
-    el.innerHTML=`<div class="def-name">${def.name}${isActive?'<span style="color:var(--green);font-size:8px;margin-left:6px;">● ACTIVO</span>':''}</div>
+    el.innerHTML=`<div class="def-name">${def.name}${reqBadge}${isActive?'<span style="color:var(--green);font-size:8px;margin-left:6px;">● ACTIVO</span>':''}</div>
       <div class="def-desc">${def.desc}</div>
-      <div class="def-cost">Costo: ${def.cost.toFixed(3)} SOL · ${def.duration} · ${'★'.repeat(def.power)}</div>
+      <div class="def-cost">Costo: ${def.cost.toFixed(3)} SOL · ${def.duration} · ${'★'.repeat(Math.min(def.power,10))}</div>
       <button class="def-btn" ${isActive||!canActivate?'disabled':''} onclick="activateDefense('${def.id}',${def.cost})">
         ${isActive?'✓ ACTIVO':!isOwned?'Requiere territorio propio':!canActivate?'SOL insuficiente':'⚡ ACTIVAR'}
       </button>`;
@@ -4595,6 +5751,16 @@ function launchAttack(){
   addLog('⚔ ATAQUE lanzado sobre '+STATES[id].name,'pink');
   addMovement('⚔ Ataque','neg','-0.03 SOL');
   pushCombatEvent({type:'basico',name:'⚔ Ataque Básico',from:currentUser.name||'Usuario',fromState:gameState.selectedId?STATES[Object.keys(gameState.ownedTerritories)[0]]?.name||'—':'—',target:STATES[id].name,cost:0.03,col:'#ff0066'});
+  // ── 3D attack arc on globe ──
+  const fromKeys=Object.keys(gameState.ownedTerritories);
+  const fromId=fromKeys.length>0?fromKeys[0]:null;
+  const fromCoords=fromId&&STATES[fromId]?STATES[fromId].coords:null;
+  const toCoords=STATES[id]?.coords;
+  if(toCoords){
+    // If no owned territory use a random visible point near Mexico
+    const origin=fromCoords||{lat:19.4,lng:-99.1};
+    spawnAttackArc(origin,toCoords,'basico','⚔ Ataque Básico');
+  }
   const aa=document.getElementById('attack-alert');
   aa.textContent='⚔ ATAQUE SOBRE '+STATES[id].name.toUpperCase();
   aa.classList.add('show');setTimeout(()=>aa.classList.remove('show'),3000);
@@ -4687,6 +5853,21 @@ function buildOn(stId,bldId){
   addMovement('🏗️ '+bld.name,'neg','-'+bld.cost.toFixed(3)+' SOL');
   showNotif('✅ '+bld.name+' construido');
   renderAttacksList();
+  // If this building unlocks an attack → notify + refresh globe panel
+  const newAtkKey = BUILD_TO_ATK[bldId];
+  if(newAtkKey && ATTACK_TYPES[newAtkKey]){
+    const atk = ATTACK_TYPES[newAtkKey];
+    setTimeout(()=>{
+      refreshGlobeAttackPanel();
+      showNotif('🔓 ¡Nuevo ataque global desbloqueado: '+atk.label+'!');
+      addGlobeAttackFeedItem(newAtkKey,'🔓 DESBLOQUEADO via '+bld.name+' en '+STATES[stId].name);
+      // Spectacular launch arc to show the new weapon
+      const gcKeys = Object.keys(GLOBE_CITIES);
+      const rFrom  = gcKeys[Math.floor(Math.random()*gcKeys.length)];
+      let rTo; do{rTo=gcKeys[Math.floor(Math.random()*gcKeys.length)];}while(rTo===rFrom);
+      createAttackArc(rFrom, rTo, newAtkKey);
+    }, 400);
+  }
 }
 
 // ══════════════════════════════════════
@@ -4698,19 +5879,12 @@ function buildOn(stId,bldId){
 const ATK_COLORS={
   pandemia:'#00ff88',terrorista:'#ff0066',marcha:'#f59e0b',
   sabotaje:'#ff6600',ufo_ataque:'#9945ff',neuro_hack:'#00f5ff',
-  basico:'#ff0066',defensa:'#00f5ff',compra:'#00f5ff',build:'#00cc44',buy:'#00f5ff',
-  // V7 Biológicos
-  crucero_infeccioso:'#00cc88',portaaviones:'#fbbf24',
-  submarino_sigiloso:'#06b6d4',bombardeo_acorazado:'#64748b',
-  pandemia_global:'#ff4444',brote_local:'#ff8800',
-  alianza:'#f59e0b',investigacion:'#a78bfa',bio_chain:'#00ff88'
+  crucero_infeccioso:'#39ff14',
+  basico:'#ff0066',defensa:'#00f5ff',compra:'#00f5ff',build:'#00cc44',buy:'#00f5ff'
 };
 const ATK_ICONS={
   pandemia:'☣',terrorista:'💥',marcha:'🥾',sabotaje:'🛢',
-  ufo_ataque:'🛸',neuro_hack:'🧬',basico:'⚔',defensa:'🛡',compra:'🗺',build:'🏗',buy:'🏙',
-  crucero_infeccioso:'🦠',portaaviones:'✈',submarino_sigiloso:'🚢',
-  bombardeo_acorazado:'⚓',pandemia_global:'💀',brote_local:'🦠',
-  alianza:'🤝',investigacion:'🔬',bio_chain:'🧬'
+  ufo_ataque:'🛸',neuro_hack:'🧬',crucero_infeccioso:'🦠',basico:'⚔',defensa:'🛡',compra:'🗺',build:'🏗',buy:'🏙'
 };
 const FLOAT_WORDS_ATK=['DMG','STRIKE','HIT','FIRE','IMPACT','BURN','SHOCK','BLAST'];
 const FLOAT_WORDS_DEF=['BLOCK','SHIELD','GUARD','WALL','PROTECT','REFLECT'];
@@ -4719,11 +5893,6 @@ const FLOAT_WORDS_BUY=['MINT','NFT','BLOCK','TX OK','SOL','CHAIN'];
 function pushCombatEvent(ev){
   const feed=document.getElementById('combat-feed');if(!feed)return;
   const col=ATK_COLORS[ev.type]||'#ff0066';
-  // 🌍 Trigger globe attack animation
-  const isRealAtk = !['buy','build','defensa','compra'].includes(ev.type);
-  if(isRealAtk && ev.fromStateId && ev.targetId && typeof spawnGlobeAttack==='function'){
-    spawnGlobeAttack(ev.fromStateId, ev.targetId, ev.type);
-  }
   const icon=ATK_ICONS[ev.type]||ATK_ICONS[ev.icon]||ev.icon||'⚔';
   const isAtk=!['buy','build','defensa','compra'].includes(ev.type);
   const floatWords=isAtk?FLOAT_WORDS_ATK:(ev.type==='defensa'?FLOAT_WORDS_DEF:FLOAT_WORDS_BUY);
@@ -4845,11 +6014,20 @@ function launchSpecialAttack(atkId,cost){
   addLog('⚔ '+atkName+' sobre '+STATES[id].name,'pink');
   addMovement('⚔ '+atkName,'neg','-'+cost.toFixed(3)+' SOL');
   // Push to combat feed
+  const fromKeys2=Object.keys(gameState.ownedTerritories);
+  const fromId2=fromKeys2.length>0?fromKeys2[0]:null;
   pushCombatEvent({
     type:atkId,name:atkName,
-    from:currentUser.name||'Usuario',fromState:Object.keys(gameState.ownedTerritories)[0]?STATES[Object.keys(gameState.ownedTerritories)[0]]?.name:'—',
+    from:currentUser.name||'Usuario',fromState:fromId2?STATES[fromId2]?.name:'—',
     target:STATES[id].name,cost,col:ATK_COLORS[atkId]||'#ff0066'
   });
+  // ── 3D attack arc ──
+  const fromCoords2=fromId2&&STATES[fromId2]?STATES[fromId2].coords:null;
+  const toCoords2=STATES[id]?.coords;
+  if(toCoords2){
+    const origin2=fromCoords2||{lat:19.4,lng:-99.1};
+    spawnAttackArc(origin2,toCoords2,atkId,atkName);
+  }
   const aa=document.getElementById('attack-alert');
   aa.textContent='⚔ '+atkName.toUpperCase()+' → '+STATES[id].name.toUpperCase();
   aa.classList.add('show');setTimeout(()=>aa.classList.remove('show'),3500);
@@ -5040,14 +6218,39 @@ function botTick(bot, bi){
     );
     if(targets.length>0 && bot.wallet>=0.03){
       const target   = targets[Math.floor(Math.random()*targets.length)];
-      const atkTypes = ['basico','pandemia','marcha','terrorista'];
-      const atkType  = atkTypes[Math.floor(Math.random()*atkTypes.length)];
-      const atkNames = {basico:'⚔ Ataque Básico',pandemia:'☣ Pandemia',marcha:'🥾 Marcha',terrorista:'💥 Terrorista'};
+      // Bots use ALL available ATTACK_TYPES keys (including unlocked from buildings)
+      const allAtkKeys = getAvailableAtkKeys();
+      // Weight towards unlocked attacks for variety
+      const weightedKeys = [...allAtkKeys, ...allAtkKeys.filter(k=>!ATTACK_TYPES[k].alwaysAvailable)];
+      const atkKey = weightedKeys[Math.floor(Math.random()*weightedKeys.length)];
+      const atkCfg = ATTACK_TYPES[atkKey] || ATTACK_TYPES.nuclear;
+      // Legacy atkType for pushCombatEvent compatibility
+      const legacyTypes = ['basico','pandemia','marcha','terrorista','neuro_hack','crucero_infeccioso'];
+      const legacyKey = Object.entries(ATK_TYPE_MAP).find(([k,v])=>v===atkKey)?.[0] || 'basico';
       bot.wallet -= 0.03;
-      addLog('⚔ '+bot.name.replace(/^[🤖⭐] /,'')+' atacó '+STATES[target]?.name,'pink');
-      pushCombatEvent({type:atkType,name:atkNames[atkType],from:bot.name,fromState:bot.owned.length?STATES[bot.owned[0]]?.name||'—':'—',target:STATES[target]?.name||'—',cost:0.03,col:typeof ATK_COLORS!=='undefined'?ATK_COLORS[atkType]||'#ff0066':'#ff0066'});
-      actionDone = {icon:'⚔',text:'Atacó '+STATES[target]?.name,color:'#ff0066'};
-      if(isUser) showNotif('⭐ Tu Androide lanzó ataque sobre '+STATES[target]?.name);
+      addLog('⚔ '+bot.name.replace(/^[🤖⭐] /,'')+' atacó '+STATES[target]?.name+' con '+atkCfg.label,'pink');
+      pushCombatEvent({
+        type: legacyKey,
+        name: atkCfg.label,
+        from: bot.name, fromState: bot.owned.length ? STATES[bot.owned[0]]?.name||'—' : '—',
+        target: STATES[target]?.name||'—', cost:0.03,
+        col: atkCfg.colorHex||'#ff0066'
+      });
+      actionDone = {icon: atkCfg.icon||'⚔', text:'Atacó '+STATES[target]?.name+' · '+atkCfg.label, color:atkCfg.colorHex||'#ff0066'};
+      // ── Globe attack arc for bots (35% chance) ──
+      if(Math.random()<0.35 && typeof createAttackArc==='function'){
+        const botFromId = bot.owned[0];
+        const botFrom = botFromId&&STATES[botFromId] ? STATES[botFromId].coords : null;
+        const botTo = STATES[target]?.coords;
+        if(botFrom&&botTo){
+          // Map to global city keys for bots
+          const gcKeys = Object.keys(GLOBE_CITIES);
+          const rFrom = gcKeys[Math.floor(Math.random()*gcKeys.length)];
+          const rTo   = gcKeys[Math.floor(Math.random()*gcKeys.length)];
+          if(rFrom!==rTo) createAttackArc(rFrom, rTo, atkKey);
+        }
+      }
+      if(isUser) showNotif('⭐ Tu Androide lanzó '+atkCfg.label+' sobre '+STATES[target]?.name);
     }
   } else {
     const msgs=['Analizando mercado...','Optimizando estrategia...','Escaneando oportunidades...','Sincronizando nodos...','Evaluando territorios...'];
@@ -6055,236 +7258,13 @@ function updatePreview(id){
 
 
 
-
 // ══════════════════════════════════════════════════════════════
-// V7 BIOLOGICAL SYSTEMS — LOGIC FUNCTIONS
+// 🧬 BIO PANEL — Funciones de Render y UI (desde index.html)
 // ══════════════════════════════════════════════════════════════
 
-// ── RESEARCH SYSTEM ──────────────────────────────────────────
-function getResearchBonus(type) {
-  let bonus = 1.0;
-  if(type === 'damage'){
-    if(gameState.research['bio_enhancement']) bonus += 0.15;
-    if(gameState.research['viral_mutation']) bonus += 0.20;
-    if(gameState.research['bio_weapon_advanced']) bonus += 0.50;
-  } else if(type === 'defense'){
-    if(gameState.research['pandemic_resistance']) bonus += 0.25;
-    if(gameState.research['immune_fortification']) bonus += 0.20;
-    if(gameState.research['pathogen_control']) bonus += 0.15;
-  }
-  return bonus;
-}
+// Alias: RESEARCH_TREE → array RESEARCHES (para compatibilidad con renderResearchList)
+const RESEARCHES = Object.values(RESEARCH_TREE);
 
-function unlockResearch(researchId) {
-  const r = RESEARCHES.find(x => x.id === researchId);
-  if(!r) return false;
-  if(gameState.research[researchId]) { showNotif('⚠ Ya investigado: ' + r.name); return false; }
-  if(r.req && !gameState.research[r.req]) { showNotif('⚠ Requiere: ' + r.req); return false; }
-  if(gameState.wallet < r.cost) { showNotif('⚠ SOL insuficiente para investigación'); return false; }
-  gameState.wallet -= r.cost;
-  gameState.researchPoints += r.points;
-  gameState.research[researchId] = {unlocked:true, completedAt:Date.now()};
-  showNotif('🔬 Investigación desbloqueada: ' + r.name);
-  pushCombatEvent({type:'investigacion',name:r.name,from:currentUser?.name||'Usuario',
-    fromState:'Lab',target:'Global',cost:r.cost,col:'#a78bfa'});
-  updateWalletUI();
-  return true;
-}
-
-// ── PORT ABILITIES ────────────────────────────────────────────
-function activatePortAbility(abilityId, stateId) {
-  const ab = PORT_ABILITIES.find(x => x.id === abilityId);
-  if(!ab) return false;
-  const myTerrs = Object.keys(gameState.ownedTerritories);
-  const targetId = stateId || myTerrs[0];
-  if(!targetId) { showNotif('⚠ No tienes territorios con Puerto'); return false; }
-  const hasPort = (gameState.buildings[targetId]||[]).some(b=>b.id==='puerto');
-  if(!hasPort) { showNotif('⚠ Requiere Puerto Biológico en ' + (STATES[targetId]?.name||targetId)); return false; }
-  if(gameState.wallet < ab.cost) { showNotif('⚠ SOL insuficiente'); return false; }
-  gameState.wallet -= ab.cost;
-  const expiresAt = Date.now() + ab.duration;
-  gameState.portAbilities.push({id:abilityId, name:ab.name, stateId:targetId, expiresAt, effect:ab.effect});
-  if(ab.effect.researchPoints) gameState.researchPoints += ab.effect.researchPoints;
-  showNotif(ab.name + ' activado en ' + (STATES[targetId]?.name||targetId));
-  updateWalletUI();
-  return true;
-}
-
-function updatePortAbilities() {
-  const now = Date.now();
-  gameState.portAbilities = gameState.portAbilities.filter(ab => {
-    if(ab.expiresAt < now){ showNotif('⏱ Habilidad expirada: ' + ab.name); return false; }
-    return true;
-  });
-}
-
-// ── ALLIANCES ─────────────────────────────────────────────────
-function createAlliance(allianceType, allyTerritory) {
-  const at = ALLIANCE_TYPES[allianceType];
-  if(!at) return false;
-  if(gameState.wallet < at.cost) { showNotif('⚠ SOL insuficiente para alianza'); return false; }
-  if(gameState.alliances.length >= 5) { showNotif('⚠ Máximo 5 alianzas activas'); return false; }
-  gameState.wallet -= at.cost;
-  const ally = {id: allianceType+'_'+Date.now(), type:allianceType, ally:allyTerritory,
-    expiresAt:Date.now()+at.duration, benefits:at.benefits, name:at.name};
-  gameState.alliances.push(ally);
-  showNotif('🤝 Alianza creada: ' + at.name + ' con ' + (STATES[allyTerritory]?.name||allyTerritory));
-  pushCombatEvent({type:'alianza',name:at.name,from:currentUser?.name||'Usuario',
-    fromState:'Alianza',target:STATES[allyTerritory]?.name||allyTerritory,cost:at.cost,col:'#f59e0b'});
-  updateWalletUI();
-  return true;
-}
-
-function updateAlliances() {
-  const now = Date.now();
-  gameState.alliances = gameState.alliances.filter(a => {
-    if(a.expiresAt < now){ showNotif('⏱ Alianza expirada: ' + a.name); return false; }
-    return true;
-  });
-}
-
-function getAllianceBonus(bonusType) {
-  let total = 1.0;
-  gameState.alliances.forEach(a => {
-    const at = ALLIANCE_TYPES[a.type];
-    if(!at) return;
-    if(bonusType==='defense' && at.benefits.defCostReduction) total -= at.benefits.defCostReduction;
-    if(bonusType==='damage' && at.benefits.damageBoost) total += at.benefits.damageBoost;
-    if(bonusType==='research' && at.benefits.researchSpeedBoost) total += at.benefits.researchSpeedBoost;
-    if(bonusType==='pandemic' && at.benefits.damageReduction) total -= at.benefits.damageReduction;
-  });
-  return Math.max(0.2, total);
-}
-
-// ── PANDEMIC EVENTS ───────────────────────────────────────────
-function triggerRandomPandemicEvent() {
-  const roll = Math.random();
-  let cumulative = 0;
-  for(const ev of PANDEMIC_EVENTS){
-    cumulative += ev.probability / 60; // per-second probability
-    if(roll < cumulative){
-      const expiresAt = Date.now() + ev.duration;
-      // Check if pathogen_control research reduces it
-      if(gameState.research['pathogen_control'] && Math.random() < 0.40){
-        showNotif('💉 Control de Patógenos bloqueó: ' + ev.name); return;
-      }
-      gameState.pandemicEvents.push({id:ev.id+'_'+Date.now(), type:ev.id,
-        name:ev.name, expiresAt, effect:ev, severity:ev.severity});
-      if(!ev.positive){
-        showNotif('⚠ EVENTO: ' + ev.name + ' — ' + ev.desc);
-        pushCombatEvent({type:'brote_local',name:ev.name,from:'Sistema',
-          fromState:'Global',target:'Todos',cost:0,col:'#ff4444'});
-      } else {
-        showNotif('✨ EVENTO POSITIVO: ' + ev.name);
-      }
-      break;
-    }
-  }
-}
-
-function updatePandemicEvents() {
-  const now = Date.now();
-  gameState.pandemicEvents = gameState.pandemicEvents.filter(ev => {
-    if(ev.expiresAt < now){ showNotif('✅ Evento terminado: ' + ev.name); return false; }
-    return true;
-  });
-}
-
-function getPandemicIncomeModifier() {
-  let mod = 1.0;
-  gameState.pandemicEvents.forEach(ev => {
-    if(ev.effect.damage) mod += ev.effect.damage;
-    if(ev.effect.bonus) mod += ev.effect.bonus;
-  });
-  // Alliance pandemic protection
-  mod = 1.0 + ((mod - 1.0) * getAllianceBonus('pandemic'));
-  return Math.max(0.2, mod);
-}
-
-// ── BIO CHAIN SYSTEM ──────────────────────────────────────────
-function initiateBioChain(territoryId, virusType) {
-  if(gameState.bioChain.active){ showNotif('⚠ Cadena biológica ya activa'); return; }
-  const hasLab = gameState.portAbilities.some(a=>a.id==='puerto_epidemic');
-  if(!hasLab){ showNotif('⚠ Requiere Laboratorio Epidémico activo'); return; }
-  gameState.bioChain = {
-    active:true, stage:1, startTerritory:territoryId, virus:virusType||'airborne',
-    affectedTerritories:[territoryId], powerLevel:1.0,
-    lastProgress:Date.now(), mutation:MUTATION_TYPES[virusType]||MUTATION_TYPES.airborne
-  };
-  showNotif('🧬 Cadena Biológica iniciada en ' + (STATES[territoryId]?.name||territoryId));
-}
-
-function progressBioChain() {
-  if(!gameState.bioChain.active) return;
-  const bc = gameState.bioChain;
-  const stage = BIOCHAIN_STAGES.find(s=>s.stage===bc.stage);
-  if(!stage) return;
-  const elapsed = Date.now() - bc.lastProgress;
-  const speedMult = bc.mutation?.modifier || 1.0;
-  if(elapsed > stage.duration / speedMult){
-    if(bc.stage < 4){
-      bc.stage++;
-      bc.lastProgress = Date.now();
-      const newStage = BIOCHAIN_STAGES.find(s=>s.stage===bc.stage);
-      bc.powerLevel = newStage.powerLevel;
-      showNotif('🦠 Cadena Biológica — ' + newStage.name);
-      // Spread to adjacent territories
-      const stateKeys = Object.keys(STATES);
-      const maxSpread = newStage.affectAdjacent;
-      for(let i=0; i<maxSpread && bc.affectedTerritories.length < stateKeys.length; i++){
-        const candidate = stateKeys[Math.floor(Math.random()*stateKeys.length)];
-        if(!bc.affectedTerritories.includes(candidate)) bc.affectedTerritories.push(candidate);
-      }
-    } else {
-      // Stage 4 ends after duration
-      if(elapsed > stage.duration / speedMult * 2){
-        stopBioChain();
-      }
-    }
-  }
-}
-
-function stopBioChain() {
-  gameState.bioChain = {active:false, stage:0, startTerritory:null, virus:null,
-    affectedTerritories:[], powerLevel:1.0, lastProgress:0};
-  showNotif('✅ Cadena Biológica detenida');
-}
-
-// ── LAUNCH MARITIME ATTACK ────────────────────────────────────
-function launchMaritimeAttack(attackType, targetId) {
-  const atk = MARITIME_ATTACKS[attackType];
-  if(!atk){ showNotif('⚠ Tipo de ataque inválido'); return false; }
-  const myTerrs = Object.keys(gameState.ownedTerritories);
-  if(!myTerrs.length){ showNotif('⚠ No tienes territorios'); return false; }
-  const hasPort = myTerrs.some(id => (gameState.buildings[id]||[]).some(b=>b.id==='puerto'));
-  if(!hasPort){ showNotif('⚠ Requiere Puerto Biológico'); return false; }
-  if(gameState.wallet < atk.cost){ showNotif('⚠ SOL insuficiente'); return false; }
-  if(!STATES[targetId]){ showNotif('⚠ Territorio objetivo inválido'); return false; }
-  gameState.wallet -= atk.cost;
-  const fromId = myTerrs.find(id => (gameState.buildings[id]||[]).some(b=>b.id==='puerto')) || myTerrs[0];
-  // Trigger globe animation
-  if(typeof spawnGlobeAttack === 'function') spawnGlobeAttack(fromId, targetId, attackType);
-  pushCombatEvent({type:attackType, name:atk.name, from:currentUser?.name||'Usuario',
-    fromState:STATES[fromId]?.name||fromId, fromStateId:fromId,
-    target:STATES[targetId]?.name||targetId, targetId:targetId, cost:atk.cost,
-    col:ATK_COLORS[attackType]||'#00cc88'});
-  showNotif(atk.name + ' → ' + STATES[targetId].name);
-  updateWalletUI();
-  return true;
-}
-
-// ── MASTER BIOLOGICAL SYSTEMS UPDATE (called each frame cycle) ─
-function updateBiologicalSystems() {
-  updatePandemicEvents();
-  updatePortAbilities();
-  updateAlliances();
-  progressBioChain();
-  // Random pandemic event trigger
-  if(Math.random() < 0.02) triggerRandomPandemicEvent();
-}
-
-
-// ── V7 BIO PANEL RENDER ───────────────────────────────────────
 function renderBioPanel(){
   renderResearchList();
   renderPortAbilitiesList();
@@ -6304,14 +7284,14 @@ function renderResearchList(){
     const div = document.createElement('div');
     div.className = 'bio-card bio-purple' + (done?' unlocked':'');
     div.innerHTML = `<div class="bio-card-name">${r.name}${done?' ✅':''}</div>
-      <div class="bio-card-desc">${r.effect}</div>
+      <div class="bio-card-desc">${r.effect||r.desc}</div>
       <div class="research-bar"><div class="research-bar-fill" style="width:${done?'100':reqOk?'50':'10'}%"></div></div>
       <div class="bio-card-meta" style="margin-top:4px">
         <span class="bio-cost">${r.cost.toFixed(3)} SOL</span>
-        <span class="bio-effect">${r.points} pts</span>
+        <span class="bio-effect">${r.researchPoints||r.points||0} pts</span>
         ${done?'<span style="color:#00ff88;font-size:9px">COMPLETADO</span>':
           reqOk?`<button class="bio-btn purple" onclick="unlockResearch('${r.id}')">INVESTIGAR</button>`
-               :'<span style="color:#ff6666;font-size:9px">REQUIERE: '+r.req+'</span>'}
+               :'<span style="color:#ff6666;font-size:9px">REQUIERE: '+(r.req||'')+'</span>'}
       </div>`;
     el.appendChild(div);
   });
@@ -6341,7 +7321,7 @@ function renderAlliancesList(){
   const el = document.getElementById('alliances-list');
   if(!el) return;
   el.innerHTML = '';
-  Object.entries(ALLIANCE_TYPES).forEach(([key, at]) => {
+  Object.entries(ALLIANCE_SYSTEM).forEach(([key, at]) => {
     const active = gameState.alliances.some(a=>a.type===key);
     const div = document.createElement('div');
     div.className = 'bio-card bio-yellow' + (active?' unlocked':'');
@@ -6406,25 +7386,24 @@ function renderBioChainStatus(){
   if(stage_el) stage_el.textContent = stage?.name||'Etapa '+bc.stage;
   el.innerHTML = `<div class="biochain-status">🧬 CADENA BIOLÓGICA — Etapa ${bc.stage}/4<br>
     <span style="color:#00ff88">${stage?.name||''}</span> · 
-    Afectados: ${bc.affectedTerritories.length} territorios · 
-    Poder: ${bc.powerLevel.toFixed(2)}x</div>`;
+    Afectados: ${(bc.affectedTerritories||[]).length} territorios · 
+    Poder: ${(bc.powerLevel||1).toFixed(2)}x</div>`;
 }
 
 function openBioChainMenu(){
   const myTerrs = Object.keys(gameState.ownedTerritories);
   if(!myTerrs.length){ showNotif('⚠ Necesitas territorios'); return; }
-  const mutTypes = Object.keys(MUTATION_TYPES);
+  const mutTypes = Object.keys(BIO_MUTATION_TYPES);
   const vType = mutTypes[Math.floor(Math.random()*mutTypes.length)];
   const terr = gameState.selectedId || myTerrs[0];
   initiateBioChain(terr, vType);
   renderBioChainStatus();
 }
 
-// Auto-refresh bio panel if visible
+// Auto-refresh bio panel si está visible
 setInterval(()=>{
   const bioPanelActive = document.getElementById('tab-bio')?.classList.contains('active');
   if(bioPanelActive) renderBioPanel();
-  // Update bio chain stage display
   const sc = document.getElementById('bio-chain-stage');
   if(sc && gameState.bioChain.active){
     const stage = BIOCHAIN_STAGES.find(s=>s.stage===gameState.bioChain.stage);
@@ -8463,7 +9442,359 @@ function updateSky(dt) {
   ambientLight.intensity = 0.3 + t * 0.7;
 }
 
-// Animate
+// ═══════════════════════════════════════════════════════════════
+// 🧬 FUNCIONES: INVESTIGACIONES BIOLÓGICAS
+// ═══════════════════════════════════════════════════════════════
+
+function unlockResearch(researchId) {
+  const research = RESEARCH_TREE[researchId];
+  if (!research) return false;
+  
+  if (gameState.wallet < research.cost) {
+    console.log('❌ Fondos insuficientes para investigación');
+    return false;
+  }
+  
+  if (!gameState.research[researchId]) {
+    gameState.research[researchId] = {unlocked:true, activeAt:Date.now()};
+    gameState.wallet -= research.cost;
+    gameState.researchPoints -= research.researchPoints;
+    
+    console.log(`✅ Investigación desbloqueada: ${research.name}`);
+    applyResearchEffect(research);
+    return true;
+  }
+  return false;
+}
+
+function applyResearchEffect(research) {
+  if (research.effect.damageBoost) {
+    console.log(`🔥 Daño de ataques biológicos +${(research.effect.damageBoost - 1) * 100}%`);
+  }
+  if (research.effect.defenseBoost) {
+    console.log(`🛡️ Defensa biológica +${(research.effect.defenseBoost - 1) * 100}%`);
+  }
+  if (research.effect.unlocksAttack) {
+    console.log(`⚗️ Nuevo ataque desbloqueado: ${research.effect.unlocksAttack}`);
+  }
+  if (research.effect.portDefensePassive) {
+    console.log(`⚓ Puerto genera +${(research.effect.portDefensePassive - 1) * 100}% defensa`);
+  }
+}
+
+function getResearchBonus(type) {
+  const bonus = {damage: 1.0, defense: 1.0, port: 1.0};
+  
+  Object.entries(gameState.research).forEach(([key, val]) => {
+    if (val.unlocked) {
+      const res = RESEARCH_TREE[key];
+      if (res?.effect.damageBoost && type === 'damage') {
+        bonus.damage *= res.effect.damageBoost;
+      }
+      if (res?.effect.defenseBoost && type === 'defense') {
+        bonus.defense *= res.effect.defenseBoost;
+      }
+      if (res?.effect.portDefensePassive && type === 'port') {
+        bonus.port *= res.effect.portDefensePassive;
+      }
+    }
+  });
+  
+  return bonus[type] || 1.0;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🌍 FUNCIONES: EVENTOS PANDÉMICOS ALEATORIOS
+// ═══════════════════════════════════════════════════════════════
+
+function triggerRandomPandemicEvent() {
+  // 5-10% de probabilidad cada minuto
+  if (Math.random() > 0.08) return;
+  
+  const eventList = PANDEMIC_EVENT_LIST;
+  const selectedEvent = eventList[Math.floor(Math.random() * eventList.length)];
+  
+  gameState.pandemicEvents.push({
+    id: selectedEvent.id,
+    startTime: Date.now(),
+    duration: selectedEvent.duration,
+    damage: selectedEvent.damage || 0,
+    bonus: selectedEvent.bonus || 0
+  });
+  
+  console.log(`🌍 EVENTO PANDÉMICO: ${selectedEvent.name}`);
+  console.log(`   ${selectedEvent.desc}`);
+  
+  // Aplicar efectos inmediatos
+  applyPandemicEffects(selectedEvent);
+}
+
+function applyPandemicEffects(event) {
+  Object.entries(gameState.territories).forEach(([id, territory]) => {
+    if (event.damage) {
+      territory.incomeLoss = (territory.incomeLoss || 0) + event.damage;
+    }
+    if (event.bonus) {
+      territory.incomeBonus = (territory.incomeBonus || 0) + event.bonus;
+    }
+  });
+}
+
+function updatePandemicEvents() {
+  const now = Date.now();
+  gameState.pandemicEvents = gameState.pandemicEvents.filter(evt => {
+    return (now - evt.startTime) < evt.duration;
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🧬 FUNCIONES: CADENAS BIOLÓGICAS
+// ═══════════════════════════════════════════════════════════════
+
+function initiateBioChain(startTerritory, virusType = 'airborne') {
+  gameState.bioChain = {
+    active: true,
+    stage: 1,
+    startTerritory: startTerritory,
+    virus: virusType,
+    affectedTerritories: [startTerritory],
+    startTime: Date.now(),
+    powerLevel: 1.0
+  };
+  
+  console.log(`🧬 CADENA BIOLÓGICA INICIADA`);
+  console.log(`   Territorio: ${startTerritory}`);
+  console.log(`   Virus: ${BIO_MUTATION_TYPES[virusType]?.name}`);
+}
+
+function progressBioChain() {
+  if (!gameState.bioChain.active) return;
+  
+  const elapsed = Date.now() - gameState.bioChain.startTime;
+  const chainConfig = BIO_CHAIN_SYSTEM;
+  
+  // Determinar stage basado en tiempo
+  let newStage = 1;
+  if (elapsed > 86400000) newStage = 2;
+  if (elapsed > 172800000) newStage = 3;
+  if (elapsed > 258000000) newStage = 4;
+  
+  if (newStage > gameState.bioChain.stage) {
+    gameState.bioChain.stage = newStage;
+    const stageKey = `stage${newStage}_${Object.keys(chainConfig)[newStage - 1]?.split('_')[1] || 'initial'}`;
+    console.log(`💪 Cadena biológica: ETAPA ${newStage}`);
+  }
+  
+  // Expandir a territorios adyacentes
+  spreadBioChain();
+}
+
+function spreadBioChain() {
+  if (!gameState.bioChain.active) return;
+  
+  const spreadRate = gameState.bioChain.powerLevel * 0.15;
+  if (Math.random() < spreadRate) {
+    // Afectar territorio aleatorio adyacente
+    const currentTerritory = gameState.bioChain.affectedTerritories[
+      Math.floor(Math.random() * gameState.bioChain.affectedTerritories.length)
+    ];
+    
+    // Simulación: afectar territorio vecino
+    gameState.bioChain.affectedTerritories = [
+      ...new Set([...gameState.bioChain.affectedTerritories, currentTerritory])
+    ];
+  }
+}
+
+function stopBioChain() {
+  if (gameState.bioChain.active) {
+    gameState.bioChain.active = false;
+    console.log(`🧬 Cadena biológica: DETENIDA`);
+    console.log(`   Territorios afectados: ${gameState.bioChain.affectedTerritories.length}`);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ⚓ FUNCIONES: ATAQUES MARÍTIMOS
+// ═══════════════════════════════════════════════════════════════
+
+function launchMaritimeAttack(attackType, targetTerritory) {
+  const attack = MARITIME_ATTACKS[attackType];
+  if (!attack) return false;
+  
+  if (gameState.wallet < attack.cost) {
+    console.log('❌ Fondos insuficientes para ataque marítimo');
+    return false;
+  }
+  
+  gameState.wallet -= attack.cost;
+  
+  console.log(`🚢 ATAQUE MARÍTIMO LANZADO`);
+  console.log(`   Tipo: ${attack.name}`);
+  console.log(`   Objetivo: ${targetTerritory}`);
+  console.log(`   Daño: ${attack.damage * 100}%`);
+  console.log(`   Duración: ${attack.duration}`);
+  
+  if (attack.stealthMode) {
+    console.log(`   ⚠️ Modo Sigiloso: No puede ser detectado`);
+  }
+  
+  // Aplicar daño al territorio objetivo
+  const target = gameState.territories[targetTerritory];
+  if (target) {
+    target.damageReceived = (target.damageReceived || 0) + attack.damage;
+  }
+  
+  return true;
+}
+
+function upgradeFleet(shipType) {
+  const ship = MARITIME_FLEET[shipType];
+  if (!ship) return false;
+  
+  if (gameState.wallet < ship.cost) {
+    console.log('❌ Fondos insuficientes para construir nave');
+    return false;
+  }
+  
+  gameState.wallet -= ship.cost;
+  
+  if (!gameState.maritimeFleet) {
+    gameState.maritimeFleet = {carriers: 0, submarines: 0, battleships: 0};
+  }
+  
+  if (shipType === 'portaaviones') gameState.maritimeFleet.carriers += 1;
+  if (shipType === 'submarino') gameState.maritimeFleet.submarines += 1;
+  if (shipType === 'acorazado') gameState.maritimeFleet.battleships += 1;
+  
+  console.log(`✅ Flota mejorada: ${ship.name} construido`);
+  console.log(`   Portaaviones: ${gameState.maritimeFleet.carriers}`);
+  console.log(`   Submarinos: ${gameState.maritimeFleet.submarines}`);
+  console.log(`   Acorazados: ${gameState.maritimeFleet.battleships}`);
+  
+  return true;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🏖️ FUNCIONES: HABILIDADES ESPECIALES DE PUERTO
+// ═══════════════════════════════════════════════════════════════
+
+function activatePortAbility(abilityId) {
+  const ability = PORT_ABILITIES.find(a=>a.id===abilityId) || PORT_ABILITIES.find(a=>a.id===abilityId);
+  if (!ability) return false;
+  
+  if (gameState.wallet < ability.cost) {
+    console.log('❌ Fondos insuficientes para habilidad de puerto');
+    return false;
+  }
+  
+  gameState.wallet -= ability.cost;
+  gameState.portAbilities.push({
+    id: abilityId,
+    activatedAt: Date.now(),
+    duration: ability.duration,
+    expiresAt: Date.now() + ability.duration * 1000
+  });
+  
+  console.log(`🏖️ HABILIDAD DE PUERTO ACTIVADA`);
+  console.log(`   ${ability.name}`);
+  console.log(`   ${ability.desc}`);
+  
+  applyPortAbilityEffect(ability);
+  return true;
+}
+
+function applyPortAbilityEffect(ability) {
+  if (ability.effect.damageReduction) {
+    console.log(`   🛡️ Daño reducido a -${(1 - ability.effect.damageReduction) * 100}%`);
+  }
+  if (ability.effect.incomeBoost) {
+    console.log(`   💰 +${ability.effect.incomeBoost} SOL/h ingresos`);
+  }
+  if (ability.effect.researchBoost) {
+    console.log(`   📚 +${ability.effect.researchBoost} puntos de investigación`);
+  }
+  if (ability.effect.unlocksChain) {
+    console.log(`   🧬 Cadena biológica disponible (controlada)`);
+  }
+}
+
+function updatePortAbilities() {
+  const now = Date.now();
+  gameState.portAbilities = gameState.portAbilities.filter(pa => {
+    return now < pa.expiresAt;
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🤝 FUNCIONES: ALIANZAS DEFENSIVAS
+// ═══════════════════════════════════════════════════════════════
+
+function createAlliance(allianceType, allyTerritory) {
+  const alliance = ALLIANCE_SYSTEM[allianceType];
+  if (!alliance) return false;
+  
+  if (gameState.wallet < alliance.cost) {
+    console.log('❌ Fondos insuficientes para alianza');
+    return false;
+  }
+  
+  gameState.wallet -= alliance.cost;
+  gameState.alliances.push({
+    id: allianceType,
+    ally: allyTerritory,
+    createdAt: Date.now(),
+    duration: alliance.duration,
+    expiresAt: Date.now() + alliance.duration * 1000
+  });
+  
+  console.log(`🤝 ALIANZA FORMADA`);
+  console.log(`   Tipo: ${alliance.name}`);
+  console.log(`   Aliado: ${allyTerritory}`);
+  console.log(`   Beneficio: ${alliance.desc}`);
+  
+  applyAllianceBonus(alliance);
+  return true;
+}
+
+function applyAllianceBonus(alliance) {
+  if (alliance.effects.costReduction) {
+    console.log(`   💰 Costo de defensas reducido ${(1 - alliance.effects.costReduction) * 100}%`);
+  }
+  if (alliance.effects.pandemicControl) {
+    console.log(`   🧪 Control de pandemias: -${(1 - alliance.damageReduction) * 100}% daño`);
+  }
+  if (alliance.effects.fleetBoosting) {
+    console.log(`   ⚓ Flotas marítimas +${(alliance.damageBoost - 1) * 100}% daño`);
+  }
+  if (alliance.effects.sharedResearch) {
+    console.log(`   📚 Velocidad de investigación +${(alliance.researchSpeedBoost - 1) * 100}%`);
+  }
+  if (alliance.effects.immuneSharing) {
+    console.log(`   💉 Inmunidad compartida: -${(1 - alliance.pandemicReduction) * 100}% daño pandémico`);
+  }
+}
+
+function updateAlliances() {
+  const now = Date.now();
+  gameState.alliances = gameState.alliances.filter(a => {
+    return now < a.expiresAt;
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🎮 FUNCIONES DE ACTUALIZACIÓN PRINCIPALES
+// ═══════════════════════════════════════════════════════════════
+
+function updateBiologicalSystems() {
+  updatePandemicEvents();
+  updatePortAbilities();
+  updateAlliances();
+  progressBioChain();
+  triggerRandomPandemicEvent();
+}
+
+
 function animate() {
   requestAnimationFrame(animate);
   const dt = clock.getDelta();
@@ -8471,6 +9802,7 @@ function animate() {
   updateStreetView(dt);
   updateCameraMovement(dt);
   updateSky(dt);
+  updateBiologicalSystems();  // 🧬 Actualizar sistemas biológicos
 
   // Animate preview mesh
   if (previewMesh) {
