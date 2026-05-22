@@ -3,7 +3,29 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>SOLCOIN V7 — Satélite NASA — Neural MX Globe</title>
+<title>SOLCOIN V12 — Satélite NASA — Neural MX Globe</title>
+
+<!-- Favicon -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☀️</text></svg>"/>
+
+<!-- SEO -->
+<meta name="description" content="Compra estados, ciudades y municipios digitales de México en el Globo Neural 3D. Defiéndelos. Construye. Genera ingresos reales."/>
+<meta name="keywords" content="SOLCOIN, Solana, México, terrenos digitales, crypto, blockchain, NFT, globo 3D"/>
+<meta name="author" content="SOLCOIN"/>
+
+<!-- Open Graph (Facebook, WhatsApp, Discord) -->
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://demitry001-sketch.github.io/solcoin-v7/"/>
+<meta property="og:title" content="SOLCOIN V12 — Terrenos Digitales México ◈ Red Neural MX"/>
+<meta property="og:description" content="Compra estados, ciudades y municipios digitales de México en el Globo Neural 3D. Defiéndelos. Construye. Genera ingresos reales."/>
+<meta property="og:image" content="https://demitry001-sketch.github.io/solcoin-v7/logo.png"/>
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:url" content="https://demitry001-sketch.github.io/solcoin-v7/"/>
+<meta name="twitter:title" content="SOLCOIN V12 — Terrenos Digitales México ◈ Red Neural MX"/>
+<meta name="twitter:description" content="Compra estados, ciudades y municipios digitales de México en el Globo Neural 3D. Defiéndelos. Construye. Genera ingresos reales."/>
+<meta name="twitter:image" content="https://demitry001-sketch.github.io/solcoin-v7/logo.png"/>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet"/>
 <style>
 :root{
@@ -6060,46 +6082,26 @@ async function socPhantom(){
   const btn = document.getElementById('phantomBtn');
   btn.disabled = true;
   btn.style.opacity = '0.6';
-  
+  btn.textContent = '⏳ Conectando...';
   try{
-    // Detectar si Phantom está instalado
-    if(!window.solflare && !window.phantom){
-      // Phantom no instalado, abrir página de descarga
-      const isPhantom = confirm('⚠️ Phantom Wallet no está instalada.\n\nOK = Descargar\nCancelar = Volver');
-      if(isPhantom) window.open('https://www.phantom.app/', '_blank');
-      btn.disabled = false;
-      btn.style.opacity = '1';
-      return;
-    }
-    
-    // Usar Phantom wallet
-    const provider = window.phantom?.solana;
-    if(!provider) throw new Error('Phantom no disponible');
-    
-    // Conectar y obtener clave pública
-    const response = await provider.connect();
-    const publicKey = response.publicKey.toString();
-    
-    // Crear usuario con datos de wallet
+    if(!window.solanaWeb3) await SolanaSDK.waitForWeb3();
+    const publicKey = await SolanaSDK.connect();
     currentUser = {
-      name: publicKey.substr(0, 8) + '...',
-      email: publicKey + '@phantom.sol',
-      wallet: publicKey,
-      connected: true
+      name:      publicKey.substr(0,8)+'...'+publicKey.slice(-4),
+      email:     publicKey+'@phantom.sol',
+      wallet:    publicKey,
+      connected: true,
+      provider:  'phantom'
     };
-    
-    // Asignar créditos iniciales
-    gameState.wallet = 2.5;
     gameState.bitso = BITSO_GRANT;
-    
-    // Ir a la pantalla de app con transición de carga
-    loading('Conectando Phantom...', 'Wallet vinculado ✓', 1000, goApp);
-    
+    // wallet ya actualizado por SolanaSDK.refreshBalance()
+    showNotif('✅ Phantom conectado — Balance real cargado');
+    loading('Conectando Phantom...','Balance real verificado ✓',1000,goApp);
   }catch(err){
-    console.error('❌ Error Phantom:', err);
-    alert('⚠️ Error al conectar Phantom:\n' + err.message);
-    btn.disabled = false;
-    btn.style.opacity = '1';
+    console.error('❌ Error Phantom:',err);
+    showNotif('❌ '+(err.message||'Error al conectar'));
+    btn.disabled=false; btn.style.opacity='1';
+    btn.textContent='👻 Conectar Phantom Wallet';
   }
 }
 
@@ -6453,23 +6455,59 @@ function showPagoPanel(id,btn){
   document.querySelectorAll('.ms-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('pp-'+id).classList.add('active');btn.classList.add('active');
 }
-function confirmPago(){
+async function confirmPago(){
+  const p=window._pendingPurchase; if(!p)return;
+  // Sin Phantom conectado → flujo demo
+  if(!currentUser.connected||!SolanaSDK.publicKey){ _confirmPagoDemo(p); return; }
+  // Verificar balance real antes de proceder
+  await SolanaSDK.refreshBalance();
+  if(gameState.wallet<p.total){
+    showNotif('❌ Saldo insuficiente: '+gameState.wallet.toFixed(4)+' SOL (necesitas '+p.total.toFixed(4)+')');
+    return;
+  }
   closePagoDrawer();
-  const p=window._pendingPurchase;if(!p)return;
+  loading('Abriendo Phantom para firmar...','Enviando transacción a Solana...',500,async()=>{
+    try{
+      const signature = await SolanaSDK.sendPayment(p.total);
+      gameState.ownedTerritories[p.stateId]=true;
+      gameState.territories[p.stateId].status='mine';
+      txCount++; document.getElementById('tx-count').textContent=txCount;
+      updateWalletDisplay(); updateGlobeMarkers(); renderTerritoryList(); updateStats();
+      addLog('✓ TX on-chain: '+STATES[p.stateId].name+' confirmado','gold');
+      addMovement('🏴 Compra '+STATES[p.stateId].name,'neg','-'+p.price.toFixed(3)+' SOL');
+      showNotif('🎉 ¡'+STATES[p.stateId].name+' es tuyo!');
+      earnRP('territory_buy');
+      const rpTabT=document.getElementById('rp-tab-counter');
+      if(rpTabT) rpTabT.textContent=(gameState.researchPoints||0)+' PR';
+      highlightGlobeState(p.stateId);
+      const cluster=SOLANA_CONFIG.NETWORK==='mainnet-beta'?'':'?cluster='+SOLANA_CONFIG.NETWORK;
+      const explorerUrl='https://explorer.solana.com/tx/'+signature+cluster;
+      const hashHtml='<a href="'+explorerUrl+'" target="_blank" style="color:var(--cyan);word-break:break-all;font-size:9px;">'+signature+'</a>';
+      showReceipt({name:p.name,txId:signature.substr(0,16)+'...',price:p.total,ref:p.ref,hash:hashHtml});
+      if(gameState.selectedId===p.stateId)selectState(p.stateId);
+    }catch(err){
+      const msg=err.message||'';
+      if(msg.includes('User rejected')) showNotif('⚠️ Transacción cancelada por el usuario');
+      else if(msg.includes('insufficient')) showNotif('❌ SOL insuficiente para pagar + comisión de red (~0.000005 SOL)');
+      else showNotif('❌ Error TX: '+msg);
+    }
+  });
+}
+function _confirmPagoDemo(p){
+  closePagoDrawer();
   loading('Procesando pago...','Confirmando en blockchain Solana...',2200,()=>{
     const txId='TX'+Date.now();
-    const hash='sol1x'+Math.random().toString(36).substr(2,32);
+    const hash='sol1x'+Math.random().toString(36).substr(2,32)+' (demo)';
     gameState.wallet-=p.price;
     gameState.ownedTerritories[p.stateId]=true;
     gameState.territories[p.stateId].status='mine';
     txCount++;document.getElementById('tx-count').textContent=txCount;
     updateWalletDisplay();updateGlobeMarkers();renderTerritoryList();updateStats();
-    addLog('✓ TX: '+STATES[p.stateId].name+' confirmado','gold');
+    addLog('✓ TX demo: '+STATES[p.stateId].name+' confirmado','gold');
     addMovement('🏴 Compra '+STATES[p.stateId].name,'neg','-'+p.price.toFixed(3)+' SOL');
-    showNotif('🎉 ¡'+STATES[p.stateId].name+' es tuyo!');
-    // 🔬
+    showNotif('🎉 ¡'+STATES[p.stateId].name+' es tuyo! (modo demo)');
     earnRP('territory_buy');
-    const rpTabT = document.getElementById('rp-tab-counter');
+    const rpTabT=document.getElementById('rp-tab-counter');
     if(rpTabT) rpTabT.textContent=(gameState.researchPoints||0)+' PR';
     highlightGlobeState(p.stateId);
     showReceipt({name:p.name,txId,price:p.total,ref:p.ref,hash});
@@ -9890,6 +9928,161 @@ window.addEventListener('popstate', function() {
     showExitModal(() => show('splashScreen'));
   }
 });
+
+// ══════════════════════════════════════════════════════════════════════════
+// ☀ SOLCOIN V12 — INTEGRACIÓN SOLANA REAL (web3.js + Phantom)
+// ══════════════════════════════════════════════════════════════════════════
+
+const SOLANA_CONFIG = {
+  // 🔴 Tu wallet que recibe los pagos del juego
+  TREASURY_WALLET: '9mwqCTHKFi1tYC1JA4zgQ9w81MC85o5ZuqMnqUEhAQTF',
+  // Red activa: 'devnet' = pruebas gratis | 'mainnet-beta' = producción real
+  NETWORK: 'mainnet-beta',
+  RPC: {
+    // RPCs robustos con failover automático
+    'devnet': [
+      'https://api.devnet.solana.com',
+      'https://devnet.helius-rpc.com/?api-key=demo',
+    ],
+    'mainnet-beta': [
+      'https://api.mainnet-beta.solana.com',
+      'https://solana-mainnet.rpc.extrnode.com',
+    ],
+  },
+};
+
+const SolanaSDK = {
+  connection: null,
+  provider:   null,
+  publicKey:  null,
+
+  // Cargar @solana/web3.js desde CDN
+  load(){
+    if(window.solanaWeb3){ this.init(); return; }
+    const s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/@solana/web3.js@1.98.0/lib/index.iife.min.js';
+    s.onload=()=>{ console.log('✅ @solana/web3.js cargado'); this.init(); };
+    s.onerror=()=>console.error('❌ No se pudo cargar @solana/web3.js');
+    document.head.appendChild(s);
+  },
+
+  // Iniciar conexión intentando RPCs en orden
+  async init(){
+    const { Connection } = window.solanaWeb3;
+    const rpcs = SOLANA_CONFIG.RPC[SOLANA_CONFIG.NETWORK] || [];
+    for(const rpc of rpcs){
+      try{
+        const conn = new Connection(rpc, 'confirmed');
+        await conn.getSlot(); // prueba de conectividad
+        this.connection = conn;
+        console.log('✅ Solana '+SOLANA_CONFIG.NETWORK+' → '+rpc);
+        this._updatePrice();
+        return;
+      }catch(e){ console.warn('⚠️ RPC fallido: '+rpc); }
+    }
+    console.error('❌ Todos los RPCs fallaron');
+  },
+
+  getProvider(){
+    if(window.phantom?.solana?.isPhantom) return window.phantom.solana;
+    if(window.solflare?.isSolflare)       return window.solflare;
+    return null;
+  },
+
+  async connect(){
+    const provider = this.getProvider();
+    if(!provider){
+      const ok=confirm('⚠️ Phantom Wallet no está instalada.\n\nOK = Descargar Phantom\nCancelar = Volver');
+      if(ok) window.open('https://www.phantom.app/','_blank');
+      throw new Error('Wallet no instalada');
+    }
+    const resp = await provider.connect();
+    this.provider  = provider;
+    this.publicKey = resp.publicKey.toString();
+    await this.refreshBalance();
+    provider.on?.('accountChanged', async pk=>{
+      if(pk){ this.publicKey=pk.toString(); await this.refreshBalance(); updateWalletDisplay(); }
+    });
+    return this.publicKey;
+  },
+
+  async refreshBalance(){
+    if(!this.connection||!this.publicKey) return;
+    try{
+      const {PublicKey} = window.solanaWeb3;
+      const lamps = await this.connection.getBalance(new PublicKey(this.publicKey));
+      gameState.wallet = lamps/1e9;
+      updateWalletDisplay();
+      console.log('💰 Balance real: '+gameState.wallet.toFixed(4)+' SOL');
+    }catch(e){ console.error('❌ refreshBalance:',e); }
+  },
+
+  async sendPayment(solAmount){
+    if(!this.connection||!this.provider||!this.publicKey) throw new Error('Wallet no conectada');
+    const {Transaction,SystemProgram,PublicKey,LAMPORTS_PER_SOL} = window.solanaWeb3;
+    const fromPK   = new PublicKey(this.publicKey);
+    const toPK     = new PublicKey(SOLANA_CONFIG.TREASURY_WALLET);
+    const lamports = Math.round(solAmount*LAMPORTS_PER_SOL);
+    const {blockhash,lastValidBlockHeight} = await this.connection.getLatestBlockhash('confirmed');
+    const tx = new Transaction({recentBlockhash:blockhash,feePayer:fromPK})
+      .add(SystemProgram.transfer({fromPubkey:fromPK,toPubkey:toPK,lamports}));
+    const {signature} = await this.provider.signAndSendTransaction(tx);
+    await this.connection.confirmTransaction({signature,blockhash,lastValidBlockHeight},'confirmed');
+    console.log('✅ TX:',signature);
+    await this.refreshBalance();
+    return signature;
+  },
+
+  waitForWeb3(ms=8000){
+    return new Promise((ok,fail)=>{
+      if(window.solanaWeb3){ok();return;}
+      const t=Date.now(), i=setInterval(()=>{
+        if(window.solanaWeb3){clearInterval(i);ok();}
+        else if(Date.now()-t>ms){clearInterval(i);fail(new Error('Timeout: web3.js no cargó'));}
+      },100);
+    });
+  },
+
+  async _updatePrice(){
+    try{
+      const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=mxn');
+      const d=await r.json();
+      if(d?.solana?.mxn){ solPriceMXN=d.solana.mxn; updateWalletDisplay(); }
+    }catch{}
+    setTimeout(()=>this._updatePrice(), 60_000);
+  },
+};
+
+// Faucet de SOL gratis para devnet
+async function requestDevnetAirdrop(sol=2){
+  if(SOLANA_CONFIG.NETWORK!=='devnet'){ showNotif('⚠️ Solo funciona en devnet'); return; }
+  if(!SolanaSDK.publicKey){ showNotif('❌ Conecta Phantom primero'); return; }
+  try{
+    const {PublicKey,LAMPORTS_PER_SOL}=window.solanaWeb3;
+    showNotif('⏳ Solicitando '+sol+' SOL de devnet...');
+    const sig=await SolanaSDK.connection.requestAirdrop(new PublicKey(SolanaSDK.publicKey),sol*LAMPORTS_PER_SOL);
+    await SolanaSDK.connection.confirmTransaction(sig,'confirmed');
+    await SolanaSDK.refreshBalance();
+    showNotif('✅ ¡'+sol+' SOL de devnet recibidos!');
+  }catch(e){ showNotif('❌ Airdrop: '+e.message+' — Usa https://faucet.quicknode.com/solana/devnet'); }
+}
+
+// Reconectar silenciosamente si ya había sesión
+window.addEventListener('load',async()=>{
+  SolanaSDK.load();
+  const p=SolanaSDK.getProvider();
+  if(!p) return;
+  try{
+    const r=await p.connect({onlyIfTrusted:true});
+    SolanaSDK.provider=p;
+    SolanaSDK.publicKey=r.publicKey.toString();
+    await SolanaSDK.refreshBalance();
+    console.log('✅ Wallet reconectada:',SolanaSDK.publicKey.substr(0,8));
+  }catch{}
+});
+
+console.log('%c☀ SOLCOIN V12 — Integración Solana Real','color:#f59e0b;font-weight:bold;font-size:13px');
+console.log('%c   Red: '+SOLANA_CONFIG.NETWORK+' | Para SOL de prueba: requestDevnetAirdrop(2)','color:#00f5ff');
 </script>
 </body>
 </html>
