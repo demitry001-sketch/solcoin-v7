@@ -1506,90 +1506,6 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
   100%{opacity:0;transform:translate(-50%,-110%) scale(.9);}
 }
 
-/* ══════════════════════════════════════════
-   TUTORIAL ONBOARDING — Solo usuarios nuevos
-   ══════════════════════════════════════════ */
-#sc-tutorial-overlay{
-  position:fixed;inset:0;z-index:9000;
-  background:rgba(2,2,8,0.82);
-  backdrop-filter:blur(6px);
-  display:flex;align-items:center;justify-content:center;
-  padding:16px;
-  animation:fadeIn .35s ease;
-}
-#sc-tutorial-overlay.sc-tut-hidden{display:none;}
-.sc-tut-card{
-  width:100%;max-width:440px;
-  background:linear-gradient(145deg,rgba(7,7,24,.98),rgba(13,13,34,.98));
-  border:1px solid rgba(0,245,255,0.25);border-radius:12px;overflow:hidden;
-  box-shadow:0 0 60px rgba(0,245,255,0.12),0 0 120px rgba(245,158,11,0.06);
-  position:relative;animation:popIn .4s cubic-bezier(.34,1.56,.64,1);
-}
-.sc-tut-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink),var(--gold));
-}
-.sc-tut-hdr{padding:16px 18px 0;display:flex;align-items:center;justify-content:space-between;}
-.sc-tut-step-badge{
-  font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:2px;
-  color:rgba(0,245,255,0.5);background:rgba(0,245,255,0.06);
-  border:1px solid rgba(0,245,255,0.15);border-radius:20px;padding:3px 10px;
-}
-.sc-tut-skip{
-  background:none;border:none;color:rgba(100,116,139,.7);
-  font-family:'Rajdhani',sans-serif;font-size:11px;cursor:pointer;
-  padding:3px 6px;transition:color .15s;letter-spacing:1px;
-}
-.sc-tut-skip:hover{color:var(--pink);}
-.sc-tut-body{padding:14px 18px 6px;}
-.sc-tut-icon{font-size:44px;text-align:center;margin-bottom:8px;animation:float 4s ease-in-out infinite;}
-.sc-tut-title{
-  font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;
-  background:linear-gradient(135deg,var(--gold3),var(--cyan));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  text-align:center;margin-bottom:8px;letter-spacing:1px;
-}
-.sc-tut-desc{
-  font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:500;
-  color:rgba(226,232,240,.8);line-height:1.6;text-align:center;min-height:68px;
-}
-.sc-tut-desc strong{color:var(--cyan);font-weight:700;}
-.sc-tut-desc em{color:var(--gold2);font-style:normal;font-weight:700;}
-.sc-tut-tip{
-  margin:10px 18px 0;
-  background:rgba(0,245,255,0.04);border:1px solid rgba(0,245,255,0.12);
-  border-left:3px solid var(--cyan);border-radius:6px;padding:8px 12px;
-  font-size:10px;color:rgba(0,245,255,0.7);
-  font-family:'Share Tech Mono',monospace;letter-spacing:.5px;line-height:1.5;min-height:34px;
-}
-.sc-tut-dots{display:flex;align-items:center;justify-content:center;gap:7px;padding:14px 18px 6px;}
-.sc-tut-dot{
-  width:7px;height:7px;border-radius:50%;
-  background:rgba(0,245,255,0.15);border:1px solid rgba(0,245,255,0.2);
-  transition:all .25s;cursor:pointer;
-}
-.sc-tut-dot.active{
-  width:22px;border-radius:4px;
-  background:linear-gradient(90deg,var(--cyan),var(--purple));
-  border-color:transparent;box-shadow:0 0 8px rgba(0,245,255,0.5);
-}
-.sc-tut-dot.done{background:rgba(0,245,255,0.35);border-color:rgba(0,245,255,0.4);}
-.sc-tut-footer{display:flex;align-items:center;gap:8px;padding:10px 18px 16px;}
-.sc-tut-btn-back{
-  background:none;border:1px solid rgba(0,245,255,0.2);border-radius:6px;
-  padding:9px 16px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;
-  color:rgba(0,245,255,0.5);cursor:pointer;transition:.2s;letter-spacing:1px;flex-shrink:0;
-}
-.sc-tut-btn-back:hover{border-color:var(--cyan);color:var(--cyan);}
-.sc-tut-btn-next{
-  flex:1;background:linear-gradient(135deg,var(--gold),var(--pink));
-  border:none;border-radius:6px;padding:10px 18px;
-  font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;
-  color:#fff;cursor:pointer;transition:all .2s;letter-spacing:1px;
-  box-shadow:0 4px 18px rgba(245,158,11,.25);
-}
-.sc-tut-btn-next:hover{filter:brightness(1.1);transform:translateY(-1px);}
-
 /* ══════════════════════════════════════════════════════
    💾 SISTEMA DE PERSISTENCIA — SOLCOIN SAVE SYSTEM
    ══════════════════════════════════════════════════════ */
@@ -8588,90 +8504,548 @@ function restoreAvatar() {
 </div>
 
 
-<!-- ══════════════════════════════════════════════════════
-     TUTORIAL ONBOARDING — Solo se muestra a usuarios nuevos
-     ══════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════════════════
+     TUTORIAL ONBOARDING ÉPICO — SOLCOIN V11
+     Pantalla completa · Purple & Neon Blue · Login-trigger
+     ═══════════════════════════════════════════════════════════════ -->
+<style>
+/* ─── VARIABLES TUTORIAL ─── */
+:root{
+  --tp:#9945ff; --tp2:#b366ff; --tp3:#d4a8ff;
+  --tb:#00c8ff; --tb2:#38e8ff; --tb3:#a0f4ff;
+  --tdark:#07061a; --tdark2:#0d0b28; --tdark3:#150f38;
+  --tglow1:rgba(153,69,255,.55); --tglow2:rgba(0,200,255,.45);
+}
+
+/* ─── OVERLAY BACKDROP ─── */
+#sc-tutorial-overlay{
+  position:fixed;inset:0;z-index:9000;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(4,3,18,.96);
+  backdrop-filter:blur(14px);
+  padding:16px;
+  transition:opacity .4s ease;
+}
+#sc-tutorial-overlay.sc-tut-hidden{
+  pointer-events:none;opacity:0;
+}
+
+/* Partículas de fondo */
+#sc-tutorial-overlay::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 30%,rgba(153,69,255,.12),transparent 70%),
+    radial-gradient(ellipse 50% 50% at 80% 70%,rgba(0,200,255,.10),transparent 70%),
+    radial-gradient(ellipse 30% 30% at 50% 50%,rgba(153,69,255,.06),transparent 70%);
+  pointer-events:none;
+}
+
+/* Grid scan */
+#sc-tutorial-overlay::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(153,69,255,.025) 3px,rgba(153,69,255,.025) 4px);
+  animation:tutScan 12s linear infinite;
+}
+@keyframes tutScan{0%{background-position:0 0}100%{background-position:0 200px}}
+
+/* ─── CARD PRINCIPAL ─── */
+.sc-tut-card{
+  position:relative;z-index:1;
+  width:100%;max-width:600px;max-height:92vh;
+  overflow-y:auto;overflow-x:hidden;
+  background:linear-gradient(145deg,var(--tdark2),var(--tdark3));
+  border:1px solid rgba(153,69,255,.4);
+  border-radius:18px;
+  box-shadow:
+    0 0 0 1px rgba(0,200,255,.12),
+    0 0 60px rgba(153,69,255,.3),
+    0 0 120px rgba(0,200,255,.15),
+    inset 0 1px 0 rgba(255,255,255,.06);
+  animation:tutCardIn .5s cubic-bezier(.34,1.56,.64,1);
+}
+.sc-tut-card::-webkit-scrollbar{width:3px;}
+.sc-tut-card::-webkit-scrollbar-thumb{background:var(--tp);}
+@keyframes tutCardIn{from{opacity:0;transform:scale(.88) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+/* ─── HEADER ─── */
+.sc-tut-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px 14px;
+  border-bottom:1px solid rgba(153,69,255,.2);
+  background:linear-gradient(90deg,rgba(153,69,255,.08),rgba(0,200,255,.06),transparent);
+  position:relative;overflow:hidden;
+}
+.sc-tut-hdr::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--tp),var(--tb),transparent);
+  animation:tutHdrLine 3s ease-in-out infinite;
+}
+@keyframes tutHdrLine{0%,100%{opacity:.4}50%{opacity:1}}
+
+.sc-tut-brand{display:flex;align-items:center;gap:10px;}
+.sc-tut-logo{
+  font-family:'Orbitron',sans-serif;font-size:16px;font-weight:900;
+  background:linear-gradient(135deg,var(--tp3),var(--tb2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:3px;
+}
+.sc-tut-step-badge{
+  background:linear-gradient(135deg,rgba(153,69,255,.25),rgba(0,200,255,.15));
+  border:1px solid rgba(153,69,255,.5);
+  color:var(--tp3);
+  font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;
+  padding:3px 10px;border-radius:20px;letter-spacing:2px;
+  text-shadow:0 0 8px var(--tp);
+}
+.sc-tut-skip{
+  background:transparent;border:1px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.3);font-size:10px;font-family:'Rajdhani',sans-serif;
+  font-weight:600;letter-spacing:1px;padding:5px 12px;border-radius:6px;
+  cursor:pointer;transition:.2s;
+}
+.sc-tut-skip:hover{border-color:rgba(255,0,102,.4);color:rgba(255,0,102,.7);}
+
+/* ─── PROGRESO ─── */
+.sc-tut-progress{
+  padding:10px 20px 0;
+  display:flex;align-items:center;gap:8px;
+}
+.sc-tut-prog-bar{
+  flex:1;height:3px;background:rgba(153,69,255,.15);border-radius:10px;overflow:hidden;
+}
+.sc-tut-prog-fill{
+  height:100%;border-radius:10px;
+  background:linear-gradient(90deg,var(--tp),var(--tb));
+  box-shadow:0 0 8px var(--tp);
+  transition:width .5s cubic-bezier(.4,0,.2,1);
+}
+.sc-tut-prog-pct{
+  font-family:'Orbitron',sans-serif;font-size:9px;color:var(--tp3);
+  letter-spacing:1px;white-space:nowrap;min-width:30px;text-align:right;
+}
+
+/* ─── BODY ─── */
+.sc-tut-body{padding:22px 22px 8px;text-align:center;}
+
+.sc-tut-icon-wrap{
+  width:80px;height:80px;border-radius:50%;margin:0 auto 16px;
+  background:linear-gradient(135deg,rgba(153,69,255,.2),rgba(0,200,255,.15));
+  border:2px solid rgba(153,69,255,.4);
+  display:flex;align-items:center;justify-content:center;
+  font-size:36px;position:relative;
+  box-shadow:0 0 24px rgba(153,69,255,.3),0 0 48px rgba(0,200,255,.1);
+  animation:tutIconPulse 3s ease-in-out infinite;
+}
+.sc-tut-icon-wrap::before{
+  content:'';position:absolute;inset:-4px;border-radius:50%;
+  border:1px solid rgba(153,69,255,.2);
+  animation:tutRingPulse 3s ease-in-out infinite;
+}
+.sc-tut-icon-wrap::after{
+  content:'';position:absolute;inset:-8px;border-radius:50%;
+  border:1px solid rgba(0,200,255,.1);
+  animation:tutRingPulse 3s ease-in-out infinite .5s;
+}
+@keyframes tutIconPulse{0%,100%{box-shadow:0 0 24px rgba(153,69,255,.3),0 0 48px rgba(0,200,255,.1)}50%{box-shadow:0 0 36px rgba(153,69,255,.55),0 0 72px rgba(0,200,255,.2)}}
+@keyframes tutRingPulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.06);opacity:.15}}
+
+.sc-tut-title{
+  font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;
+  background:linear-gradient(135deg,var(--tp3),var(--tb2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:2px;margin-bottom:12px;line-height:1.3;
+  text-shadow:none;
+}
+.sc-tut-desc{
+  font-family:'Rajdhani',sans-serif;font-size:14px;color:rgba(210,210,240,.85);
+  line-height:1.7;text-align:left;
+  background:rgba(153,69,255,.05);border:1px solid rgba(153,69,255,.12);
+  border-radius:10px;padding:14px 16px;margin-bottom:0;
+}
+.sc-tut-desc strong{color:var(--tb2);}
+.sc-tut-desc em{color:var(--tp3);font-style:normal;}
+.sc-tut-desc .hl-green{color:#00ff88;}
+.sc-tut-desc .hl-red{color:#ff0066;}
+.sc-tut-desc .hl-gold{color:#f59e0b;}
+
+/* ─── CIUDAD 3D HIGHLIGHT ─── */
+.sc-tut-ciudad-card{
+  margin:14px 22px;
+  background:linear-gradient(135deg,rgba(0,200,255,.08),rgba(153,69,255,.1));
+  border:1px solid rgba(0,200,255,.35);border-radius:12px;
+  padding:14px 16px;position:relative;overflow:hidden;
+}
+.sc-tut-ciudad-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--tb),var(--tp),transparent);
+  animation:tutHdrLine 2.5s ease-in-out infinite;
+}
+.sc-tut-cc-title{
+  font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;
+  color:var(--tb2);letter-spacing:2px;margin-bottom:8px;
+  display:flex;align-items:center;gap:6px;
+}
+.sc-tut-cc-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--tb);box-shadow:0 0 8px var(--tb);
+  animation:blink-dot 1.2s infinite;
+}
+.sc-tut-cc-body{font-family:'Rajdhani',sans-serif;font-size:13px;color:rgba(200,230,255,.8);line-height:1.6;}
+.sc-tut-cc-ways{
+  display:flex;flex-direction:column;gap:5px;margin-top:10px;
+}
+.sc-tut-cc-way{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(0,200,255,.06);border:1px solid rgba(0,200,255,.15);
+  border-radius:8px;padding:8px 12px;
+  font-family:'Rajdhani',sans-serif;font-size:12px;color:rgba(180,220,255,.9);
+}
+.sc-tut-cc-way-num{
+  width:22px;height:22px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--tp),var(--tb));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;color:#000;
+}
+
+/* ─── TIP ─── */
+.sc-tut-tip{
+  margin:12px 22px;
+  background:linear-gradient(135deg,rgba(0,200,255,.07),rgba(153,69,255,.07));
+  border-left:3px solid var(--tb);
+  border-radius:0 8px 8px 0;
+  padding:10px 14px;
+  font-family:'Rajdhani',sans-serif;font-size:13px;color:var(--tb3);
+  line-height:1.5;
+}
+
+/* ─── DOTS ─── */
+.sc-tut-dots{
+  display:flex;justify-content:center;gap:6px;padding:4px 0 2px;
+}
+.sc-tut-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:rgba(153,69,255,.2);border:1px solid rgba(153,69,255,.3);
+  cursor:pointer;transition:all .25s;
+}
+.sc-tut-dot.active{
+  background:linear-gradient(135deg,var(--tp),var(--tb));
+  box-shadow:0 0 8px var(--tp);width:22px;border-radius:4px;
+  border-color:transparent;
+}
+.sc-tut-dot.done{background:rgba(153,69,255,.5);border-color:rgba(153,69,255,.6);}
+
+/* ─── FOOTER ─── */
+.sc-tut-footer{
+  display:flex;gap:10px;padding:14px 22px 18px;
+  border-top:1px solid rgba(153,69,255,.12);
+  background:linear-gradient(0deg,rgba(153,69,255,.04),transparent);
+}
+.sc-tut-btn-back{
+  padding:11px 18px;border-radius:10px;
+  background:transparent;border:1px solid rgba(153,69,255,.3);
+  color:rgba(180,150,255,.7);font-family:'Rajdhani',sans-serif;
+  font-size:13px;font-weight:700;letter-spacing:1px;cursor:pointer;
+  transition:.2s;display:none;
+}
+.sc-tut-btn-back:hover{border-color:var(--tp);color:var(--tp3);}
+.sc-tut-btn-next{
+  flex:1;padding:12px;border-radius:10px;border:none;
+  background:linear-gradient(135deg,var(--tp),var(--tb));
+  color:#fff;font-family:'Orbitron',sans-serif;font-size:12px;
+  font-weight:700;letter-spacing:2px;cursor:pointer;
+  box-shadow:0 4px 20px rgba(153,69,255,.4),0 4px 20px rgba(0,200,255,.15);
+  transition:all .2s;
+}
+.sc-tut-btn-next:hover{
+  filter:brightness(1.12);transform:translateY(-1px);
+  box-shadow:0 6px 28px rgba(153,69,255,.6),0 6px 28px rgba(0,200,255,.25);
+}
+
+/* ─── MINI MECANICAS GRID ─── */
+.sc-tut-mech-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  margin:10px 0;
+}
+.sc-tut-mech-item{
+  background:rgba(153,69,255,.07);border:1px solid rgba(153,69,255,.2);
+  border-radius:8px;padding:10px 12px;
+}
+.sc-tut-mech-icon{font-size:20px;margin-bottom:4px;}
+.sc-tut-mech-name{
+  font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;
+  color:var(--tp3);letter-spacing:1px;margin-bottom:2px;
+}
+.sc-tut-mech-desc{font-size:10px;color:rgba(180,180,210,.7);line-height:1.4;}
+</style>
+
+<!-- HTML del tutorial épico -->
 <div id="sc-tutorial-overlay" class="sc-tut-hidden">
   <div class="sc-tut-card">
+
+    <!-- HEADER -->
     <div class="sc-tut-hdr">
-      <span class="sc-tut-step-badge" id="sc-tut-badge">PASO 1 / 7</span>
+      <div class="sc-tut-brand">
+        <div class="sc-tut-logo">☀ SOLCOIN</div>
+        <span class="sc-tut-step-badge" id="sc-tut-badge">PASO 1 / 9</span>
+      </div>
       <button class="sc-tut-skip" onclick="scTutClose()">SALTAR ✕</button>
     </div>
+
+    <!-- BARRA DE PROGRESO -->
+    <div class="sc-tut-progress">
+      <div class="sc-tut-prog-bar">
+        <div class="sc-tut-prog-fill" id="sc-tut-prog-fill" style="width:11%"></div>
+      </div>
+      <div class="sc-tut-prog-pct" id="sc-tut-prog-pct">11%</div>
+    </div>
+
+    <!-- BODY DINÁMICO -->
     <div class="sc-tut-body">
-      <div class="sc-tut-icon" id="sc-tut-icon">🌍</div>
+      <div class="sc-tut-icon-wrap" id="sc-tut-icon">🌍</div>
       <div class="sc-tut-title" id="sc-tut-title">BIENVENIDO A SOLCOIN</div>
       <div class="sc-tut-desc" id="sc-tut-desc"></div>
     </div>
+
+    <!-- ZONA ESPECIAL (ciudades 3D / mecánicas) -->
+    <div id="sc-tut-extra"></div>
+
+    <!-- TIP -->
     <div class="sc-tut-tip" id="sc-tut-tip"></div>
+
+    <!-- DOTS -->
     <div class="sc-tut-dots" id="sc-tut-dots"></div>
+
+    <!-- FOOTER -->
     <div class="sc-tut-footer">
       <button class="sc-tut-btn-back" id="sc-tut-back" onclick="scTutPrev()">← ATRÁS</button>
       <button class="sc-tut-btn-next" id="sc-tut-next" onclick="scTutNext()">SIGUIENTE →</button>
     </div>
+
   </div>
 </div>
 
 <script>
-// ══════════════════════════════════════
-// TUTORIAL ONBOARDING — SOLCOIN V7
-// ══════════════════════════════════════
-const SC_TUT_KEY = 'sc_onboarding_v1';
+// ════════════════════════════════════════════════════════════════════
+// TUTORIAL ONBOARDING ÉPICO — SOLCOIN V11
+// Purple & Neon Blue · Pantalla completa · Muestra SIEMPRE al login
+// ════════════════════════════════════════════════════════════════════
+const SC_TUT_KEY = 'sc_onboarding_v11';
 
+// ── PASOS DEL TUTORIAL (9 pasos) ──
 const SC_TUT_STEPS = [
+  // PASO 1 — Bienvenida épica
+  {
+    icon: '☀️',
+    title: '¡BIENVENIDO AL UNIVERSO SOLCOIN!',
+    desc: `Estás en el <strong>mapa neural 3D de México y el mundo</strong>. Aquí puedes:<br><br>
+      🗺️ <strong>Comprar estados y ciudades digitales</strong> en el globo interactivo<br>
+      🏗️ <strong>Construir edificios</strong> que generan <em>ingresos pasivos en SOL</em> cada día<br>
+      ⚔️ <strong>Atacar y defender</strong> territorios con armas especiales<br>
+      🧬 <strong>Investigar</strong> tecnologías que potencian tus capacidades<br>
+      🤖 <strong>Activar Androides</strong> que trabajan por ti 24/7`,
+    tip: '🎁 Tienes 0.05 SOL de regalo Bitso listos para tu primera compra. ¡Úsalos!',
+    extra: null
+  },
+
+  // PASO 2 — El Globo Neural
   {
     icon: '🌍',
-    title: 'BIENVENIDO AL GLOBO NEURAL',
-    desc: 'Aquí controlas <strong>territorios digitales</strong> en México y ciudades del mundo. Compra estados, construye, defiéndelos y genera <em>ingresos pasivos en SOL</em> cada día.',
-    tip: '⟳  Este es tu cuartel general. Todo empieza desde el globo 3D.'
+    title: 'EL GLOBO NEURAL 3D',
+    desc: `Tu <strong>cuartel general</strong> es el globo 3D al centro de la pantalla.<br><br>
+      <strong>Controles:</strong><br>
+      🖱️ <strong>Arrastra</strong> con ratón o dedo para rotarlo<br>
+      🔍 <strong>Rueda del ratón / pellizco</strong> para hacer zoom<br>
+      📌 <strong>Clic en cualquier marcador</strong> para seleccionar un territorio<br><br>
+      <strong>Vistas disponibles:</strong><br>
+      🧠 <span style="color:#00f5ff"><strong>NEURAL</strong></span> — Mapa digital con grid y conexiones<br>
+      🛰 <span style="color:#00ff88"><strong>SATÉLITE</strong></span> — Imágenes reales NASA Blue Marble<br>
+      🔴 <span style="color:#ff0066"><strong>DEFENSA</strong></span> — Modo guerra con ataques en tiempo real`,
+    tip: '💡 Puedes ver los ataques globales en VIVO en el modo DEFENSA.',
+    extra: null
   },
-  {
-    icon: '🖱️',
-    title: 'NAVEGAR EL MAPA 3D',
-    desc: '<strong>Arrastra</strong> el globo con el ratón o el dedo para rotarlo. Usa la <strong>rueda del ratón</strong> o el gesto <strong>pellizco</strong> para hacer zoom. Al acercar al máximo entrarás a la vista <em>CIUDADES 3D</em>.',
-    tip: '💡  Usa los botones NEURAL / SATÉLITE / DEFENSA para cambiar la vista del mapa.'
-  },
+
+  // PASO 3 — Los marcadores
   {
     icon: '📍',
     title: 'LOS MARCADORES DEL MAPA',
-    desc: 'Cada punto en el globo es un territorio. <strong style="color:#00ff88">● Verde</strong> = disponible · <strong style="color:#ff0066">● Rojo</strong> = vendido · <strong style="color:#00f5ff">● Cyan</strong> = tuyo · <strong style="color:#f59e0b">● Amarillo</strong> = reservado. <em>Haz clic en cualquier punto</em> para seleccionarlo.',
-    tip: '🗺️  En el panel derecho verás la lista completa con precios en SOL.'
+    desc: `Cada punto luminoso en el globo es un <strong>territorio digital</strong>. El color te indica su estado:<br><br>
+      <span class="hl-green">● VERDE</span> — <strong>Disponible para comprar</strong> · Haz clic y lánzate<br>
+      <span class="hl-red">● ROJO</span> — Ya fue comprado por otro jugador<br>
+      <span style="color:#00f5ff">● CYAN</span> — <strong>Es tuyo</strong> · Puedes construir y defender<br>
+      <span class="hl-gold">● AMARILLO</span> — Reservado temporalmente<br><br>
+      Los territorios más grandes (CDMX, JAL, NL) tienen mayor precio pero generan <em>más SOL/día</em>.`,
+    tip: '🗺️ El panel derecho muestra la lista completa con precios actualizados.',
+    extra: null
   },
-  {
-    icon: '📊',
-    title: 'PANEL IZQUIERDO',
-    desc: 'Aquí encuentras tu <strong>balance SOL</strong>, el <strong>ingreso pasivo diario</strong> de tus territorios, historial de movimientos y el estado de tus <em>Androides Financieros</em> que operan por ti 24/7.',
-    tip: '🤖  Renta un Androide para que gestione tus territorios automáticamente.'
-  },
-  {
-    icon: '🗂️',
-    title: 'PANEL DERECHO — 3 PESTAÑAS',
-    desc: '<strong>TERRENOS</strong> — explora estados y ciudades del mundo.<br><strong>CONSTRUIR</strong> — añade edificios para generar más ingresos.<br><strong>DEFENSA</strong> — protege tus territorios.<br><strong>BIO</strong> — investigaciones y sistemas biológicos.',
-    tip: '⚡  Cambia entre pestañas según lo que necesites en cada momento.'
-  },
+
+  // PASO 4 — Cómo comprar
   {
     icon: '💰',
-    title: 'COMPRAR UN TERRITORIO',
-    desc: '1. Haz clic en un territorio <strong style="color:#00ff88">verde</strong> en el mapa.<br>2. En el panel derecho haz clic en <em>COMPRAR TERRITORIO</em>.<br>3. Elige tu método: <strong>SOL, SPEI, Bitso, OXXO, BTC, ETH</strong>.<br>4. Confirma y ¡el territorio es tuyo!',
-    tip: '🎁  Tienes 0.05 SOL de regalo de Bitso para tu primera compra.'
+    title: 'COMPRAR TU PRIMER TERRITORIO',
+    desc: `Es muy simple — sigue estos <strong>4 pasos</strong>:<br><br>
+      <strong>1.</strong> Haz clic en un territorio <span class="hl-green"><strong>● verde</strong></span> en el globo<br>
+      <strong>2.</strong> En el <strong>panel derecho</strong> aparecerán los detalles del estado<br>
+      <strong>3.</strong> Toca <em>"COMPRAR TERRITORIO"</em> y elige tu método de pago:<br>
+      &nbsp;&nbsp;&nbsp;◎ <strong>SOL</strong> · 🇲🇽 <strong>SPEI</strong> · 🟣 <strong>Bitso</strong> · 🏪 <strong>OXXO</strong> · ₿ <strong>BTC</strong> · Ξ <strong>ETH</strong><br>
+      <strong>4.</strong> Confirma — ¡el territorio cambia a <span style="color:#00f5ff">cyan</span> y es tuyo!<br><br>
+      También puedes comprar <strong>🏙️ Ciudades</strong> dentro de cada estado desde la pestaña CONSTRUIR.`,
+    tip: '🎁 Usa los 0.05 SOL de regalo Bitso para tu primera compra sin gastar nada.',
+    extra: null
   },
+
+  // PASO 5 — CIUDADES 3D (especial)
+  {
+    icon: '🏙️',
+    title: 'ACCESO A CIUDADES 3D',
+    desc: `Las <strong>Ciudades 3D</strong> son una vista inmersiva donde ves tus territorios en <em>simulación urbana tridimensional</em>. ¡Épico!`,
+    tip: '🏙️ Cada ciudad que compras en CONSTRUIR aparece en el simulador 3D.',
+    extra: 'ciudades'
+  },
+
+  // PASO 6 — Construir y ganar
   {
     icon: '🏗️',
-    title: 'CONSTRUIR Y GANAR SOL',
-    desc: 'Con un territorio tuyo, ve a la pestaña <strong>CONSTRUIR</strong>. Elige un edificio — casa, comercio, fábrica, antena — y confírmalo. <em>Cada edificio genera SOL/día</em> acumulado automáticamente en tu balance.',
-    tip: '🚀  ¡Ya tienes todo lo que necesitas! Empieza buscando tu primer territorio verde.'
+    title: 'CONSTRUIR Y GANAR SOL PASIVO',
+    desc: `Con un territorio tuyo, ve a la pestaña <strong>CONSTRUIR</strong> en el panel derecho.<br><br>
+      <strong>Edificios disponibles:</strong>`,
+    tip: '📈 Los edificios se acumulan — cuantos más tengas, más SOL/día genera tu territorio.',
+    extra: 'buildings'
+  },
+
+  // PASO 7 — Defensa y ataques
+  {
+    icon: '⚔️',
+    title: 'DEFENSA Y ATAQUES',
+    desc: `¡El juego tiene acción real! Puedes <strong>atacar y defender</strong> territorios:<br><br>
+      🛡️ <strong>Defensas:</strong> Actívalas en la pestaña <em>DEFENSA</em>. Protegen tus territorios de ataques enemigos.<br><br>
+      ⚔️ <strong>Ataques básicos:</strong> Selecciona un territorio ajeno → botón ATACAR → cuesta 0.03 SOL.<br><br>
+      🌍 <strong>Ataques globales:</strong> En el panel de ATAQUES GLOBALES puedes lanzar misiles, epidemias, ciberataques y más sobre el mapa mundial.<br><br>
+      Cada acción ofensiva/defensiva te da <strong>🔬 Puntos de Investigación (PR)</strong>.`,
+    tip: '🔮 Los edificios especiales desbloquean armas únicas: UFO, Neuro-Hack, Pandemia...',
+    extra: null
+  },
+
+  // PASO 8 — Investigación y Androides
+  {
+    icon: '🔬',
+    title: 'INVESTIGACIÓN Y ANDROIDES',
+    desc: `Dos sistemas que multiplican tus ganancias:<br><br>
+      🔬 <strong>Investigación Biológica:</strong><br>
+      Gana <em>Puntos de Investigación (PR)</em> atacando, construyendo y defendiendo. Úsalos en la pestaña <strong>BIO/INVEST</strong> para desbloquear mejoras permanentes: más daño, más defensa, mejores ingresos.<br><br>
+      🤖 <strong>Androides Financieros:</strong><br>
+      Renta un Androide (0.04 SOL) en el panel izquierdo. Trabajará <em>24/7 comprando territorios, atacando y generando SOL por ti</em> mientras no estás en el juego.<br><br>
+      🤝 <strong>Alianzas:</strong> En la pestaña BIO puedes unirte a pactos con otros jugadores para bonificaciones compartidas.`,
+    tip: '⭐ Los Androides son la clave para escalar rápido sin estar siempre conectado.',
+    extra: null
+  },
+
+  // PASO 9 — Panel izquierdo y listo
+  {
+    icon: '🚀',
+    title: '¡TODO LISTO — A CONQUISTAR!',
+    desc: `<strong>Resumen rápido de la interfaz:</strong><br><br>
+      📊 <strong>Panel izquierdo:</strong> Tu balance SOL, precio en tiempo real, ingreso pasivo diario, historial de movimientos, log de ataques globales y androides.<br><br>
+      🗂️ <strong>Panel derecho (4 pestañas):</strong><br>
+      &nbsp;• <span style="color:#00f5ff">TERRENOS</span> — Compra estados y ciudades mundiales<br>
+      &nbsp;• <span style="color:#00ff88">CONSTRUIR</span> — Edificios y mejoras<br>
+      &nbsp;• <span style="color:#ff0066">DEFENSA</span> — Protege tus territorios<br>
+      &nbsp;• <span style="color:#9945ff">BIO/INVEST</span> — Investigación y alianzas<br><br>
+      💾 Usa el botón <strong>GUARDADO</strong> arriba para salvar tu progreso.`,
+    tip: '🌟 ¡Tu primer territorio te espera! Busca un marcador verde y empieza tu imperio.',
+    extra: null
   }
 ];
 
 let scTutStep = 0;
 
+// ── EXTRA BLOCKS ──
+function scTutBuildExtra(extra) {
+  const el = document.getElementById('sc-tut-extra');
+  if (!el) return;
+  if (!extra) { el.innerHTML = ''; return; }
+
+  if (extra === 'ciudades') {
+    el.innerHTML = `
+    <div class="sc-tut-ciudad-card">
+      <div class="sc-tut-cc-title">
+        <div class="sc-tut-cc-dot"></div>
+        3 FORMAS DE ACCEDER A CIUDADES 3D
+      </div>
+      <div class="sc-tut-cc-body">Explora tus territorios en simulación urbana tridimensional:</div>
+      <div class="sc-tut-cc-ways">
+        <div class="sc-tut-cc-way">
+          <div class="sc-tut-cc-way-num">1</div>
+          <div>Haz <strong>zoom máximo</strong> en el globo hasta que aparezca la pantalla 3D automáticamente.</div>
+        </div>
+        <div class="sc-tut-cc-way">
+          <div class="sc-tut-cc-way-num">2</div>
+          <div>Toca el botón <strong>🏙️ CIUDADES</strong> en la barra superior del juego.</div>
+        </div>
+        <div class="sc-tut-cc-way">
+          <div class="sc-tut-cc-way-num">3</div>
+          <div>Compra una <strong>🏙️ Ciudad</strong> dentro de un estado → se abre el simulador automáticamente.</div>
+        </div>
+      </div>
+    </div>`;
+    return;
+  }
+
+  if (extra === 'buildings') {
+    el.innerHTML = `
+    <div style="padding:0 22px 6px;">
+      <div class="sc-tut-mech-grid">
+        <div class="sc-tut-mech-item">
+          <div class="sc-tut-mech-icon">🏠</div>
+          <div class="sc-tut-mech-name">CASA SOLAR</div>
+          <div class="sc-tut-mech-desc">+0.002 SOL/día · Base</div>
+        </div>
+        <div class="sc-tut-mech-item">
+          <div class="sc-tut-mech-icon">🏪</div>
+          <div class="sc-tut-mech-name">COMERCIO</div>
+          <div class="sc-tut-mech-desc">+0.004 SOL/día · Req: Casa</div>
+        </div>
+        <div class="sc-tut-mech-item">
+          <div class="sc-tut-mech-icon">🏭</div>
+          <div class="sc-tut-mech-name">FÁBRICA</div>
+          <div class="sc-tut-mech-desc">+0.008 SOL/día · Alto ingreso</div>
+        </div>
+        <div class="sc-tut-mech-item">
+          <div class="sc-tut-mech-icon">📡</div>
+          <div class="sc-tut-mech-name">ANTENA NEURAL</div>
+          <div class="sc-tut-mech-desc">+0.012 SOL/día · Desbloquea ataques</div>
+        </div>
+      </div>
+    </div>`;
+    return;
+  }
+}
+
+// ── RENDER ──
 function scTutRender() {
   const s = SC_TUT_STEPS[scTutStep];
   const total = SC_TUT_STEPS.length;
+  const pct = Math.round(((scTutStep + 1) / total) * 100);
+
+  // Badge y progreso
   document.getElementById('sc-tut-badge').textContent = 'PASO ' + (scTutStep + 1) + ' / ' + total;
-  document.getElementById('sc-tut-icon').textContent = s.icon;
+  const fill = document.getElementById('sc-tut-prog-fill');
+  const pctEl = document.getElementById('sc-tut-prog-pct');
+  if (fill) fill.style.width = pct + '%';
+  if (pctEl) pctEl.textContent = pct + '%';
+
+  // Ícono (actualizar emoji dentro del wrapper)
+  const iconWrap = document.getElementById('sc-tut-icon');
+  if (iconWrap) iconWrap.textContent = s.icon;
+
+  // Título y descripción
   document.getElementById('sc-tut-title').textContent = s.title;
   document.getElementById('sc-tut-desc').innerHTML = s.desc;
   document.getElementById('sc-tut-tip').textContent = s.tip;
+
+  // Extra block
+  scTutBuildExtra(s.extra);
+
+  // Dots
   const dotsEl = document.getElementById('sc-tut-dots');
   dotsEl.innerHTML = '';
   for (let i = 0; i < total; i++) {
@@ -8680,48 +9054,67 @@ function scTutRender() {
     d.onclick = (function(idx){ return function(){ scTutStep = idx; scTutRender(); }; })(i);
     dotsEl.appendChild(d);
   }
+
+  // Botón atrás
   const back = document.getElementById('sc-tut-back');
-  back.style.display = scTutStep === 0 ? 'none' : 'block';
+  if (back) back.style.display = scTutStep === 0 ? 'none' : 'block';
+
+  // Botón siguiente
   const next = document.getElementById('sc-tut-next');
   if (scTutStep === total - 1) {
-    next.textContent = '¡COMENZAR! 🚀';
-    next.style.background = 'linear-gradient(135deg,#00ff88,#00b4d8)';
+    next.textContent = '🚀 ¡COMENZAR A CONQUISTAR!';
+    next.style.background = 'linear-gradient(135deg,#9945ff,#00c8ff)';
   } else {
     next.textContent = 'SIGUIENTE →';
-    next.style.background = 'linear-gradient(135deg,var(--gold),var(--pink))';
+    next.style.background = 'linear-gradient(135deg,#9945ff,#00c8ff)';
   }
 }
 
 function scTutNext() {
-  if (scTutStep < SC_TUT_STEPS.length - 1) { scTutStep++; scTutRender(); }
-  else { scTutClose(); }
+  if (scTutStep < SC_TUT_STEPS.length - 1) {
+    scTutStep++;
+    scTutRender();
+    // Scroll to top of card
+    const card = document.querySelector('.sc-tut-card');
+    if (card) card.scrollTop = 0;
+  } else {
+    scTutClose();
+  }
 }
 
 function scTutPrev() {
-  if (scTutStep > 0) { scTutStep--; scTutRender(); }
+  if (scTutStep > 0) {
+    scTutStep--;
+    scTutRender();
+    const card = document.querySelector('.sc-tut-card');
+    if (card) card.scrollTop = 0;
+  }
 }
 
 function scTutClose() {
   try { localStorage.setItem(SC_TUT_KEY, '1'); } catch(e) {}
-  document.getElementById('sc-tutorial-overlay').classList.add('sc-tut-hidden');
+  const ov = document.getElementById('sc-tutorial-overlay');
+  if (ov) { ov.style.opacity = '0'; setTimeout(() => ov.classList.add('sc-tut-hidden'), 400); }
 }
 
-function scTutMaybeShow() {
-  let seen = false;
-  try { seen = !!localStorage.getItem(SC_TUT_KEY); } catch(e) {}
-  if (!seen) {
-    scTutStep = 0;
-    scTutRender();
-    document.getElementById('sc-tutorial-overlay').classList.remove('sc-tut-hidden');
+// ── SIEMPRE mostrar al hacer login (ignora si ya lo vio) ──
+function scTutShow() {
+  scTutStep = 0;
+  scTutRender();
+  const ov = document.getElementById('sc-tutorial-overlay');
+  if (ov) {
+    ov.classList.remove('sc-tut-hidden');
+    ov.style.opacity = '0';
+    requestAnimationFrame(() => { ov.style.opacity = '1'; });
   }
 }
 
-// Hook en goApp para usuarios nuevos
+// Hook en goApp — muestra SIEMPRE al entrar al juego
 document.addEventListener('DOMContentLoaded', function() {
-  const _origGoApp = goApp;
-  goApp = function() {
-    _origGoApp();
-    setTimeout(scTutMaybeShow, 1800);
+  const _origGoApp = window.goApp;
+  window.goApp = function() {
+    if (typeof _origGoApp === 'function') _origGoApp();
+    setTimeout(scTutShow, 1600);
   };
 });
 
