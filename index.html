@@ -5019,13 +5019,13 @@ function initGlobe(){
         return;
       }
     }
-    // Alejando (scroll hacia afuera) y ya en límite máximo → Ciudades 3D
+    // Alejando (scroll hacia afuera) y ya en límite máximo → BIO NEXUS 67
     else if(e.deltaY > 0 && current >= 695){
       _zoomLimitHits++;
       if(_zoomLimitHits >= 2){
         _zoomLimitHits = 0;
-        showNotif("🏙 Entrando a CIUDADES 3D...");
-        setTimeout(openCiudades, 600);
+        showNotif("🧬 Abriendo BIO NEXUS 67...");
+        setTimeout(()=>window.open('https://demitry001-sketch.github.io/BIO-NEXUS-67/','_blank'), 600);
         return;
       }
     } else {
@@ -5051,10 +5051,10 @@ function initGlobe(){
           _pinchLimitHits++;
           if(_pinchLimitHits>=5){_pinchLimitHits=0;showNotif('\uD83C\uDFD9 Entrando a CIUDADES 3D...');setTimeout(openCiudades,600);lastPinchDist=d;return;}
         }
-        // Pellizco abriendo (zoom out) en limite max -> Ciudades 3D
+        // Pellizco abriendo (zoom out) en limite max -> BIO NEXUS 67
         else if(ratio<0.99 && cur>=690){
           _pinchLimitHits++;
-          if(_pinchLimitHits>=5){_pinchLimitHits=0;showNotif('\uD83C\uDFD9 Entrando a CIUDADES 3D...');setTimeout(openCiudades,600);lastPinchDist=d;return;}
+          if(_pinchLimitHits>=5){_pinchLimitHits=0;showNotif('\uD83E\uDDEC Abriendo BIO NEXUS 67...');setTimeout(()=>window.open('https://demitry001-sketch.github.io/BIO-NEXUS-67/','_blank'),600);lastPinchDist=d;return;}
         } else {_pinchLimitHits=0;}
         globeCamera.position.z=next;
         globeCamera.updateProjectionMatrix();
