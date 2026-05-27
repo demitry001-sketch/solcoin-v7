@@ -1438,7 +1438,8 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
   .ws-value{font-size:12px!important;}
   .ws-mxn{display:none;}
   .sys-status{display:none;}
-  .btn-ciudades,.btn-casino{font-size:8px;padding:4px 7px;}
+  .btn-ciudades,.btn-casino,.btn-bionexus{font-size:7px;padding:4px 6px;}
+  .bionexus-icon{font-size:10px;}
   .pozo-bar{left:0!important;}
 }
 
@@ -1455,11 +1456,80 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
   font-size:13px;font-weight:600;letter-spacing:1px;transition:all 0.2s;}
 .ciudades-back-btn:hover{background:rgba(0,212,255,0.25);box-shadow:0 0 12px rgba(0,212,255,0.3);}
 #ciudades-iframe{flex:1;border:none;width:100%;display:block;}
-.btn-ciudades{background:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(0,255,136,0.1));
-  border:1px solid rgba(0,212,255,0.4);border-radius:4px;padding:5px 11px;
-  font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;color:#00d4ff;
-  cursor:pointer;letter-spacing:1px;transition:.2s;white-space:nowrap;}
-.btn-ciudades:hover{background:rgba(0,212,255,0.3);box-shadow:0 0 10px rgba(0,212,255,0.4);}
+/* ══ BTN CIUDADES 3D — Neon Cyan/Green 3D ══ */
+.btn-ciudades{
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(0,245,255,0.18),rgba(0,255,136,0.14),rgba(0,180,255,0.18));
+  background-size:200% 200%;
+  border:1px solid rgba(0,245,255,0.7);
+  border-radius:6px;padding:5px 11px;
+  font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;color:#00f5ff;
+  cursor:pointer;letter-spacing:1px;transition:.2s;white-space:nowrap;
+  animation:ciudades-neon-pulse 2s ease-in-out infinite, ciudades-bg-shift 3s ease infinite;
+  box-shadow:0 0 8px rgba(0,245,255,0.5),0 0 20px rgba(0,245,255,0.2),inset 0 0 8px rgba(0,245,255,0.08);
+  text-shadow:0 0 8px #00f5ff,0 0 18px #00f5ff;
+  transform-style:preserve-3d;
+}
+.btn-ciudades::before{
+  content:'';position:absolute;top:-50%;left:-75%;width:50%;height:200%;
+  background:linear-gradient(120deg,transparent,rgba(0,245,255,0.35),transparent);
+  animation:ciudades-shine 2.2s linear infinite;pointer-events:none;
+}
+.btn-ciudades::after{
+  content:'';position:absolute;inset:0;border-radius:6px;
+  background:linear-gradient(135deg,rgba(0,255,136,0.08),transparent,rgba(0,245,255,0.08));
+  pointer-events:none;
+}
+@keyframes ciudades-neon-pulse{
+  0%,100%{box-shadow:0 0 8px rgba(0,245,255,0.5),0 0 20px rgba(0,245,255,0.2),inset 0 0 8px rgba(0,245,255,0.08);border-color:rgba(0,245,255,0.7);}
+  50%{box-shadow:0 0 14px rgba(0,255,136,0.7),0 0 30px rgba(0,245,255,0.4),0 0 45px rgba(0,245,255,0.15),inset 0 0 12px rgba(0,255,136,0.12);border-color:rgba(0,255,136,0.9);}
+}
+@keyframes ciudades-bg-shift{
+  0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}
+}
+@keyframes ciudades-shine{0%{left:-75%;}100%{left:125%;}}
+.btn-ciudades:hover{
+  transform:translateY(-2px) scale(1.05) perspective(200px) rotateX(4deg);
+  box-shadow:0 0 18px rgba(0,245,255,0.8),0 0 40px rgba(0,255,136,0.4),0 4px 20px rgba(0,245,255,0.3);
+  color:#00ff88;text-shadow:0 0 10px #00ff88,0 0 25px #00ff88;
+}
+
+/* ══ BTN BIO NEXUS 67 — Neon Magenta ══ */
+.btn-bionexus{
+  position:relative;overflow:hidden;
+  background:linear-gradient(270deg,#ff0066,#cc00ff,#ff0099,#cc00ff,#ff0066);
+  background-size:300% 300%;
+  border:1px solid #ff0088;
+  border-radius:6px;padding:5px 11px;
+  font-family:'Orbitron',sans-serif;font-size:9px;font-weight:900;
+  color:#fff;
+  cursor:pointer;letter-spacing:1px;white-space:nowrap;
+  display:inline-flex;align-items:center;gap:4px;
+  text-decoration:none;
+  flex-shrink:0;
+  animation:bionexus-flow 2.8s ease infinite, bionexus-glow 2s ease-in-out infinite;
+  text-shadow:0 0 8px #ff00cc,0 0 18px #ff0088;
+}
+.btn-bionexus::before{
+  content:'';position:absolute;top:-50%;left:-75%;width:50%;height:200%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,0.45),transparent);
+  animation:bionexus-shine 2.4s linear infinite;pointer-events:none;
+}
+@keyframes bionexus-flow{
+  0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}
+}
+@keyframes bionexus-glow{
+  0%,100%{box-shadow:0 0 8px rgba(255,0,102,0.6),0 0 20px rgba(204,0,255,0.3),inset 0 0 8px rgba(255,0,136,0.08);border-color:#ff0088;}
+  50%{box-shadow:0 0 16px rgba(255,0,204,0.9),0 0 35px rgba(204,0,255,0.5),0 0 50px rgba(255,0,102,0.2),inset 0 0 14px rgba(255,0,204,0.15);border-color:#cc00ff;}
+}
+@keyframes bionexus-shine{0%{left:-75%;}100%{left:125%;}}
+.btn-bionexus:hover{
+  transform:translateY(-2px) scale(1.05);
+  filter:brightness(1.2);
+  box-shadow:0 0 22px rgba(255,0,204,0.9),0 0 45px rgba(204,0,255,0.6);
+}
+.bionexus-icon{font-size:12px;animation:bionexus-icon-pulse 1.6s ease-in-out infinite alternate;}
+@keyframes bionexus-icon-pulse{from{filter:drop-shadow(0 0 3px #ff0088);}to{filter:drop-shadow(0 0 10px #cc00ff) brightness(1.3);}}
 
 /* ══ SISTEMA DE DEFENSA GLOBAL — Estilos del globo ══ */
 .g-def-panel{position:absolute;top:40px;left:8px;z-index:32;
@@ -1989,6 +2059,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
     
       <button class="mob-menu-btn" onclick="toggleMobPanel()" id="mob-ham-btn" title="Menu lateral">&#9776;</button>
       <button class="btn-ciudades" onclick="openCiudades()" title="Ciudades 3D">&#127961; CIUDADES</button>
+      <a class="btn-bionexus" href="https://demitry001-sketch.github.io/BIO-NEXUS-67/" target="_blank" rel="noopener" title="BIO NEXUS 67"><span class="bionexus-icon">&#129440;</span>BIO NEXUS 67</a>
       <a class="btn-casino" href="https://casino-solidario.vercel.app/" target="_blank" rel="noopener"><span class="casino-coin">&#8383;</span><span class="casino-label">SOLCOIN CASINO</span><span class="casino-coin" style="animation-delay:-0.75s;">&#128862;</span></a>
       <div class="sys-status">
       <div class="status-dot"></div>
