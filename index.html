@@ -398,48 +398,49 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
 .btn-secondary{padding:11px 14px;background:rgba(0,245,255,0.04);border:1px solid var(--border);border-radius:var(--r);color:var(--muted);font-family:'Rajdhani',sans-serif;font-weight:600;font-size:12px;cursor:pointer;transition:.2s;}
 .btn-secondary:hover{border-color:var(--cyan);color:var(--cyan);}
 
-/* PAY DRAWER */
-.pago-ov{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:599;display:none;backdrop-filter:blur(3px);}
-.pago-ov.open{display:block;}
 /* ══════════════════════════════════════════════════════
-   PAY DRAWER — CYBERPUNK NEON INTERFACE v2
+   PAY DRAWER — DESIGN v3 · PROFESSIONAL NEON CARD
 ══════════════════════════════════════════════════════ */
-@keyframes cyber-slide-in{from{right:-520px;opacity:0}to{right:0;opacity:1}}
 @keyframes neon-border-flow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 @keyframes scan-line-move{0%{top:-100%}100%{top:200%}}
-@keyframes ms-btn-pulse{0%,100%{box-shadow:0 0 8px rgba(0,245,255,.15)}50%{box-shadow:0 0 20px rgba(0,245,255,.45)}}
-@keyframes confirm-flicker{0%,100%{opacity:1}92%{opacity:1}93%{opacity:.7}94%{opacity:1}96%{opacity:.8}97%{opacity:1}}
-@keyframes icon-rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes data-flow{0%{background-position:0 0}100%{background-position:0 60px}}
-@keyframes price-glow{0%,100%{text-shadow:0 0 10px var(--gold),0 0 20px rgba(245,158,11,.4)}50%{text-shadow:0 0 18px var(--gold),0 0 40px rgba(245,158,11,.7),0 0 60px rgba(245,158,11,.3)}}
+@keyframes price-glow{0%,100%{text-shadow:0 0 12px var(--gold),0 0 24px rgba(245,158,11,.5)}50%{text-shadow:0 0 22px var(--gold),0 0 48px rgba(245,158,11,.8),0 0 70px rgba(245,158,11,.35)}}
+@keyframes ms-btn-pulse-sol{0%,100%{box-shadow:0 0 10px rgba(20,241,149,.3),0 0 0 2px rgba(20,241,149,.5)}50%{box-shadow:0 0 22px rgba(20,241,149,.7),0 0 0 2px rgba(20,241,149,.95)}}
+@keyframes confirm-glow{0%,100%{box-shadow:0 4px 28px rgba(245,158,11,.5),0 8px 56px rgba(239,68,68,.2)}50%{box-shadow:0 6px 40px rgba(245,158,11,.8),0 12px 72px rgba(239,68,68,.4)}}
+@keyframes chip-scan{0%{top:-60%}100%{top:160%}}
+@keyframes chip-border-pulse{0%,100%{border-color:rgba(153,69,255,.5);box-shadow:0 0 12px rgba(153,69,255,.25),inset 0 0 12px rgba(153,69,255,.08);}50%{border-color:rgba(20,241,149,.7);box-shadow:0 0 22px rgba(20,241,149,.4),inset 0 0 16px rgba(20,241,149,.1);}}
+@keyframes map-float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-4px) scale(1.018)}}
+@keyframes map-glow-pulse{0%,100%{filter:drop-shadow(0 0 8px rgba(0,245,255,.6)) drop-shadow(0 0 22px rgba(0,245,255,.3))}50%{filter:drop-shadow(0 0 18px rgba(0,245,255,1)) drop-shadow(0 0 44px rgba(0,245,255,.55))}}
+@keyframes confirm-shine{0%{left:-80%}100%{left:120%}}
+@keyframes total-shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
+@keyframes topbar-glow{0%,100%{opacity:.6}50%{opacity:1}}
 
 /* OVERLAY */
-.pago-ov{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:599;display:none;backdrop-filter:blur(4px);}
+.pago-ov{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:599;display:none;backdrop-filter:blur(6px);}
 .pago-ov.open{display:block;}
 
 /* DRAWER */
 .pago-drawer{
   position:fixed;top:0;right:-520px;width:min(500px,100vw);height:100vh;
-  background:linear-gradient(180deg,#030416 0%,#030210 100%);
+  background:linear-gradient(180deg,#040518 0%,#020310 60%,#030415 100%);
   border-left:2px solid transparent;
   background-clip:padding-box;
   z-index:600;display:flex;flex-direction:column;
   transition:right .4s cubic-bezier(.4,0,.2,1);
-  box-shadow:-4px 0 60px rgba(0,245,255,.08),-1px 0 20px rgba(153,69,255,.08);
+  box-shadow:-6px 0 80px rgba(0,245,255,.07),-2px 0 30px rgba(153,69,255,.07);
   overflow:hidden;
 }
 .pago-drawer::before{
   content:'';position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:0;
   background:
-    linear-gradient(rgba(0,245,255,0.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,245,255,0.025) 1px,transparent 1px);
+    linear-gradient(rgba(0,245,255,0.02) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,245,255,0.02) 1px,transparent 1px);
   background-size:30px 30px;
-  animation:data-flow 4s linear infinite;
+  animation:data-flow 5s linear infinite;
 }
-/* Left border neon animated */
 .pago-drawer::after{
   content:'';position:absolute;top:0;left:0;width:2px;height:100%;
-  background:linear-gradient(180deg,var(--cyan),var(--purple),var(--pink),var(--gold),var(--cyan));
+  background:linear-gradient(180deg,var(--cyan),var(--purple),#ff0066,var(--gold),var(--cyan));
   background-size:100% 300%;
   animation:neon-border-flow 3s ease infinite;
   z-index:1;
@@ -448,295 +449,312 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
 
 /* SCAN LINE */
 .pago-scan-line{
-  position:absolute;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,rgba(0,245,255,.4),transparent);
+  position:absolute;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent 0%,rgba(0,245,255,.5) 40%,rgba(153,69,255,.5) 60%,transparent 100%);
   z-index:2;pointer-events:none;
-  animation:scan-line-move 3s linear infinite;
+  animation:scan-line-move 4s linear infinite;
 }
 
-/* TOP BAR */
+/* ── TOP BAR ── */
 .pago-topbar{
   position:relative;z-index:5;flex-shrink:0;
-  background:linear-gradient(90deg,rgba(0,0,20,.98),rgba(3,1,18,.98));
-  border-bottom:1px solid rgba(0,245,255,.12);
-  padding:0 14px;height:58px;
+  background:linear-gradient(90deg,rgba(2,4,22,.99),rgba(4,2,20,.99));
+  border-bottom:1px solid rgba(0,245,255,.1);
+  padding:0 16px;height:62px;
   display:flex;align-items:center;gap:12px;
-  box-shadow:0 2px 20px rgba(0,0,0,.5);
+  box-shadow:0 2px 24px rgba(0,0,0,.6);
 }
 .pago-topbar::after{
   content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--cyan),var(--purple),var(--pink),transparent);
+  background:linear-gradient(90deg,transparent 0%,var(--cyan) 30%,var(--purple) 60%,#ff0066 80%,transparent 100%);
+  animation:topbar-glow 3s ease-in-out infinite;
 }
 .pago-close-btn{
   display:flex;align-items:center;gap:6px;
-  background:rgba(0,245,255,.05);
-  border:1px solid rgba(0,245,255,.2);
-  color:var(--cyan);border-radius:4px;
-  padding:6px 12px;font-size:10px;font-weight:700;
+  background:rgba(0,245,255,.06);
+  border:1px solid rgba(0,245,255,.25);
+  color:var(--cyan);border-radius:8px;
+  padding:7px 13px;font-size:9px;font-weight:700;
   cursor:pointer;transition:.2s;
   font-family:'Orbitron',sans-serif;letter-spacing:1px;
   white-space:nowrap;
 }
-.pago-close-btn:hover{background:rgba(0,245,255,.12);border-color:var(--cyan);box-shadow:0 0 12px rgba(0,245,255,.2);}
+.pago-close-btn:hover{background:rgba(0,245,255,.14);border-color:var(--cyan);box-shadow:0 0 14px rgba(0,245,255,.25);}
 .pago-topbar-info{flex:1;}
 .pago-topbar-title{
-  font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;
+  font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;
   color:#fff;letter-spacing:2px;
-  display:flex;align-items:center;gap:7px;
+  display:flex;align-items:center;gap:8px;
 }
-.pago-topbar-ast{
-  color:var(--cyan);font-size:16px;
-  animation:blink-dot 2s infinite;
-}
-.pago-topbar-sub{
-  font-size:8px;color:var(--gold);letter-spacing:2px;
-  font-family:'Share Tech Mono',monospace;margin-top:2px;
-}
-/* Live status badge top bar */
+.pago-topbar-ast{color:var(--cyan);font-size:17px;animation:blink-dot 2s infinite;}
+.pago-topbar-sub{font-size:8px;color:var(--gold);letter-spacing:2px;font-family:'Share Tech Mono',monospace;margin-top:3px;}
 .ptb-live{
   display:flex;align-items:center;gap:5px;
-  background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);
-  border-radius:20px;padding:4px 10px;flex-shrink:0;
+  background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.25);
+  border-radius:20px;padding:5px 12px;flex-shrink:0;
 }
-.ptb-dot{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:blink-dot 1.5s infinite;}
+.ptb-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:blink-dot 1.5s infinite;}
 .ptb-txt{font-size:8px;color:var(--green);letter-spacing:1.5px;font-family:'Orbitron',sans-serif;}
 
-/* BODY */
-.pago-body{flex:1;overflow-y:auto;padding:14px;position:relative;z-index:3;}
-.pago-body::-webkit-scrollbar{width:2px;}
+/* ── BODY ── */
+.pago-body{flex:1;overflow-y:auto;padding:16px;position:relative;z-index:3;gap:0;}
+.pago-body::-webkit-scrollbar{width:3px;}
 .pago-body::-webkit-scrollbar-track{background:transparent;}
-.pago-body::-webkit-scrollbar-thumb{background:rgba(0,245,255,.2);border-radius:2px;}
+.pago-body::-webkit-scrollbar-thumb{background:rgba(0,245,255,.15);border-radius:3px;}
 
-/* SUMMARY BLOCK */
+/* ── SUMMARY — 2 columns ── */
 .pago-summary{
   position:relative;overflow:hidden;
-  background:linear-gradient(135deg,rgba(245,158,11,.06),rgba(255,0,102,.04),rgba(0,0,20,.9));
-  border:1px solid rgba(245,158,11,.25);
-  border-radius:6px;padding:14px 16px;margin-bottom:14px;
+  background:linear-gradient(135deg,rgba(8,6,30,.97) 0%,rgba(5,4,22,.97) 100%);
+  border:1px solid rgba(0,245,255,.18);
+  border-radius:12px;padding:16px;margin-bottom:14px;
+  display:flex;gap:14px;align-items:stretch;
 }
 .pago-summary::before{
   content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  background:linear-gradient(90deg,transparent,var(--gold),var(--cyan),transparent);
 }
-/* Mini territory map preview */
-.ps-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.ps-left{flex:1;display:flex;flex-direction:column;gap:0;}
+.ps-right{
+  width:120px;flex-shrink:0;
+  background:rgba(0,245,255,.04);
+  border:1px solid rgba(0,245,255,.12);
+  border-radius:8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:10px 6px;gap:6px;overflow:hidden;position:relative;
+}
+.ps-right::before{
+  content:'';position:absolute;inset:0;border-radius:8px;
+  background:radial-gradient(circle at 50% 50%,rgba(0,245,255,.08),transparent 70%);
+}
+.ps-map-emoji{
+  font-size:46px;line-height:1;
+  animation:map-float 4s ease-in-out infinite, map-glow-pulse 3s ease-in-out infinite;
+  filter:drop-shadow(0 0 8px rgba(0,245,255,.6));
+  position:relative;z-index:1;
+}
 .ps-territory-badge{
-  background:rgba(0,245,255,.08);border:1px solid rgba(0,245,255,.2);
-  border-radius:4px;padding:4px 10px;
-  font-family:'Orbitron',sans-serif;font-size:9px;color:var(--cyan);
-  letter-spacing:2px;display:flex;align-items:center;gap:5px;
+  background:rgba(0,245,255,.1);border:1px solid rgba(0,245,255,.25);
+  border-radius:6px;padding:4px 8px;
+  font-family:'Orbitron',sans-serif;font-size:8px;color:var(--cyan);
+  letter-spacing:1.5px;text-align:center;position:relative;z-index:1;
+  white-space:nowrap;
 }
-.ps-territory-badge::before{content:'🗺';font-size:11px;}
-.ps-icon-mini{
-  width:40px;height:40px;background:rgba(0,245,255,.04);
-  border:1px solid rgba(0,245,255,.15);border-radius:4px;
-  display:flex;align-items:center;justify-content:center;font-size:20px;
+.ps-row{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:10px;padding:6px 0;color:var(--muted);
+  border-bottom:1px solid rgba(0,245,255,.05);
 }
-.ps-row{display:flex;justify-content:space-between;align-items:center;font-size:10px;margin-bottom:6px;color:var(--muted);}
-.ps-row span:first-child{letter-spacing:1px;text-transform:uppercase;font-size:9px;}
-.ps-row span:last-child{font-family:'Share Tech Mono',monospace;color:rgba(224,214,255,.8);}
-.ps-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(245,158,11,.3),transparent);margin:8px 0;}
-.ps-row.total{
-  margin-bottom:0;margin-top:4px;
-}
+.ps-row:last-child{border-bottom:none;}
+.ps-row span:first-child{letter-spacing:.8px;text-transform:uppercase;font-size:9px;font-family:'Rajdhani',sans-serif;font-weight:600;}
+.ps-row span:last-child{font-family:'Share Tech Mono',monospace;color:rgba(210,200,255,.85);}
+.ps-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(245,158,11,.4),transparent);margin:4px 0;}
+.ps-row.total{padding:8px 0 2px;}
 .ps-row.total span:first-child{
   font-family:'Orbitron',sans-serif;font-size:10px;color:var(--gold);letter-spacing:2px;font-weight:700;
 }
 .ps-row.total span:last-child{
-  font-family:'Orbitron',sans-serif;font-size:18px;color:var(--gold);font-weight:700;
-  animation:price-glow 2.5s ease-in-out infinite;
+  font-family:'Orbitron',sans-serif;font-size:20px;color:var(--gold);font-weight:700;
+  background:linear-gradient(90deg,#fcd34d,#f59e0b,#fbbf24,#fcd34d);
+  background-size:300% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:total-shimmer 3s linear infinite;
 }
 
-/* METHOD GRID */
+/* ── METHOD SELECTOR ── */
 .ms-title{
   font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:3px;
-  color:rgba(0,245,255,.4);margin-bottom:10px;text-transform:uppercase;
+  color:rgba(0,245,255,.45);margin-bottom:10px;text-transform:uppercase;
   display:flex;align-items:center;gap:8px;
 }
-.ms-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(0,245,255,.15),transparent);}
-
-.ms-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-bottom:14px;}
+.ms-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(0,245,255,.2),transparent);}
+.ms-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:14px;}
 .ms-btn{
-  background:rgba(3,2,20,.9);
+  background:rgba(4,3,22,.95);
   border:1px solid rgba(0,245,255,.1);
-  border-radius:5px;padding:10px 4px 8px;
-  display:flex;flex-direction:column;align-items:center;gap:5px;
-  cursor:pointer;transition:all .2s;text-align:center;position:relative;overflow:hidden;
+  border-radius:8px;padding:11px 4px 9px;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  cursor:pointer;transition:all .22s;text-align:center;position:relative;overflow:hidden;
 }
 .ms-btn::before{
-  content:'';position:absolute;inset:0;opacity:0;transition:opacity .2s;
-  background:radial-gradient(circle at 50% 0%,rgba(0,245,255,.08),transparent 70%);
+  content:'';position:absolute;inset:0;opacity:0;transition:opacity .22s;
+  background:radial-gradient(circle at 50% 0%,rgba(0,245,255,.1),transparent 70%);
 }
 .ms-btn:hover::before,.ms-btn.active::before{opacity:1;}
-.ms-btn:hover{border-color:rgba(0,245,255,.35);transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.4);}
+.ms-btn:hover{border-color:rgba(0,245,255,.35);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.5);}
 .ms-btn.active{
-  border-color:var(--cyan);
-  background:rgba(0,245,255,.07);
-  box-shadow:0 0 16px rgba(0,245,255,.15),inset 0 0 12px rgba(0,245,255,.04);
-  animation:ms-btn-pulse 2s ease-in-out infinite;
+  border-color:rgba(20,241,149,.8);
+  background:rgba(20,241,149,.07);
+  animation:ms-btn-pulse-sol 2s ease-in-out infinite;
 }
-.ms-btn.active .ms-label{color:var(--cyan);}
-/* Icon containers for each payment method */
+.ms-btn.active .ms-label{color:#14F195;}
 .ms-icon-wrap{
-  width:30px;height:30px;border-radius:6px;
+  width:32px;height:32px;border-radius:7px;
   display:flex;align-items:center;justify-content:center;
   flex-shrink:0;position:relative;
 }
 .ms-label{font-size:7px;font-weight:700;color:var(--muted);letter-spacing:.5px;font-family:'Orbitron',sans-serif;line-height:1;}
+.ic-sol{background:linear-gradient(135deg,rgba(153,69,255,.2),rgba(20,241,149,.15));border:1px solid rgba(153,69,255,.35);}
+.ic-spei{background:linear-gradient(135deg,rgba(0,104,71,.2),rgba(255,255,255,.05));border:1px solid rgba(0,104,71,.35);}
+.ic-bitso{background:linear-gradient(135deg,rgba(95,30,172,.25),rgba(124,58,237,.2));border:1px solid rgba(95,30,172,.4);}
+.ic-btc{background:linear-gradient(135deg,rgba(247,147,26,.2),rgba(255,173,0,.15));border:1px solid rgba(247,147,26,.4);}
+.ic-eth{background:linear-gradient(135deg,rgba(98,126,234,.2),rgba(168,190,242,.15));border:1px solid rgba(98,126,234,.4);}
+.ic-oxxo{background:linear-gradient(135deg,rgba(221,0,0,.2),rgba(255,68,68,.15));border:1px solid rgba(221,0,0,.4);}
 
-/* ── SVG Icon Styles ── */
-/* SOL */
-.ic-sol{background:linear-gradient(135deg,#9945ff22,#14F19522);border:1px solid rgba(153,69,255,.3);}
-/* SPEI / MX */
-.ic-spei{background:linear-gradient(135deg,#00690022,#ffffff11);border:1px solid rgba(0,105,0,.3);}
-/* Bitso */
-.ic-bitso{background:linear-gradient(135deg,#5f1eac22,#7c3aed22);border:1px solid rgba(95,30,172,.35);}
-/* BTC */
-.ic-btc{background:linear-gradient(135deg,#f7931a22,#ffad0022);border:1px solid rgba(247,147,26,.35);}
-/* ETH */
-.ic-eth{background:linear-gradient(135deg,#627eea22,#a8bef222);border:1px solid rgba(98,126,234,.35);}
-/* OXXO */
-.ic-oxxo{background:linear-gradient(135deg,#dd000022,#ff444422);border:1px solid rgba(221,0,0,.35);}
-
-/* PANELS */
+/* ── PANELS ── */
 .p-panel{display:none;animation:fadeIn .2s ease;}
 .p-panel.active{display:block;}
 
-/* CARD */
+/* ── CARD ── */
 .p-card{
-  background:rgba(5,3,25,.95);
-  border:1px solid rgba(0,245,255,.1);
-  border-radius:6px;overflow:hidden;margin-bottom:10px;
-  box-shadow:0 4px 24px rgba(0,0,0,.4);
+  background:rgba(4,3,22,.97);
+  border:1px solid rgba(0,245,255,.12);
+  border-radius:12px;overflow:hidden;margin-bottom:12px;
+  box-shadow:0 6px 32px rgba(0,0,0,.5);
   position:relative;
 }
 .p-card::before{
   content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));
-  opacity:.6;
+  background:linear-gradient(90deg,var(--cyan) 0%,var(--purple) 40%,#ff0066 70%,var(--gold) 100%);
+  opacity:.7;
 }
-/* Card header */
+
+/* ── SOL CARD HEADER — 2 cols ── */
 .p-card-hdr{
-  padding:12px 14px;border-bottom:1px solid rgba(0,245,255,.08);
-  display:flex;align-items:center;gap:12px;
-  background:rgba(0,245,255,.02);
+  padding:14px 16px;border-bottom:1px solid rgba(0,245,255,.08);
+  display:flex;align-items:center;gap:14px;
+  background:rgba(0,245,255,.025);
 }
 .p-card-icon{
-  width:40px;height:40px;border-radius:8px;
+  width:44px;height:44px;border-radius:10px;
   display:flex;align-items:center;justify-content:center;font-size:0;flex-shrink:0;
   position:relative;overflow:hidden;
 }
-.p-card-title{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;color:#fff;letter-spacing:1px;}
-.p-card-sub{font-size:9px;color:var(--muted);margin-top:2px;letter-spacing:.5px;}
-/* Animated chip decoration on icon */
 .p-card-icon::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.08) 0%,transparent 60%);
+  background:linear-gradient(135deg,rgba(255,255,255,.1) 0%,transparent 60%);
 }
+.p-card-title{font-family:'Orbitron',sans-serif;font-size:12px;font-weight:700;color:#fff;letter-spacing:1.2px;}
+.p-card-sub{font-size:9px;color:var(--muted);margin-top:3px;letter-spacing:.5px;}
+
+/* ── SOL CHIP — big animated visual ── */
+.sol-chip{
+  width:76px;height:76px;border-radius:12px;overflow:hidden;
+  background:linear-gradient(135deg,#0d0620,#060015);
+  border:2px solid rgba(153,69,255,.5);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;flex-shrink:0;
+  animation:chip-border-pulse 2.5s ease-in-out infinite;
+}
+.sol-chip::before{
+  content:'';position:absolute;left:-20%;width:40%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(153,69,255,.2),transparent);
+  animation:chip-scan 2.5s linear infinite;
+}
+.sol-chip-inner{
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,#9945ff,#14F195,#9945ff);
+  background-size:200% 200%;
+  animation:neon-border-flow 2s ease infinite;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:#fff;font-weight:900;font-family:'Orbitron',sans-serif;
+  box-shadow:0 0 20px rgba(153,69,255,.7),0 0 40px rgba(20,241,149,.3);
+  position:relative;z-index:1;
+}
+/* ── SOL panel 2-col layout ── */
+.pp-sol-2col{
+  display:flex;gap:14px;align-items:flex-start;
+  padding:16px;border-bottom:1px solid rgba(0,245,255,.06);
+}
+.pp-sol-info{flex:1;}
+.pp-sol-chip-wrap{flex-shrink:0;}
 
 /* Rows */
 .p-row{
   display:flex;justify-content:space-between;align-items:center;
-  padding:9px 14px;border-bottom:1px solid rgba(0,245,255,.05);
+  padding:9px 16px;border-bottom:1px solid rgba(0,245,255,.05);
 }
 .p-row:last-child{border-bottom:none;}
 .p-label{font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;font-family:'Rajdhani',sans-serif;font-weight:600;}
 .p-value{font-family:'Share Tech Mono',monospace;font-size:11px;color:rgba(220,210,255,.9);}
 .p-value.big{
-  font-family:'Orbitron',sans-serif;font-size:15px;color:var(--gold);font-weight:700;
-  text-shadow:0 0 12px rgba(245,158,11,.4);
+  font-family:'Orbitron',sans-serif;font-size:17px;color:var(--gold);font-weight:700;
+  animation:price-glow 2.5s ease-in-out infinite;
 }
 
-/* COPY FIELD */
+/* ── COPY FIELD ── */
 .copy-field{
-  background:rgba(0,0,15,.8);
-  border:1px solid rgba(0,245,255,.15);
-  border-radius:5px;padding:9px 12px;margin:10px 14px 0;
+  background:rgba(0,0,18,.85);
+  border:1px solid rgba(0,245,255,.14);
+  border-radius:8px;padding:10px 13px;margin:10px 16px 0;
   position:relative;
 }
-.copy-field:last-of-type{margin-bottom:10px;}
+.copy-field:last-of-type{margin-bottom:12px;}
 .cf-label{
   font-size:8px;color:rgba(0,245,255,.4);letter-spacing:2px;
-  text-transform:uppercase;margin-bottom:4px;font-family:'Orbitron',sans-serif;
+  text-transform:uppercase;margin-bottom:5px;font-family:'Orbitron',sans-serif;
 }
 .cf-value{
   font-family:'Share Tech Mono',monospace;font-size:12px;
-  color:var(--gold);letter-spacing:1.5px;padding-right:58px;line-height:1.4;
+  color:var(--gold);letter-spacing:1.5px;padding-right:62px;line-height:1.4;
   word-break:break-all;
 }
 .cp-btn{
   position:absolute;top:50%;right:10px;transform:translateY(-50%);
   background:rgba(0,245,255,.1);
   border:1px solid rgba(0,245,255,.25);
-  border-radius:4px;padding:4px 9px;font-size:8px;
+  border-radius:6px;padding:5px 10px;font-size:8px;
   color:var(--cyan);cursor:pointer;transition:.2s;
   font-weight:700;white-space:nowrap;font-family:'Orbitron',sans-serif;letter-spacing:.5px;
 }
-.cp-btn:hover{background:rgba(0,245,255,.2);box-shadow:0 0 10px rgba(0,245,255,.15);}
-.cp-btn.copied{background:rgba(0,255,136,.15);border-color:rgba(0,255,136,.3);color:var(--green);}
+.cp-btn:hover{background:rgba(0,245,255,.22);box-shadow:0 0 12px rgba(0,245,255,.2);}
+.cp-btn.copied{background:rgba(0,255,136,.15);border-color:rgba(0,255,136,.35);color:var(--green);}
 
-/* P NOTICE */
+/* ── NOTICE ── */
 .p-notice{
-  display:flex;gap:8px;align-items:flex-start;
-  background:rgba(0,245,255,.04);
-  border:1px solid rgba(0,245,255,.1);
-  border-radius:4px;padding:9px 12px;
-  margin:10px 14px;font-size:9px;
-  color:rgba(0,245,255,.6);line-height:1.6;
+  display:flex;gap:10px;align-items:flex-start;
+  background:rgba(245,158,11,.06);
+  border:1px solid rgba(245,158,11,.25);
+  border-radius:8px;padding:11px 14px;
+  margin:12px 16px;font-size:9px;
+  color:rgba(245,200,11,.8);line-height:1.6;
   letter-spacing:.3px;
 }
-.p-notice.warn{background:rgba(245,158,11,.04);border-color:rgba(245,158,11,.15);color:rgba(245,158,11,.7);}
+.p-notice.warn{background:rgba(245,158,11,.05);border-color:rgba(245,158,11,.2);color:rgba(245,158,11,.75);}
+.p-notice span:first-child{font-size:14px;flex-shrink:0;margin-top:1px;}
 
-/* CONFIRM BUTTON — CYBERPUNK HERO */
+/* ── CONFIRM BUTTON — HERO ── */
 .pbtn-confirm{
   display:flex;align-items:center;justify-content:center;gap:10px;
-  width:calc(100% - 28px);margin:10px 14px 14px;
-  padding:14px;
-  border-radius:5px;
+  width:calc(100% - 32px);margin:12px 16px 16px;
+  padding:16px;
+  border-radius:10px;
   font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;
-  letter-spacing:2px;color:#fff;border:none;cursor:pointer;
-  transition:all .2s;
-  background:linear-gradient(135deg,#f59e0b,#ef4444,#9945ff);
+  letter-spacing:2px;color:#000;border:none;cursor:pointer;
+  transition:all .22s;
+  background:linear-gradient(135deg,#f59e0b 0%,#fbbf24 35%,#ef4444 70%,#f59e0b 100%);
   background-size:200% 200%;
-  box-shadow:0 4px 20px rgba(245,158,11,.3),0 8px 40px rgba(153,69,255,.15);
+  animation:confirm-glow 2.5s ease-in-out infinite, neon-border-flow 4s ease infinite;
   position:relative;overflow:hidden;
-  animation:confirm-flicker 6s ease infinite;
 }
 .pbtn-confirm::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);
-  transform:translateX(-100%);transition:transform .5s;
+  content:'';position:absolute;top:-50%;left:-80%;width:50%;height:200%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.4),transparent);
+  animation:confirm-shine 2.2s linear infinite;
 }
-.pbtn-confirm:hover::before{transform:translateX(100%);}
 .pbtn-confirm:hover{
-  box-shadow:0 6px 28px rgba(245,158,11,.5),0 12px 50px rgba(153,69,255,.25);
-  transform:translateY(-2px);filter:brightness(1.08);
+  transform:translateY(-2px);filter:brightness(1.1);
+  animation:none;
+  box-shadow:0 8px 36px rgba(245,158,11,.7),0 16px 64px rgba(239,68,68,.35);
 }
 .pbtn-confirm:active{transform:translateY(0);}
-/* Arrow icon */
-.pbtn-arrow{font-size:14px;transition:transform .2s;}
-.pbtn-confirm:hover .pbtn-arrow{transform:translateX(4px);}
+.pbtn-arrow{font-size:16px;transition:transform .2s;}
+.pbtn-confirm:hover .pbtn-arrow{transform:translateX(5px);}
 
-/* SOL chip visual in card header */
-.sol-chip{
-  width:40px;height:40px;border-radius:8px;overflow:hidden;
-  background:linear-gradient(135deg,#1a0a2e,#0d0020);
-  border:1px solid rgba(153,69,255,.4);
-  display:flex;align-items:center;justify-content:center;
-  position:relative;flex-shrink:0;
-}
-.sol-chip-inner{
-  width:22px;height:22px;border-radius:50%;
-  background:linear-gradient(135deg,#9945ff,#14F195);
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;color:#fff;font-weight:900;font-family:'Orbitron',sans-serif;
-  box-shadow:0 0 12px rgba(153,69,255,.6);
-}
-
-/* NFFT CERT */
+/* ── NFT CERT ── */
 .nft-cert{
   background:linear-gradient(135deg,rgba(245,158,11,.06),rgba(153,69,255,.06));
-  border:1px solid rgba(245,158,11,.2);border-radius:6px;
+  border:1px solid rgba(245,158,11,.2);border-radius:8px;
   padding:14px;margin:12px 0 0;text-align:center;
   position:relative;overflow:hidden;
 }
@@ -2827,26 +2845,30 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
 
     <!-- SUMMARY -->
     <div class="pago-summary">
-      <div class="ps-header">
+      <!-- LEFT: data rows -->
+      <div class="ps-left">
+        <div class="ps-row">
+          <span>Territorio</span>
+          <span id="ps-name">—</span>
+        </div>
+        <div class="ps-row">
+          <span>Precio base</span>
+          <span id="ps-base">— SOL</span>
+        </div>
+        <div class="ps-row">
+          <span>Fee (1%)</span>
+          <span id="ps-fee">— SOL</span>
+        </div>
+        <div class="ps-divider"></div>
+        <div class="ps-row total">
+          <span>TOTAL</span>
+          <span id="ps-total">— SOL</span>
+        </div>
+      </div>
+      <!-- RIGHT: territory map preview -->
+      <div class="ps-right">
+        <div class="ps-map-emoji">🗺️</div>
         <div class="ps-territory-badge" id="ps-badge">Oaxaca</div>
-        <div class="ps-icon-mini">🗺️</div>
-      </div>
-      <div class="ps-row">
-        <span>Territorio</span>
-        <span id="ps-name">—</span>
-      </div>
-      <div class="ps-row">
-        <span>Precio base</span>
-        <span id="ps-base">— SOL</span>
-      </div>
-      <div class="ps-row">
-        <span>Fee (1%)</span>
-        <span id="ps-fee">— SOL</span>
-      </div>
-      <div class="ps-divider"></div>
-      <div class="ps-row total">
-        <span>TOTAL</span>
-        <span id="ps-total">— SOL</span>
       </div>
     </div>
 
@@ -2929,27 +2951,31 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
     <!-- ══════════ SOL PANEL ══════════ -->
     <div class="p-panel active" id="pp-sol">
       <div class="p-card">
-        <div class="p-card-hdr">
-          <div class="sol-chip">
-            <div class="sol-chip-inner">◎</div>
+        <!-- top accent bar handled by p-card::before -->
+        <!-- 2-col: chip + info -->
+        <div class="pp-sol-2col">
+          <div class="pp-sol-chip-wrap">
+            <div class="sol-chip">
+              <div class="sol-chip-inner">◎</div>
+            </div>
           </div>
-          <div>
-            <div class="p-card-title">PAGO CON SOL</div>
-            <div class="p-card-sub">Solana Blockchain · Red Mainnet</div>
-          </div>
-          <!-- Animated chip -->
-          <div style="margin-left:auto;display:flex;align-items:center;gap:5px;">
-            <div style="width:5px;height:5px;border-radius:50%;background:#14F195;box-shadow:0 0 8px #14F195;animation:blink-dot 1.5s infinite;"></div>
-            <span style="font-size:8px;color:#14F195;font-family:Orbitron,sans-serif;letter-spacing:1px;">ONLINE</span>
+          <div class="pp-sol-info">
+            <div class="p-card-title" style="margin-bottom:6px;">PAGO CON SOL</div>
+            <div class="p-card-sub" style="margin-bottom:10px;">Solana Blockchain · Red Mainnet</div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <div style="width:6px;height:6px;border-radius:50%;background:#14F195;box-shadow:0 0 10px #14F195;animation:blink-dot 1.5s infinite;flex-shrink:0;"></div>
+              <span style="font-size:8px;color:#14F195;font-family:Orbitron,sans-serif;letter-spacing:1.5px;">ONLINE · RED MAINNET</span>
+            </div>
+            <div style="margin-top:12px;">
+              <div class="p-label" style="margin-bottom:4px;">TOTAL</div>
+              <div class="p-value big" id="pp-sol-amt" style="font-size:22px;">— SOL</div>
+            </div>
           </div>
         </div>
-        <div class="p-row">
-          <span class="p-label">Total</span>
-          <span class="p-value big" id="pp-sol-amt">— SOL</span>
-        </div>
+        <!-- extra rows -->
         <div class="p-row">
           <span class="p-label">Wallet</span>
-          <span class="p-value" id="pp-sol-wallet" style="font-size:9px;color:rgba(153,69,255,.8);">—</span>
+          <span class="p-value" id="pp-sol-wallet" style="font-size:9px;color:rgba(153,69,255,.85);">—</span>
         </div>
         <div class="p-row" style="border-bottom:none;">
           <span class="p-label">Confirmación</span>
@@ -4570,6 +4596,24 @@ let globePackets=[], globePacketTimer=0;
 let globeAttackArcs=[], globeExplosions=[];  // legacy aliases
 let activeArcs=globeAttackArcs, explosions=globeExplosions;
 let defenseArcs=[];
+
+// ═══════════════════════════════════════════════════════
+// 🌐 ORBITAL SHIELD OVERLAY — Sistema Escudo Global 3D
+// Capa de partículas que cubre todo el globo cuando la
+// defensa se activa. Extraído y adaptado de ataque_orbital_verde.
+// ═══════════════════════════════════════════════════════
+let activeShieldOverlays = [];
+let permanentShieldOverlay = null;
+let interceptOrbitalEffects = []; // 🌐 Vortex orbital al interceptar
+
+const SHIELD_PALETTE = {
+  interceptor:  { color: 0x00ff88, colorHex: '#00ff88', trailColor: 0x4ade80, pattern: 'espiral'  },
+  laser:        { color: 0x00f5ff, colorHex: '#00f5ff', trailColor: 0x38bdf8, pattern: 'orbital'  },
+  emp:          { color: 0x9945ff, colorHex: '#9945ff', trailColor: 0xc084fc, pattern: 'caotico'  },
+  cyberdefense: { color: 0x00f5ff, colorHex: '#00f5ff', trailColor: 0x38bdf8, pattern: 'orbital'  },
+  quarantine:   { color: 0xf59e0b, colorHex: '#f59e0b', trailColor: 0xfbbf24, pattern: 'espiral'  },
+  shield_global:{ color: 0x00ff88, colorHex: '#00ff88', trailColor: 0x4ade80, pattern: 'caotico'  },
+};
 let globeWarMode=false, globeWarTimer=null;
 let shieldModeActive=false, autoDefenseTimer=null;
 let totalGlobeAttacks=0, totalIntercepted=0, totalBlocked=0;
@@ -4877,26 +4921,7 @@ function initGlobe(){
     markerDataMap[id]={dot:sprite,orbTex,orbCvs,hRing,pos:pos.clone(),col:statusHex,hit};
   });
   
-  // Neural connection arcs — multi-layer glow
-  GLOBE_CONNECTIONS.forEach(([a,b])=>{
-    if(!STATES[a]||!STATES[b])return;
-    const p1=latLngToVec3(STATES[a].coords.lat,STATES[a].coords.lng,R+1);
-    const p2=latLngToVec3(STATES[b].coords.lat,STATES[b].coords.lng,R+1);
-    const pts=[];
-    for(let i=0;i<=28;i++){
-      const t=i/28;
-      const p=new THREE.Vector3().lerpVectors(p1,p2,t);
-      p.normalize().multiplyScalar(R+2+Math.sin(Math.PI*t)*12);
-      pts.push(p);
-    }
-    const lineGeo=new THREE.BufferGeometry().setFromPoints(pts);
-    // Core thin bright line
-    const lineMat=new THREE.LineBasicMaterial({color:0x00f5ff,transparent:true,opacity:0.18});
-    globeGroup.add(new THREE.Line(lineGeo,lineMat));
-    // Wide soft glow underneath
-    const glowMat=new THREE.LineBasicMaterial({color:0x004466,transparent:true,opacity:0.08});
-    globeGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),glowMat));
-  });
+  // Neural connection arcs — ELIMINADO (arco+punto entre estados retirado)
   
 
   // ── ORB SPRITE MARKERS — World Countries ──
@@ -5144,8 +5169,8 @@ function initGlobe(){
     }
   });
   
-  // Spawn initial packets
-  for(let i=0;i<6;i++)setTimeout(spawnGlobePacket,i*250);
+  // Spawn initial packets — DESACTIVADO (animación arco+punto entre estados)
+  // for(let i=0;i<6;i++)setTimeout(spawnGlobePacket,i*250);
   
   // Animate
   (function animate(){
@@ -5205,26 +5230,15 @@ function initGlobe(){
     halo.rotation.z+=0.0022;
     halo.material.opacity=0.028+Math.sin(globeTime*0.5)*0.014;
     
-    // ── Packets ──
-    globePacketTimer+=0.016;
-    if(globePacketTimer>0.85&&globePackets.length<26){spawnGlobePacket();globePacketTimer=0;}
-    for(let i=globePackets.length-1;i>=0;i--){
-      const pk=globePackets[i];pk.t+=pk.speed;
-      if(pk.t>=1){
-        globeGroup.remove(pk.mesh);
-        globePackets.splice(i,1);continue;
-      }
-      const pp=new THREE.Vector3().lerpVectors(pk.p1,pk.p2,pk.t);
-      pp.normalize().multiplyScalar(152+Math.sin(Math.PI*pk.t)*10);
-      pk.mesh.position.copy(pp);
-      const fade=Math.sin(Math.PI*pk.t);
-      pk.mesh.material.opacity=fade*0.95;
-      pk.mesh.scale.setScalar(0.75+Math.sin(globeTime*9+pk.t*8)*0.25);
-    }
+    // ── Packets — ELIMINADO (arco+punto entre estados retirado) ──
     
     // ── Attack arcs & explosions ──
     updateGlobeAttackArcs();
     updateGlobeExplosions();
+    // 🌐 Orbital Shield Overlays
+    updateGlobeShieldOverlays();
+    // 🌐 Intercept Orbital Vortex (Ataque Orbital Verde en intercepción)
+    updateInterceptOrbitalEffects();
 
     // ── Defense arcs ──
     for(let i=defenseArcs.length-1;i>=0;i--){
@@ -5243,12 +5257,19 @@ function initGlobe(){
         }
         da.trailLine.geometry.setFromPoints(pts);
         da.trailLine.geometry.attributes.position.needsUpdate=true;
-        da.trailLine.material.opacity=Math.sin(Math.PI*tc)*0.82;
+        da.trailLine.material.opacity=Math.sin(Math.PI*tc)*0.92;
+        // Actualizar glow trail adicional
+        if(da.trailGlow){
+          da.trailGlow.geometry.setFromPoints(pts);
+          da.trailGlow.geometry.attributes.position.needsUpdate=true;
+          da.trailGlow.material.opacity=Math.sin(Math.PI*tc)*0.42;
+        }
       }
       if(da.t>=1){
         spawnInterceptExplosion(da.curve.getPoint(1),da.cfg);
         globeGroup.remove(da.head);
         if(da.trailLine)globeGroup.remove(da.trailLine);
+        if(da.trailGlow)globeGroup.remove(da.trailGlow);
         defenseArcs.splice(i,1);
       }
     }
@@ -5345,35 +5366,35 @@ const GLOBE_CITIES = {
 const ATTACK_TYPES = {
   // ── BASE (siempre disponibles) ───────────────────────────────────────────
   nuclear:  {
-    label:'☢ NeuroHack', icon:'☢', buildId:null, alwaysAvailable:true,
+    label:'☢ NeuroHack', icon:'☢', buildId:null, alwaysAvailable:true, orbitalPattern:'caotico',
     color:0xff0066, colorHex:'#ff0066', trailColor:0xff3388,
     speed:0.006, arcHeight:1.8, thickness:2.5, trailLen:18, glowRadius:4,
     explosionEmoji:'💥', flashColor:'rgba(255,0,102,', uiColor:'clr-pink',
     desc:'Ataque de pulso electromagnético neural. Largo alcance.'
   },
   missile:  {
-    label:'🚀 Misil ICBM', icon:'🚀', buildId:null, alwaysAvailable:true,
+    label:'🚀 Misil ICBM', icon:'🚀', buildId:null, alwaysAvailable:true, orbitalPattern:'impacto',
     color:0xf59e0b, colorHex:'#f59e0b', trailColor:0xfbbf24,
     speed:0.009, arcHeight:2.2, thickness:2, trailLen:14, glowRadius:3.5,
     explosionEmoji:'🔥', flashColor:'rgba(245,158,11,', uiColor:'clr-gold',
     desc:'Misil balístico intercontinental de largo alcance.'
   },
   cyber:    {
-    label:'💻 Ciberataque', icon:'💻', buildId:null, alwaysAvailable:true,
+    label:'💻 Ciberataque', icon:'💻', buildId:null, alwaysAvailable:true, orbitalPattern:'orbital',
     color:0x00f5ff, colorHex:'#00f5ff', trailColor:0x38bdf8,
     speed:0.020, arcHeight:1.2, thickness:1.5, trailLen:10, glowRadius:2.5,
     explosionEmoji:'⚡', flashColor:'rgba(0,245,255,', uiColor:'clr-cyan',
     desc:'Infiltración digital rápida. Máxima velocidad.'
   },
   ufo:      {
-    label:'🛸 OVNI — Fenómeno', icon:'🛸', buildId:null, alwaysAvailable:true,
+    label:'🛸 OVNI — Fenómeno', icon:'🛸', buildId:null, alwaysAvailable:true, orbitalPattern:'espiral',
     color:0x9945ff, colorHex:'#9945ff', trailColor:0xc084fc,
     speed:0.012, arcHeight:2.8, thickness:3, trailLen:20, glowRadius:5,
     explosionEmoji:'🛸', flashColor:'rgba(153,69,255,', uiColor:'clr-purple',
     desc:'Protocolo desclasificado OVNI. Trayectoria inexplicable.'
   },
   pandemic: {
-    label:'☣ Pandemia / Bio', icon:'☣', buildId:'hospital', alwaysAvailable:true,
+    label:'☣ Pandemia / Bio', icon:'☣', buildId:'hospital', alwaysAvailable:true, orbitalPattern:'espiral',
     color:0x00ff88, colorHex:'#00ff88', trailColor:0x4ade80,
     speed:0.008, arcHeight:1.5, thickness:2, trailLen:22, glowRadius:3,
     explosionEmoji:'☣', flashColor:'rgba(0,255,136,', uiColor:'clr-green',
@@ -5381,7 +5402,7 @@ const ATTACK_TYPES = {
     desc:'Agente biológico + crucero infeccioso. Paraliza territorios.'
   },
   economic: {
-    label:'💰 Sabotaje Económico', icon:'💰', buildId:'refineria', alwaysAvailable:true,
+    label:'💰 Sabotaje Económico', icon:'💰', buildId:'refineria', alwaysAvailable:true, orbitalPattern:'orbital',
     color:0xfcd34d, colorHex:'#fcd34d', trailColor:0xf59e0b,
     speed:0.010, arcHeight:1.6, thickness:2, trailLen:15, glowRadius:3,
     explosionEmoji:'💰', flashColor:'rgba(252,211,77,', uiColor:'clr-gold',
@@ -5391,7 +5412,7 @@ const ATTACK_TYPES = {
 
   // ── DESBLOQUEABLES (requieren edificio) ─────────────────────────────────
   terrorista: {
-    label:'💥 Ataque Terrorista', icon:'💥', buildId:'aeropuerto', alwaysAvailable:false,
+    label:'💥 Ataque Terrorista', icon:'💥', buildId:'aeropuerto', alwaysAvailable:false, orbitalPattern:'impacto',
     color:0xff4400, colorHex:'#ff4400', trailColor:0xff6622,
     speed:0.011, arcHeight:2.0, thickness:2.5, trailLen:16, glowRadius:4,
     explosionEmoji:'💥', flashColor:'rgba(255,68,0,', uiColor:'clr-pink',
@@ -5399,7 +5420,7 @@ const ATTACK_TYPES = {
     cost:0.120, buildName:'Hub Aéreo Internacional ✈️'
   },
   marcha: {
-    label:'🥾 Operación Marcha', icon:'🥾', buildId:'cuartel', alwaysAvailable:false,
+    label:'🥾 Operación Marcha', icon:'🥾', buildId:'cuartel', alwaysAvailable:false, orbitalPattern:'impacto',
     color:0xf97316, colorHex:'#f97316', trailColor:0xfb923c,
     speed:0.013, arcHeight:1.4, thickness:2, trailLen:12, glowRadius:3,
     explosionEmoji:'🥾', flashColor:'rgba(249,115,22,', uiColor:'clr-gold',
@@ -5407,7 +5428,7 @@ const ATTACK_TYPES = {
     cost:0.090, buildName:'Cuartel General 🏯'
   },
   neuro_hack: {
-    label:'🧬 NeuroHack Cuántico', icon:'🧬', buildId:'laboratorio', alwaysAvailable:false,
+    label:'🧬 NeuroHack Cuántico', icon:'🧬', buildId:'laboratorio', alwaysAvailable:false, orbitalPattern:'caotico',
     color:0x00ccff, colorHex:'#00ccff', trailColor:0x38bdf8,
     speed:0.007, arcHeight:2.0, thickness:2.5, trailLen:20, glowRadius:5,
     explosionEmoji:'🧬', flashColor:'rgba(0,204,255,', uiColor:'clr-cyan',
@@ -5416,7 +5437,7 @@ const ATTACK_TYPES = {
     cost:0.100, buildName:'Laboratorio Cuántico 🧬'
   },
   crucero: {
-    label:'🦠 Crucero Infeccioso', icon:'🦠', buildId:'puerto', alwaysAvailable:false,
+    label:'🦠 Crucero Infeccioso', icon:'🦠', buildId:'puerto', alwaysAvailable:false, orbitalPattern:'espiral',
     color:0x39ff14, colorHex:'#39ff14', trailColor:0x4ade80,
     speed:0.006, arcHeight:1.3, thickness:2, trailLen:24, glowRadius:3.5,
     explosionEmoji:'🦠', flashColor:'rgba(57,255,20,', uiColor:'clr-green',
@@ -5424,7 +5445,7 @@ const ATTACK_TYPES = {
     cost:0.095, buildName:'Puerto Biológico 🏖️'
   },
   ufo_cuantico: {
-    label:'🛸 Fenómeno No Identificado', icon:'🛸', buildId:'agencia_espacial', alwaysAvailable:false,
+    label:'🛸 Fenómeno No Identificado', icon:'🛸', buildId:'agencia_espacial', alwaysAvailable:false, orbitalPattern:'caotico',
     color:0xb45fff, colorHex:'#b45fff', trailColor:0xc084fc,
     speed:0.010, arcHeight:3.0, thickness:3.5, trailLen:22, glowRadius:6,
     explosionEmoji:'👽', flashColor:'rgba(180,95,255,', uiColor:'clr-purple',
@@ -5495,6 +5516,212 @@ const DEFENSE_TYPES={
 };
 
 // ── Core arc builder (coords version — usado por el juego) ──
+// ══════════════════════════════════════════════════════════════════
+// 🛸 ORBITAL ATTACK PARTICLE ENGINE — adaptado de ataque_orbital_verde
+//    Patrón caotico   → NeuroHack, NeuroHack Cuántico, UFO Cuántico
+//    Patrón orbital   → Ciberataque, Sabotaje Económico
+//    Patrón espiral   → OVNI, Pandemia/Bio, Crucero Infeccioso
+//    Patrón impacto   → Misil ICBM, Terrorista, Operación Marcha
+// ══════════════════════════════════════════════════════════════════
+const ORBITAL_PARTICLE_COUNT = 38; // por arco (ligero, múltiples arcos activos)
+
+function _orbCircularTexture(hexStr){
+  const cv=document.createElement('canvas'); cv.width=48; cv.height=48;
+  const cx=cv.getContext('2d');
+  const g=cx.createRadialGradient(24,24,0,24,24,24);
+  g.addColorStop(0,'#ffffff');
+  g.addColorStop(0.18,hexStr);
+  g.addColorStop(0.55,'rgba(0,0,0,0.2)');
+  g.addColorStop(1,'rgba(0,0,0,0)');
+  cx.fillStyle=g;
+  cx.beginPath(); cx.arc(24,24,24,0,Math.PI*2); cx.fill();
+  return new THREE.CanvasTexture(cv);
+}
+
+// Crea el sistema de partículas orbitales para un arco
+function createOrbitalParticles(cfg){
+  const N=ORBITAL_PARTICLE_COUNT;
+  const geom=new THREE.BufferGeometry();
+  const pos=new Float32Array(N*3);
+  const col=new Float32Array(N*3);
+  const sz=new Float32Array(N);
+  const seeds=new Float32Array(N);
+  const speeds=new Float32Array(N);
+  const baseColor=new THREE.Color(cfg.color);
+  const trailC=new THREE.Color(cfg.trailColor||cfg.color);
+  for(let i=0;i<N;i++){
+    pos[i*3]=0; pos[i*3+1]=0; pos[i*3+2]=0;
+    const mix=Math.random();
+    const c=baseColor.clone().lerp(trailC,mix*0.5);
+    col[i*3]=c.r; col[i*3+1]=c.g; col[i*3+2]=c.b;
+    sz[i]=0.04+Math.random()*0.14;
+    seeds[i]=Math.random()*120;
+    speeds[i]=0.6+Math.random()*1.4;
+  }
+  geom.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  geom.setAttribute('color',new THREE.BufferAttribute(col,3));
+  geom.setAttribute('size',new THREE.BufferAttribute(sz,1));
+  const mat=new THREE.PointsMaterial({
+    size:0.14,
+    map:_orbCircularTexture(cfg.colorHex||'#ffffff'),
+    vertexColors:true, transparent:true, opacity:0.92,
+    blending:THREE.AdditiveBlending, depthWrite:false
+  });
+  const pts=new THREE.Points(geom,mat);
+  globeGroup.add(pts);
+  // Beam lines between close particles
+  const lineGeom=new THREE.BufferGeometry();
+  const lPos=new Float32Array(16*2*3);
+  const lCol=new Float32Array(16*2*3);
+  const lColor=new THREE.Color(cfg.color);
+  for(let i=0;i<16*2*3;i+=6){
+    lCol[i]=lColor.r; lCol[i+1]=lColor.g; lCol[i+2]=lColor.b;
+    lCol[i+3]=lColor.r*0.15; lCol[i+4]=lColor.g*0.15; lCol[i+5]=lColor.b*0.15;
+  }
+  lineGeom.setAttribute('position',new THREE.BufferAttribute(lPos,3));
+  lineGeom.setAttribute('color',new THREE.BufferAttribute(lCol,3));
+  const lineMat=new THREE.LineBasicMaterial({
+    vertexColors:true, transparent:true, opacity:0.45,
+    blending:THREE.AdditiveBlending
+  });
+  const lines=new THREE.LineSegments(lineGeom,lineMat);
+  globeGroup.add(lines);
+  return {pts, lines, seeds, speeds, geom, lineGeom, pattern: cfg.orbitalPattern||'espiral'};
+}
+
+// Actualiza posiciones orbitales alrededor del punto de cabeza del arco
+function updateOrbitalParticles(orb, headPos, t_global, orb_t){
+  const N=ORBITAL_PARTICLE_COUNT;
+  const pos=orb.geom.attributes.position.array;
+  const lPos=orb.lineGeom.attributes.position.array;
+  const pattern=orb.pattern;
+  const R=3.5; // radio de órbita alrededor del head (en unidades del globo ~150)
+  let li=0;
+  for(let i=0;i<N;i++){
+    const sd=orb.seeds[i];
+    const sp=orb.speeds[i];
+    const T=(t_global*sp)+sd;
+    let ox=0, oy=0, oz=0;
+    if(pattern==='espiral'){
+      const th=T*2.3; const h=Math.sin(T*0.35);
+      const r=R*(0.8+0.35*Math.sin(T*0.7));
+      const rh=Math.sqrt(Math.max(0,1-h*h));
+      ox=r*rh*Math.cos(th); oy=h*r*1.15; oz=r*rh*Math.sin(th);
+    } else if(pattern==='orbital'){
+      const th=T*1.9;
+      const ang=(sd%2===0)?0.7:-0.7;
+      const r=R*(1.0+0.12*Math.sin(T*2.5));
+      const tx=r*Math.cos(th), ty=r*Math.sin(th)*0.15, tz=r*Math.sin(th);
+      ox=tx;
+      oy=ty*Math.cos(ang)-tz*Math.sin(ang);
+      oz=ty*Math.sin(ang)+tz*Math.cos(ang);
+    } else if(pattern==='caotico'){
+      const tx=T*0.75+sd*0.12, ty=T*1.15+sd*0.18, tz=T*0.85+sd*0.25;
+      const pl=1.0+0.18*Math.sin(T*4.5+sd);
+      ox=R*Math.sin(tx)*Math.cos(ty)*pl;
+      oy=R*Math.sin(ty)*Math.sin(tz)*pl;
+      oz=R*Math.cos(tx)*Math.sin(tz)*pl;
+    } else { // impacto
+      const prog=(T*0.32)%1.0;
+      const startR=R*1.6, endR=R*0.4;
+      const cr=THREE.MathUtils.lerp(startR,endR,prog);
+      const th=prog*12.0+sd;
+      const phi=Math.acos(Math.max(-1,Math.min(1,(sd%2===0?1:-1)*(prog*2-1))));
+      ox=cr*Math.sin(phi)*Math.cos(th);
+      oy=cr*Math.sin(phi)*Math.sin(th);
+      oz=cr*Math.cos(phi);
+    }
+    pos[i*3]=headPos.x+ox; pos[i*3+1]=headPos.y+oy; pos[i*3+2]=headPos.z+oz;
+    // Beam lines (every 2nd particle connects to next)
+    if(i<16 && li+5<lPos.length){
+      lPos[li]=headPos.x+ox; lPos[li+1]=headPos.y+oy; lPos[li+2]=headPos.z+oz;
+      const ni=(i+2)%N;
+      lPos[li+3]=pos[ni*3]; lPos[li+4]=pos[ni*3+1]; lPos[li+5]=pos[ni*3+2];
+      li+=6;
+    }
+  }
+  orb.geom.attributes.position.needsUpdate=true;
+  orb.lineGeom.attributes.position.needsUpdate=true;
+  // Fade based on arc progress
+  const alpha=Math.sin(Math.PI*orb_t)*0.9;
+  orb.pts.material.opacity=alpha;
+  orb.lines.material.opacity=alpha*0.4;
+}
+
+// Explosion orbital burst — multi-ring + particle burst
+function spawnOrbitalExplosion(pos, cfg){
+  // Trigger original flash + sound + label (conserva mecánica)
+  triggerGlobeFlash(cfg.flashColor);
+  showGlobeExplosionLabel(cfg.explosionEmoji, '');
+  if(window._lastExplosionSoundT===undefined||Date.now()-window._lastExplosionSoundT>800){
+    window._lastExplosionSoundT=Date.now();
+    const hx='#'+cfg.color.toString(16).padStart(6,'0');
+    const typeMap={'#ff0066':'nuclear','#f59e0b':'missile','#00f5ff':'cyber','#9945ff':'ufo','#00ff88':'pandemic','#fcd34d':'economic','#ff4400':'terrorista','#f97316':'marcha','#00ccff':'neuro_hack','#39ff14':'crucero','#b45fff':'ufo_cuantico'};
+    SoundEngine.play(typeMap[hx]||'nuclear');
+  }
+  const N=24;
+  const color=new THREE.Color(cfg.color);
+  const geom=new THREE.BufferGeometry();
+  const ep=new Float32Array(N*3);
+  const ev=new Float32Array(N*3); // velocities
+  for(let i=0;i<N;i++){
+    ep[i*3]=pos.x; ep[i*3+1]=pos.y; ep[i*3+2]=pos.z;
+    const th=Math.random()*Math.PI*2, ph=Math.acos(Math.random()*2-1);
+    const spd=2+Math.random()*5;
+    ev[i*3]=spd*Math.sin(ph)*Math.cos(th);
+    ev[i*3+1]=spd*Math.sin(ph)*Math.sin(th);
+    ev[i*3+2]=spd*Math.cos(ph);
+  }
+  geom.setAttribute('position',new THREE.BufferAttribute(ep,3));
+  const mat=new THREE.PointsMaterial({
+    size:0.25, color:cfg.color, transparent:true, opacity:1,
+    blending:THREE.AdditiveBlending, depthWrite:false
+  });
+  const burst=new THREE.Points(geom,mat);
+  globeGroup.add(burst);
+  // 3 expanding rings
+  const rings=[];
+  for(let r=0;r<3;r++){
+    const ri=new THREE.Mesh(
+      new THREE.RingGeometry(cfg.glowRadius*(1.5+r*2), cfg.glowRadius*(2+r*2), 32),
+      new THREE.MeshBasicMaterial({color:cfg.color,transparent:true,opacity:0.6-r*0.15,side:THREE.DoubleSide,blending:THREE.AdditiveBlending})
+    );
+    ri.position.copy(pos); ri.lookAt(0,0,0);
+    ri.userData.ringIdx=r;
+    globeGroup.add(ri); rings.push(ri);
+  }
+  // Core flash
+  const flash=new THREE.Mesh(
+    new THREE.SphereGeometry(cfg.glowRadius*2,12,12),
+    new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0.95,blending:THREE.AdditiveBlending})
+  );
+  flash.position.copy(pos); globeGroup.add(flash);
+  // Store for update
+  explosions.push({
+    mesh: flash, ring: rings[0], ring2: rings[1], ring3: rings[2],
+    burst, burstVel: ev, burstPos: ep,
+    life:1, maxLife:1, isOrbital:true
+  });
+}
+
+function updateOrbitalExplosions_extra(ex){
+  if(!ex.burst) return;
+  const t=ex.life;
+  const ep=ex.burstPos;
+  const ev=ex.burstVel;
+  const N=ep.length/3;
+  for(let i=0;i<N;i++){
+    ep[i*3]+=ev[i*3]*0.018*(ex.life);
+    ep[i*3+1]+=ev[i*3+1]*0.018*(ex.life);
+    ep[i*3+2]+=ev[i*3+2]*0.018*(ex.life);
+  }
+  ex.burst.geometry.attributes.position.needsUpdate=true;
+  ex.burst.material.opacity=t*0.85;
+  if(ex.ring3){ex.ring3.scale.setScalar(1+(1-t)*9); ex.ring3.material.opacity=t*0.25;}
+  if(ex.life<=0 && ex.burst){ globeGroup.remove(ex.burst); ex.burst=null; }
+  if(ex.life<=0 && ex.ring3){ globeGroup.remove(ex.ring3); ex.ring3=null; }
+}
+
 function createAttackArcFromCoords(fromCoords,toCoords,typeName){
   if(!globeGroup||!fromCoords||!toCoords)return;
   const RA=150;
@@ -5533,7 +5760,9 @@ function createAttackArcFromCoords(fromCoords,toCoords,typeName){
 
   activeArcs.push({curve,head,trailLine,trailGlow,t:0,cfg,
     fromCity:{name:'origen',lat:fromCoords.lat,lng:fromCoords.lng},
-    toCity:{name:'objetivo',lat:toCoords.lat,lng:toCoords.lng}});
+    toCity:{name:'objetivo',lat:toCoords.lat,lng:toCoords.lng},
+    orbitalSys: createOrbitalParticles(cfg)
+  });
 
   totalGlobeAttacks++;
   const el=document.getElementById('g-ov-attacks');
@@ -5575,7 +5804,9 @@ function createAttackArc(fromKey,toKey,typeName){
   );
   globeGroup.add(trailGlow);
 
-  activeArcs.push({curve,head,trailLine,trailGlow,t:0,cfg,fromCity:from,toCity:to});
+  activeArcs.push({curve,head,trailLine,trailGlow,t:0,cfg,fromCity:from,toCity:to,
+    orbitalSys: createOrbitalParticles(cfg)
+  });
   totalGlobeAttacks++;
   const el=document.getElementById('g-ov-attacks');if(el)el.textContent=totalGlobeAttacks;
   const el2=document.getElementById('g-ov-arcs');if(el2)el2.textContent=activeArcs.length;
@@ -5597,6 +5828,10 @@ function updateGlobeAttackArcs(){
     arc.head.position.copy(headPos);
     arc.head.scale.setScalar(1+Math.sin(globeTime*20)*0.3);
     arc.head.material.opacity=Math.sin(Math.PI*t_c)*0.95+0.05;
+    // Update orbital particles around head
+    if(arc.orbitalSys){
+      updateOrbitalParticles(arc.orbitalSys, headPos, globeTime*6, t_c);
+    }
     if(arc.trailLine){
       const pts=[];const numPts=arc.cfg.trailLen;
       for(let j=numPts;j>=0;j--){
@@ -5609,7 +5844,13 @@ function updateGlobeAttackArcs(){
     }
     if(arc.trailGlow)arc.trailGlow.material.opacity=Math.sin(Math.PI*t_c)*0.35;
     if(arc.t>=1){
-      spawnExplosion(arc.curve.getPoint(1),arc.cfg,arc.toCity);
+      // Orbital explosion burst
+      spawnOrbitalExplosion(arc.curve.getPoint(1), arc.cfg);
+      // Cleanup orbital system
+      if(arc.orbitalSys){
+        globeGroup.remove(arc.orbitalSys.pts);
+        globeGroup.remove(arc.orbitalSys.lines);
+      }
       globeGroup.remove(arc.head);
       if(arc.trailLine)globeGroup.remove(arc.trailLine);
       if(arc.trailGlow)globeGroup.remove(arc.trailGlow);
@@ -5662,10 +5903,38 @@ function updateGlobeExplosions(){
     ex.mesh.material.opacity=t*0.85;
     if(ex.ring){ex.ring.scale.setScalar(1+(1-t)*7);ex.ring.material.opacity=t*0.5;}
     if(ex.ring2){ex.ring2.scale.setScalar(1+(1-t)*11);ex.ring2.material.opacity=t*0.3;}
+    // Extra orbital burst update
+    if(ex.isOrbital) updateOrbitalExplosions_extra(ex);
+    // ── Intercept Orbital Vortex extras ──
+    if(ex.isIntercept){
+      // Núcleo de color
+      if(ex.core){ ex.core.scale.setScalar(1+(1-t)*3.2); ex.core.material.opacity=t*0.70; }
+      // 5 anillos expansivos a velocidades distintas
+      if(ex.rings){
+        ex.rings.forEach((r,ri)=>{
+          r.scale.setScalar(1+(1-t)*(4+ri*2.8));
+          r.material.opacity=t*([0.75,0.58,0.42,0.28,0.16][ri]||0.2);
+        });
+      }
+      // Burst de partículas
+      if(ex.burst&&ex.burstPos&&ex.burstVel){
+        const bp=ex.burstPos, bv=ex.burstVel, BN=bp.length/3;
+        for(let j=0;j<BN;j++){
+          bp[j*3  ]+=bv[j*3  ]*t*0.022;
+          bp[j*3+1]+=bv[j*3+1]*t*0.022;
+          bp[j*3+2]+=bv[j*3+2]*t*0.022;
+        }
+        ex.burst.geometry.attributes.position.needsUpdate=true;
+        ex.burst.material.opacity=t*0.90;
+      }
+    }
     if(ex.life<=0){
       globeGroup.remove(ex.mesh);
-      if(ex.ring)globeGroup.remove(ex.ring);
-      if(ex.ring2)globeGroup.remove(ex.ring2);
+      if(ex.ring) globeGroup.remove(ex.ring);
+      if(ex.ring2) globeGroup.remove(ex.ring2);
+      if(ex.core) globeGroup.remove(ex.core);
+      if(ex.rings) ex.rings.forEach(r=>globeGroup.remove(r));
+      if(ex.burst) globeGroup.remove(ex.burst);
       explosions.splice(i,1);
     }
   }
@@ -5689,24 +5958,229 @@ function showGlobeExplosionLabel(emoji,cityName){
   setTimeout(()=>el.remove(),2000);
 }
 
-// ── Intercept explosion ──
+// ═══════════════════════════════════════════════════════════════════
+// 💥 spawnInterceptExplosion — Orbital Vortex Edition
+//    flash esfera + 5 anillos expansivos + burst partículas +
+//    🌐 mini-esfera orbital (vórtice espiral, wireframe, glow shell)
+//    Adaptado de ataque_orbital_verde — radio escalado a RA=150
+// ═══════════════════════════════════════════════════════════════════
+function _interceptCircTex(hexStr){
+  const cv=document.createElement('canvas'); cv.width=48; cv.height=48;
+  const cx=cv.getContext('2d');
+  const g=cx.createRadialGradient(24,24,0,24,24,24);
+  g.addColorStop(0,'#ffffff');
+  g.addColorStop(0.18,hexStr);
+  g.addColorStop(0.55,'rgba(0,0,0,0.08)');
+  g.addColorStop(1,'rgba(0,0,0,0)');
+  cx.fillStyle=g; cx.beginPath(); cx.arc(24,24,24,0,Math.PI*2); cx.fill();
+  return new THREE.CanvasTexture(cv);
+}
+
 function spawnInterceptExplosion(pos,cfg){
-  const mesh=new THREE.Mesh(
-    new THREE.SphereGeometry(cfg.glowRadius*2,12,12),
-    new THREE.MeshBasicMaterial({color:cfg.color,transparent:true,opacity:0.9})
+  const gR=cfg.glowRadius;
+  const col=cfg.color, trail=cfg.trailColor||cfg.color;
+
+  // ── 1. Flash blanco central ──
+  const flash=new THREE.Mesh(
+    new THREE.SphereGeometry(gR*2.4,14,14),
+    new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0.95,blending:THREE.AdditiveBlending})
   );
-  mesh.position.copy(pos);globeGroup.add(mesh);
-  const ring=new THREE.Mesh(
-    new THREE.RingGeometry(cfg.glowRadius*2.5,cfg.glowRadius*6,24),
-    new THREE.MeshBasicMaterial({color:cfg.color,transparent:true,opacity:0.6,side:THREE.DoubleSide})
+  flash.position.copy(pos); globeGroup.add(flash);
+
+  // ── 2. Núcleo de color ──
+  const core=new THREE.Mesh(
+    new THREE.SphereGeometry(gR*1.6,12,12),
+    new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:0.80,blending:THREE.AdditiveBlending})
   );
-  ring.position.copy(pos);ring.lookAt(0,0,0);globeGroup.add(ring);
-  const ring2=new THREE.Mesh(
-    new THREE.RingGeometry(cfg.glowRadius*5,cfg.glowRadius*9,24),
-    new THREE.MeshBasicMaterial({color:cfg.trailColor,transparent:true,opacity:0.3,side:THREE.DoubleSide})
-  );
-  ring2.position.copy(pos);ring2.lookAt(0,0,0);globeGroup.add(ring2);
-  explosions.push({mesh,ring,ring2,life:1,maxLife:1});
+  core.position.copy(pos); globeGroup.add(core);
+
+  // ── 3. Cinco anillos expansivos ──
+  const rings=[];
+  const ringParams=[
+    {inner:1.8,outer:2.8,op:0.80,color:col},
+    {inner:3.2,outer:4.5,op:0.60,color:col},
+    {inner:5.5,outer:7.0,op:0.45,color:trail},
+    {inner:7.5,outer:9.2,op:0.30,color:trail},
+    {inner:10.0,outer:12.0,op:0.18,color:col}
+  ];
+  ringParams.forEach(rp=>{
+    const r=new THREE.Mesh(
+      new THREE.RingGeometry(gR*rp.inner,gR*rp.outer,40),
+      new THREE.MeshBasicMaterial({color:rp.color,transparent:true,opacity:rp.op,side:THREE.DoubleSide,blending:THREE.AdditiveBlending})
+    );
+    r.position.copy(pos); r.lookAt(0,0,0); globeGroup.add(r); rings.push(r);
+  });
+
+  // ── 4. Burst de partículas ──
+  const BN=60;
+  const bGeo=new THREE.BufferGeometry();
+  const bp=new Float32Array(BN*3), bv=new Float32Array(BN*3);
+  for(let i=0;i<BN;i++){
+    bp[i*3]=pos.x; bp[i*3+1]=pos.y; bp[i*3+2]=pos.z;
+    const th=Math.random()*Math.PI*2, ph=Math.acos(Math.random()*2-1);
+    const spd=0.8+Math.random()*2.8;
+    bv[i*3]=spd*Math.sin(ph)*Math.cos(th);
+    bv[i*3+1]=spd*Math.sin(ph)*Math.sin(th);
+    bv[i*3+2]=spd*Math.cos(ph);
+  }
+  bGeo.setAttribute('position',new THREE.BufferAttribute(bp,3));
+  const bMat=new THREE.PointsMaterial({
+    size:gR*0.55,color:col,
+    transparent:true,opacity:1,
+    blending:THREE.AdditiveBlending,depthWrite:false
+  });
+  const burst=new THREE.Points(bGeo,bMat);
+  globeGroup.add(burst);
+
+  explosions.push({
+    mesh:flash, core, rings, burst,
+    burstPos:bp, burstVel:bv,
+    life:1, maxLife:1, isIntercept:true
+  });
+
+  // ── 5. Mini-esfera orbital (Ataque Orbital Verde) ──
+  _spawnInterceptVortex(pos, cfg);
+}
+
+// Crea el vórtice orbital de partículas alrededor del punto de intercepción
+function _spawnInterceptVortex(pos, cfg){
+  const N=110;
+  const R=cfg.glowRadius*3.4; // radio orbital — escalado al globo RA=150
+  const hexStr='#'+cfg.color.toString(16).padStart(6,'0');
+  const hexTrail='#'+(cfg.trailColor||cfg.color).toString(16).padStart(6,'0');
+
+  // Partículas espirales
+  const geom=new THREE.BufferGeometry();
+  const pPos=new Float32Array(N*3);
+  const pCol=new Float32Array(N*3);
+  const seeds=new Float32Array(N), speeds=new Float32Array(N);
+  const bC=new THREE.Color(cfg.color), tC=new THREE.Color(cfg.trailColor||cfg.color);
+  for(let i=0;i<N;i++){
+    pPos[i*3]=pos.x; pPos[i*3+1]=pos.y; pPos[i*3+2]=pos.z;
+    const mix=Math.random();
+    const c=bC.clone().lerp(tC,mix*0.55);
+    pCol[i*3]=c.r; pCol[i*3+1]=c.g; pCol[i*3+2]=c.b;
+    seeds[i]=Math.random()*120; speeds[i]=0.50+Math.random()*1.55;
+  }
+  geom.setAttribute('position',new THREE.BufferAttribute(pPos,3));
+  geom.setAttribute('color',new THREE.BufferAttribute(pCol,3));
+  const pMat=new THREE.PointsMaterial({
+    size:cfg.glowRadius*0.38,
+    map:_interceptCircTex(hexStr),
+    vertexColors:true,transparent:true,opacity:0,
+    blending:THREE.AdditiveBlending,depthWrite:false
+  });
+  const pts=new THREE.Points(geom,pMat);
+  globeGroup.add(pts);
+
+  // Líneas de haz
+  const lineGeom=new THREE.BufferGeometry();
+  const lPos=new Float32Array(22*2*3), lCol=new Float32Array(22*2*3);
+  const lC=new THREE.Color(cfg.color);
+  for(let i=0;i<22*2*3;i+=6){
+    lCol[i]=lC.r; lCol[i+1]=lC.g; lCol[i+2]=lC.b;
+    lCol[i+3]=lC.r*0.10; lCol[i+4]=lC.g*0.10; lCol[i+5]=lC.b*0.10;
+  }
+  lineGeom.setAttribute('position',new THREE.BufferAttribute(lPos,3));
+  lineGeom.setAttribute('color',new THREE.BufferAttribute(lCol,3));
+  const lineMat=new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:0,blending:THREE.AdditiveBlending});
+  const lines=new THREE.LineSegments(lineGeom,lineMat);
+  globeGroup.add(lines);
+
+  // Esfera wireframe (el globo del Ataque Orbital Verde)
+  const wGeo=new THREE.SphereGeometry(R*0.85,20,20);
+  const wMat=new THREE.MeshBasicMaterial({
+    color:cfg.color,wireframe:true,
+    transparent:true,opacity:0,blending:THREE.AdditiveBlending
+  });
+  const wireSphere=new THREE.Mesh(wGeo,wMat);
+  wireSphere.position.copy(pos); globeGroup.add(wireSphere);
+
+  // Glow shell con ShaderMaterial rim-light
+  const glowGeo=new THREE.SphereGeometry(R*0.94,24,24);
+  const glowMat=new THREE.ShaderMaterial({
+    uniforms:{glowColor:{value:new THREE.Color(cfg.color)},alpha:{value:0.0}},
+    vertexShader:`varying vec3 vN; void main(){ vN=normalize(normalMatrix*normal); gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
+    fragmentShader:`varying vec3 vN; uniform vec3 glowColor; uniform float alpha; void main(){ float i=pow(0.66-dot(vN,vec3(0,0,1.0)),2.2); gl_FragColor=vec4(glowColor,1.0)*i*alpha*1.35; }`,
+    transparent:true,blending:THREE.AdditiveBlending,side:THREE.BackSide,depthWrite:false
+  });
+  const glowSphere=new THREE.Mesh(glowGeo,glowMat);
+  glowSphere.position.copy(pos); globeGroup.add(glowSphere);
+
+  interceptOrbitalEffects.push({
+    pts, lines, wireSphere, glowSphere,
+    geom, lineGeom,
+    seeds, speeds,
+    pos: pos.clone(), R,
+    localTime: 0,
+    startTime: Date.now(),
+    duration: 2600,  // ms totales
+    fadeIn: 280,
+    fadeOut: 900
+  });
+}
+
+// Tick del vórtice orbital — patrón espiral (Ataque Orbital Verde)
+function updateInterceptOrbitalEffects(){
+  const now=Date.now();
+  for(let i=interceptOrbitalEffects.length-1;i>=0;i--){
+    const ef=interceptOrbitalEffects[i];
+    const elapsed=now-ef.startTime;
+
+    // Calcular alpha de ciclo de vida
+    let alpha=0;
+    if(elapsed<ef.fadeIn){
+      alpha=elapsed/ef.fadeIn;
+    } else if(elapsed<ef.duration-ef.fadeOut){
+      alpha=1.0;
+    } else {
+      alpha=Math.max(0,(ef.duration-elapsed)/ef.fadeOut);
+    }
+
+    if(elapsed>=ef.duration){
+      globeGroup.remove(ef.pts);
+      globeGroup.remove(ef.lines);
+      globeGroup.remove(ef.wireSphere);
+      globeGroup.remove(ef.glowSphere);
+      interceptOrbitalEffects.splice(i,1);
+      continue;
+    }
+
+    ef.localTime+=0.016;
+    const t=ef.localTime;
+    const R=ef.R, N=ef.seeds.length;
+    const pPos=ef.geom.attributes.position.array;
+    const lPos=ef.lineGeom.attributes.position.array;
+    let li=0;
+
+    // Patrón espiral — idéntico al ataque_orbital_verde
+    for(let j=0;j<N;j++){
+      const sd=ef.seeds[j], sp=ef.speeds[j];
+      const T=t*sp+sd;
+      const th=T*2.3, h=Math.sin(T*0.35);
+      const r=R*(0.82+0.32*Math.sin(T*0.7));
+      const rh=Math.sqrt(Math.max(0,1-h*h));
+      const ox=r*rh*Math.cos(th), oy=h*r*1.15, oz=r*rh*Math.sin(th);
+      pPos[j*3  ]=ef.pos.x+ox;
+      pPos[j*3+1]=ef.pos.y+oy;
+      pPos[j*3+2]=ef.pos.z+oz;
+      if(j<22 && li+5<lPos.length){
+        lPos[li  ]=ef.pos.x+ox; lPos[li+1]=ef.pos.y+oy; lPos[li+2]=ef.pos.z+oz;
+        const ni=(j+3)%N;
+        lPos[li+3]=pPos[ni*3]; lPos[li+4]=pPos[ni*3+1]; lPos[li+5]=pPos[ni*3+2];
+        li+=6;
+      }
+    }
+    ef.geom.attributes.position.needsUpdate=true;
+    ef.lineGeom.attributes.position.needsUpdate=true;
+
+    ef.pts.material.opacity=alpha*0.92;
+    ef.lines.material.opacity=alpha*0.40;
+    ef.wireSphere.material.opacity=alpha*0.20*(0.65+0.35*Math.sin(t*5.5));
+    ef.glowSphere.material.uniforms.alpha.value=alpha*1.25;
+    ef.wireSphere.rotation.y+=0.028;
+    ef.wireSphere.rotation.x+=0.010;
+  }
 }
 
 // ── Defense arc builder ──
@@ -5733,10 +6207,16 @@ function createDefenseArc(fromKey,toKey,defTypeName){
   const trailPts=Array(11).fill(p1.clone());
   const trailLine=new THREE.Line(
     new THREE.BufferGeometry().setFromPoints(trailPts),
-    new THREE.LineBasicMaterial({color:cfg.color,transparent:true,opacity:0.9})
+    new THREE.LineBasicMaterial({color:cfg.color,transparent:true,opacity:0.95,linewidth:2})
   );
   globeGroup.add(trailLine);
-  defenseArcs.push({curve,head,trailLine,t:0,cfg,fromCity:from,toCity:to});
+  // Línea de brillo adicional — duplica el grosor visual del arco de defensa
+  const trailGlow=new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(trailPts),
+    new THREE.LineBasicMaterial({color:cfg.trailColor,transparent:true,opacity:0.40,linewidth:2})
+  );
+  globeGroup.add(trailGlow);
+  defenseArcs.push({curve,head,trailLine,trailGlow,t:0,cfg,fromCity:from,toCity:to});
 }
 
 // ── Defense UI functions ──
@@ -5758,6 +6238,8 @@ function globeActivateDefense(defType){
   // 🔊 🔬
   SoundEngine.playDefense(defType);
   earnRP('bot_action');
+  // 🌐 ORBITAL SHIELD OVERLAY — cubre todo el globo por 6s
+  createGlobeShieldOverlay(defType, 6000);
 }
 
 function globeToggleShield(){
@@ -5780,11 +6262,22 @@ function globeToggleShield(){
       updateGlobeDefenseStats();
     },600);
     addGlobeDefenseLog('🌐 ESCUDO GLOBAL ACTIVADO','Defensa automática en todos los frentes','emp');
+    // 🌐 Overlay orbital permanente mientras el escudo está activo
+    if(!permanentShieldOverlay){
+      permanentShieldOverlay=createGlobeShieldOverlay('shield_global',999999,true);
+    }
   }else{
     if(btn){btn.classList.remove('active');btn.textContent='🌐 ESCUDO GLOBAL TOTAL';}
     if(pulse)pulse.classList.remove('active');
     clearInterval(autoDefenseTimer);
     addGlobeDefenseLog('⏹ Escudo desactivado','Modo manual restaurado','cyberdefense');
+    // Desvanecer overlay permanente
+    if(permanentShieldOverlay){
+      permanentShieldOverlay.isPermanent=false;
+      permanentShieldOverlay.phase='out';
+      permanentShieldOverlay.startTime=Date.now()-( permanentShieldOverlay.duration - permanentShieldOverlay.fadeOut );
+      permanentShieldOverlay=null;
+    }
   }
 }
 
@@ -5796,7 +6289,234 @@ function globeClearDefenses(){
   if(pulse)pulse.classList.remove('active');
   defenseArcs.forEach(da=>{globeGroup.remove(da.head);if(da.trailLine)globeGroup.remove(da.trailLine);});
   defenseArcs.length=0;
+  // Fade out permanent shield
+  if(permanentShieldOverlay){ permanentShieldOverlay.isPermanent=false; permanentShieldOverlay.phase='out'; permanentShieldOverlay.duration=permanentShieldOverlay.startTime+(Date.now()-permanentShieldOverlay.startTime)+900; permanentShieldOverlay=null; }
   addGlobeDefenseLog('⏹ DEFENSAS DETENIDAS','Sistema de defensa pausado','interceptor');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 🌐 ORBITAL SHIELD OVERLAY ENGINE
+// Crea un sistema de partículas que envuelve TODO el globo 3D
+// Adaptado de ataque_orbital_verde.html — radio escalado a RA=150
+// ═══════════════════════════════════════════════════════════════════════════
+
+function _shieldCircTexture(hexStr){
+  const cv=document.createElement('canvas'); cv.width=48; cv.height=48;
+  const cx=cv.getContext('2d');
+  const g=cx.createRadialGradient(24,24,0,24,24,24);
+  g.addColorStop(0,'#ffffff');
+  g.addColorStop(0.2,hexStr);
+  g.addColorStop(0.55,'rgba(0,0,0,0.08)');
+  g.addColorStop(1,'rgba(0,0,0,0)');
+  cx.fillStyle=g;
+  cx.beginPath(); cx.arc(24,24,24,0,Math.PI*2); cx.fill();
+  return new THREE.CanvasTexture(cv);
+}
+
+function createGlobeShieldOverlay(defTypeName, duration=5500, permanent=false){
+  if(!globeGroup) return null;
+  const pal=SHIELD_PALETTE[defTypeName]||SHIELD_PALETTE.interceptor;
+  const RA=150;
+  const baseRadius=RA*1.22; // órbita justo fuera de la superficie del globo
+  const N=750;
+
+  const geom=new THREE.BufferGeometry();
+  const pos=new Float32Array(N*3);
+  const col=new Float32Array(N*3);
+  const sz=new Float32Array(N);
+  const seeds=new Float32Array(N);
+  const speeds=new Float32Array(N);
+
+  const baseColor=new THREE.Color(pal.color);
+  const trailC=new THREE.Color(pal.trailColor);
+
+  for(let i=0;i<N;i++){
+    pos[i*3]=0; pos[i*3+1]=0; pos[i*3+2]=0;
+    const mix=Math.random();
+    const c=baseColor.clone().lerp(trailC, mix*0.45);
+    col[i*3]=c.r; col[i*3+1]=c.g; col[i*3+2]=c.b;
+    sz[i]=0.5+Math.random()*1.4;
+    seeds[i]=Math.random()*120;
+    speeds[i]=0.45+Math.random()*1.5;
+  }
+  geom.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  geom.setAttribute('color',new THREE.BufferAttribute(col,3));
+  geom.setAttribute('size',new THREE.BufferAttribute(sz,1));
+
+  const mat=new THREE.PointsMaterial({
+    size:2.2,
+    map:_shieldCircTexture(pal.colorHex),
+    vertexColors:true,
+    transparent:true,
+    opacity:0,
+    blending:THREE.AdditiveBlending,
+    depthWrite:false
+  });
+  const pts=new THREE.Points(geom,mat);
+  globeGroup.add(pts);
+
+  // Beam lines
+  const lineGeom=new THREE.BufferGeometry();
+  const lPos=new Float32Array(70*2*3);
+  const lCol=new Float32Array(70*2*3);
+  const lColor=new THREE.Color(pal.color);
+  for(let i=0;i<70*2*3;i+=6){
+    lCol[i]=lColor.r; lCol[i+1]=lColor.g; lCol[i+2]=lColor.b;
+    lCol[i+3]=lColor.r*0.12; lCol[i+4]=lColor.g*0.12; lCol[i+5]=lColor.b*0.12;
+  }
+  lineGeom.setAttribute('position',new THREE.BufferAttribute(lPos,3));
+  lineGeom.setAttribute('color',new THREE.BufferAttribute(lCol,3));
+  const lineMat=new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:0,blending:THREE.AdditiveBlending});
+  const lines=new THREE.LineSegments(lineGeom,lineMat);
+  globeGroup.add(lines);
+
+  // Glow atmosphere shell (ShaderMaterial reactivo al color de la defensa)
+  const glowGeom=new THREE.SphereGeometry(RA*1.15,32,32);
+  const glowMat=new THREE.ShaderMaterial({
+    uniforms:{
+      glowColor:{value:new THREE.Color(pal.color)},
+      alpha:{value:0.0}
+    },
+    vertexShader:`
+      varying vec3 vNormal;
+      void main(){
+        vNormal=normalize(normalMatrix*normal);
+        gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);
+      }`,
+    fragmentShader:`
+      varying vec3 vNormal;
+      uniform vec3 glowColor;
+      uniform float alpha;
+      void main(){
+        float intensity=pow(0.68-dot(vNormal,vec3(0,0,1.0)),2.4);
+        gl_FragColor=vec4(glowColor,1.0)*intensity*alpha*1.1;
+      }`,
+    transparent:true,
+    blending:THREE.AdditiveBlending,
+    side:THREE.BackSide,
+    depthWrite:false
+  });
+  const glowMesh=new THREE.Mesh(glowGeom,glowMat);
+  globeGroup.add(glowMesh);
+
+  // Wireframe shell semitransparente
+  const wireGeom=new THREE.SphereGeometry(RA*1.10, 28, 28);
+  const wireMat=new THREE.MeshBasicMaterial({
+    color:pal.color, wireframe:true,
+    transparent:true, opacity:0,
+    blending:THREE.AdditiveBlending
+  });
+  const wireMesh=new THREE.Mesh(wireGeom,wireMat);
+  globeGroup.add(wireMesh);
+
+  const overlay={
+    pts, lines, glowMesh, wireMesh,
+    geom, lineGeom,
+    seeds, speeds,
+    pattern:pal.pattern,
+    baseRadius,
+    opacity:0,
+    phase:'in',
+    startTime:Date.now(),
+    duration,
+    fadeIn:850,
+    fadeOut:1100,
+    isPermanent:permanent
+  };
+
+  activeShieldOverlays.push(overlay);
+  return overlay;
+}
+
+function updateGlobeShieldOverlays(){
+  const now=Date.now();
+  for(let oi=activeShieldOverlays.length-1;oi>=0;oi--){
+    const ov=activeShieldOverlays[oi];
+
+    if(ov.phase==='done'){
+      if(ov.pts)globeGroup.remove(ov.pts);
+      if(ov.lines)globeGroup.remove(ov.lines);
+      if(ov.glowMesh)globeGroup.remove(ov.glowMesh);
+      if(ov.wireMesh)globeGroup.remove(ov.wireMesh);
+      activeShieldOverlays.splice(oi,1);
+      continue;
+    }
+
+    const elapsed=now-ov.startTime;
+
+    if(ov.isPermanent){
+      if(ov.phase==='in'){ ov.opacity=Math.min(1,elapsed/ov.fadeIn); if(elapsed>=ov.fadeIn)ov.phase='hold'; }
+      else if(ov.phase==='hold'){ ov.opacity=1; }
+    } else {
+      if(ov.phase==='in'){ ov.opacity=Math.min(1,elapsed/ov.fadeIn); if(elapsed>=ov.fadeIn)ov.phase='hold'; }
+      else if(ov.phase==='hold'){ ov.opacity=1; if(elapsed>=ov.duration-ov.fadeOut)ov.phase='out'; }
+      else if(ov.phase==='out'){
+        const outEl=elapsed-(ov.duration-ov.fadeOut);
+        ov.opacity=Math.max(0,1-outEl/ov.fadeOut);
+        if(ov.opacity<=0){ov.phase='done'; continue;}
+      }
+    }
+
+    // Actualizar posiciones de partículas (física orbital)
+    const N=ov.geom.attributes.position.array.length/3;
+    const pos=ov.geom.attributes.position.array;
+    const lPos=ov.lineGeom.attributes.position.array;
+    const pattern=ov.pattern;
+    const R=ov.baseRadius;
+    let li=0;
+
+    for(let i=0;i<N;i++){
+      const sd=ov.seeds[i], sp=ov.speeds[i];
+      const T=(globeTime*sp*0.75)+sd;
+      let x=0,y=0,z=0;
+
+      if(pattern==='espiral'){
+        const th=T*2.3, h=Math.sin(T*0.35);
+        const r=R*(0.82+0.32*Math.sin(T*0.7));
+        const rh=Math.sqrt(Math.max(0,1-h*h));
+        x=r*rh*Math.cos(th); y=h*r*1.15; z=r*rh*Math.sin(th);
+      } else if(pattern==='orbital'){
+        const th=T*1.9;
+        const ang=(sd%2===0)?0.7:-0.7;
+        const r=R*(1.0+0.12*Math.sin(T*2.5));
+        const tx=r*Math.cos(th),ty=r*Math.sin(th)*0.15,tz=r*Math.sin(th);
+        x=tx; y=ty*Math.cos(ang)-tz*Math.sin(ang); z=ty*Math.sin(ang)+tz*Math.cos(ang);
+      } else if(pattern==='caotico'){
+        const tx=T*0.75+sd*0.12, ty=T*1.15+sd*0.18, tz=T*0.85+sd*0.25;
+        const pl=1.0+0.18*Math.sin(T*4.5+sd);
+        x=R*Math.sin(tx)*Math.cos(ty)*pl;
+        y=R*Math.sin(ty)*Math.sin(tz)*pl;
+        z=R*Math.cos(tx)*Math.sin(tz)*pl;
+      } else { // impacto
+        const prog=(T*0.32)%1.0;
+        const startR=R*1.55, endR=R*0.88;
+        const cr=THREE.MathUtils.lerp(startR,endR,prog);
+        const th=prog*16.0+sd;
+        const phi=Math.acos(Math.max(-1,Math.min(1,(sd%2===0?1:-1)*(prog*2-1))));
+        x=cr*Math.sin(phi)*Math.cos(th);
+        y=cr*Math.sin(phi)*Math.sin(th);
+        z=cr*Math.cos(phi);
+      }
+
+      pos[i*3]=x; pos[i*3+1]=y; pos[i*3+2]=z;
+      if(i<70 && li+5<lPos.length){
+        lPos[li]=x; lPos[li+1]=y; lPos[li+2]=z;
+        const ni=(i+4)%N;
+        lPos[li+3]=pos[ni*3]; lPos[li+4]=pos[ni*3+1]; lPos[li+5]=pos[ni*3+2];
+        li+=6;
+      }
+    }
+
+    ov.geom.attributes.position.needsUpdate=true;
+    ov.lineGeom.attributes.position.needsUpdate=true;
+
+    const alpha=ov.opacity;
+    ov.pts.material.opacity=alpha*0.88;
+    ov.lines.material.opacity=alpha*0.42;
+    ov.glowMesh.material.uniforms.alpha.value=alpha*1.15;
+    // wireframe pulsa suavemente
+    ov.wireMesh.material.opacity=alpha*0.06*(0.7+0.3*Math.sin(globeTime*3.5));
+  }
 }
 
 function updateGlobeDefenseStats(){
@@ -6348,11 +7068,7 @@ function selectState(id){
   document.querySelectorAll('.t-item').forEach(el=>el.classList.toggle('sel',el.dataset.id===id));
   updateBuildTab(id);
   addLog('► '+s.name+' — seleccionado (globo)','cyan');
-  // Spawn packets from this state
-  for(let i=0;i<3;i++)setTimeout(()=>{
-    const conn=GLOBE_CONNECTIONS.find(c=>c.includes(id));
-    if(conn)spawnGlobePacket();
-  },i*120);
+  // Spawn packets — ELIMINADO
 }
 
 // ══════════════════════════════════════
@@ -6666,6 +7382,10 @@ function activateDefense(defId,cost){
   earnRP('defense_activate');
   const rpTabD = document.getElementById('rp-tab-counter');
   if(rpTabD) rpTabD.textContent=(gameState.researchPoints||0)+' PR';
+  // 🌐 Trigger orbital shield overlay on globe (map defId to globe defense type)
+  const defIdToGlobeType={escudo:'laser',antidron:'interceptor',muro:'interceptor',neuro:'emp',paciente_cero:'quarantine'};
+  const globeDefType=defIdToGlobeType[defId]||'interceptor';
+  createGlobeShieldOverlay(globeDefType, 6500);
 }
 function launchAttack(){
   const id=gameState.selectedId;if(!id)return;
